@@ -1,378 +1,393 @@
+﻿---
+ラボ:
+    title: ラボ: イメージとコンテナを使用してコンピューティング ワークロードをデプロイする
+    タイプ: 'Answer Key'
+    ご利用ください。モジュール 1: サービスとしての Azure インフラストラクチャの開発 (IaaS) コンピューティング ソリューション
 ---
-lab:
-    title: 'Lab: Deploying compute workloads by using images and containers'
-    type: 'Answer Key'
-    module: 'Module 1: Develop Azure infrastructure as a service (IaaS) compute solutions'
----
 
-# Lab: Deploying compute workloads by using images and containers
-# Student lab answer key
+# ラボ: イメージとコンテナを使用してコンピューティング ワークロードをデプロイする
+# 受講ラボの解答キー
 
-## Microsoft Azure user interface
+## Microsoft Azure ユーザー インターフェイス
 
-Given the dynamic nature of Microsoft cloud tools, you might experience Azure user interface (UI) changes after the development of this training content. These changes might cause the lab instructions and lab steps to not match up.
+Microsoft クラウド ツールのダイナミックな性質を考えると、このトレーニング コンテンツの開発後に Azure ユーザー インターフェイス (UI) の変更が発生する可能性があります。これらの変更により、演習の手順と演習手順が一致しない場合があります。
 
-Microsoft updates this training course as soon as the community brings needed changes to our attention. However, because cloud updates occur frequently, you might encounter UI changes before this training content is updated. **If this occurs, adapt to the changes and work through them in the labs as needed.**
+Microsoft は、コミュニティが必要な変更を行うとすぐに、このトレーニング コースを更新します。しかし、クラウド更新が頻繁に起きるため、この研修内容が更新される前に、UI の変更を経験するかも知れません。**その場合は変更に順応して、必要に応じてラボでをそれを処理してください。**
 
-## Instructions
+## 指示
 
-### Before you start
+### 開始する前に
 
-#### Sign in to the lab virtual machine
+#### ラボの仮想マシンへのサインイン
 
-Sign in to your **Windows 10** virtual machine using the following credentials:
+  - 次の認証情報を使用して**Windows 10** 仮想マシンにサインインします。
     
--   **Username**: Admin
-
--   **Password**: Pa55w.rd
-
-> **Note**: Lab virtual machine sign in instructions will be provided to you by your instructor.
-
-#### Review installed applications
-
-Observe the taskbar located at the bottom of your **Windows 10** desktop. The taskbar contains the icons for the applications you will use in this lab:
+      - **ユーザー名**：Admin
     
--   Microsoft Edge
+      - **パスワード**: Pa55w.rd
 
--   File Explorer
+> > **注記**：ラボ仮想マシンのサインイン手順は、インストラクターから提供されます。
 
-### Exercise 1: Create a virtual machine (VM) by using the Azure portal
+#### インストールされたアプリケーションの検討
 
-#### Task 1: Open the Azure portal
-
-1.  On the taskbar, select the **Microsoft Edge** icon.
-
-1.  In the open browser window, navigate to the **Azure portal** ([portal.azure.com](https://portal.azure.com)).
-
-1.  Enter the **email address** for your Microsoft account.
-
-1.  Select **Next**.
-
-1.  Enter the **password** for your Microsoft account.
-
-1.  Select **Sign in**.
-
-    > **Note**: If this is your first time signing in to the **Azure Portal**, a dialog box will appear offering a tour of the portal. Select **Get Started** to begin using the portal.
-
-#### Task 2: Create a resource group
-
-1.  On the navigation menu located on the left side of the portal, select the **+ Create a resource** link.
-
-    > **Note**: If you cannot find the **Create a resource** link, the “Create a resource” icon is a plus-sign character located on the left side of the portal.
-
-1.  At the top of the **New** blade, locate the **Search the Marketplace** text box above the list of featured services.
-
-1.  In the search text box, enter the text **Resource Group** and press Enter.
-
-1.  In the **Everything** search results blade, select the **Resource group** result.
-
-1.  In the **Resource group** blade, select **Create**.
-
-1.  In the additional **Resource group** blade, observe the tabs at the top of the blade, such as **Basics**.
-
-    > **Note**: Each tab represents a step in the workflow to create a new **resource group**. At any time, you can select **Review + create** to skip the remaining tabs.
-
-1.  On the **Basics** tab, perform the following actions:
+  - **Windows 10** デスクトップの下部にあるタスク バーを確認します。タスク バーには、このラボで使用するアプリケーションのアイコンが含まれています。
     
-    1.  Leave the **Subscription** text box set to its default value.
+      - Microsoft Edge
     
-    1.  In the **Resource group** text box, enter the value **ContainerCompute**.
+      - エクスプローラ
+
+### エクササイズ 1: Azure potal を使用した仮想マシンの作成
+
+#### タスク 1: Azure potalを開く
+
+1.  タスク バーで、**Microsoft Edge** アイコンを選択します。
+
+2.  開いているブラウザ ウインドウで、**Azure potal** ([portal.azure.com](https://portal.azure.com))に移動します。
+
+3.  Microsoft アカウントの **電子メール アドレス** を入力します。
+
+4.  **次へ** を選択します。
+
+5.  Microsoft アカウントの **パスワード** を入力します。
+
+6.  **サインイン** を選択します。
+
+> > 注記： **Azure potal** に初めてサインインする場合は、ポータルのツアーを提供するダイアログ ボックスが表示されます。ポータルの使用を開始するには、**開始** を選択します。
+
+#### タスク 2: リソース グループの作成
+
+1.  ポータルの左側にあるナビゲーション メニューで、**+ リソースを作成** リンクを選択します。 
+
+> 注記： **リソースの作成** リンクが見つからない場合、ポータルの左側にある [リソースを作成] アイコンはプラス記号文字となります。 
+
+2.  **新しい** ブレードの上部で、 おすすめサービスの一覧の上にある **マーケットプレースの検索** テキスト ボックスを検索します。
+
+3.  検索テキスト ボックスに、テキスト **リソース グループ** を入力し、Enterキーを押します。 
+
+4.  **すべて** の 検索結果] ブレードで、**リソース グループの結果** を選択します。
+
+5.  **リソース グループ** ブレードで、**作成** を選択 します。   
+
+6.  追加の **リソース グループ** ブレードで、**基本** などのブレードの上部にあるタブを確認します。   
+
+> 注記：各タブは、ワークフロー内の新しい **リソース グループ** を作成するためのステップを表します。  いつでも **レビュー + 作成** を選択して、残りのタブをスキップできます。 
+
+7.  **基本** タブで、次の操作を実行します：
     
-    1.  In the **Region** drop-down list, select the **(US) East US** location.
+    1.  **サブスクリプション** テキスト ボックスは既定値のままにします。
     
-    1.  Select **Review +** **Create**.
-
-1.  In the **Review + Create** tab, review the options that you selected during the previous steps.
-
-1.  Select **Create** to create the resource group by using your specified configuration.
-
-1. Wait for the creation task to complete before moving forward with this lab.
-
-#### Task 3: Create a Linux virtual machine resource
-
-1.  On the navigation menu located on the left side of the portal, select the **+ Create a resource** link.
-
-1.  At the top of the **New** blade, locate the **Search the Marketplace** text box above the list of featured services.
-
-1.  In the search text box, enter **Ubuntu Server 18** and press Enter.
-
-1.  In the **Everything** search results blade, select the **Ubuntu Server 18.04 LTS** result.
-
-1.  In the **Ubuntu Server 18.04 LTS** blade, select **Create**.
-
-1.  In the **Create a virtual machine** blade, observe the tabs at the top of the blade, such as **Basics** and **Disks**.
-
-    > **Note**: Each tab represents a step in the workflow to create a new **virtual machine**. At any time, you can select **Review + create** to skip the remaining tabs.
-
-1.  In the **Basics** tab, perform the following actions:
+    2.  **リソース グループ** テキスト ボックスに、**ContainerCompute** の値を入力します。   
     
-    1.  Leave the **Subscription** text box set to its default value.
+    3.  **リージョン** ドロップダウン リストで、**米国東部** の場所を選択します。
     
-    1.  In the **Resource group** drop-down list, select the existing **ContainerCompute** option.
+    4.  **レビュー +** **作成** を選択します。   
 
-    1.  In the **Virtual machine name** text box, enter **simplevm**.
+8.  **レビュー + 作成** タブで、前の手順で選択したオプションを確認します。 
+
+9.  指定したコンフィギュレーションを使用してリソース グループを作成するには、**作成** を選択します。
+
+10. 演習を進める前に、作成タスクが完了するまで待ちます。
+
+#### タスク 3: Linux 仮想マシンリソースの作成
+
+1.  ポータルの左側にあるナビゲーション メニューで、**+ リソースを作成** リンクを選択します。
+
+2.  **新しい** ブレードの上部で、 おすすめサービスの一覧の上にある **マーケットプレースの検索** テキスト ボックスを検索します。
+
+3.  フィルター テキスト ボックスに **Ubuntu Server 18** と入力して、Enterキーを押します。
+
+4.  **すべて** 検索結果 ブレードで、**Ubuntu Server 18.04 LTS** の結果を選択します。  
+
+5.  **Ubuntu サーバー 18.04 LTS** ブレードで、**作成** を選択 します。   
+
+6.  **仮想マシンを作成** ブレードで、**基本** や **ディスク** などのブレードの上部にあるタブを確認します。
+
+> 注記：各タブは、ワークフロー内の新しい **仮想マシン** を作成するためのステップを表します。いつでも **レビュー + 作成** を選択して、残りのタブをスキップできます。
+
+7.  **基本** タブで、次の操作を実行します：
     
-    1.  In the **Region** drop-down list, select the **(US) East US** location.
-
-    1. In the **Availability options** drop-down list, ensure **No infrastructure redundancy required** is selected.
+    1.  **サブスクリプション** テキスト ボックスは既定値のままにします。
     
-    1.  In the **Image** text box, make sure that the **Ubuntu Server 18.04 LTS** option is selected.
+    2.  **リソース グループ** セクションで、既存の **ContainerCompute** オプションを選択します。 
     
-    1.  In the **Size** text box, select the **Change size** link.
-
-1.  In the **Select a VM size** blade, perform the following actions:
-
-    1.  Select the **B1s** option from the list of sizes.
-
-    2.  Press **Select**.
-
-1.  Go back to the **Basics** tab and perform the following actions:
-
-    1.  In the **Authentication type** section, select **Password**.
-
-    1.  In the **Username** text box, enter **Student**.
-
-    1.  In the **Password** and **Confirm password** fields, enter **StudentPa55w.rd**.
-
-    1.  In the **Login with Azure Active Directory (Preview)** section, select **Off**.
-
-    1.  In the **Public inbound ports** section, select **Allow selected ports**.
-
-    1.  In the **Select inbound ports** drop-down list, select only **SSH (22)**.
-
-    1.  Select **Next : Disks \>**.
-
-1. In the **Disks** tab, perform the following actions:
-
-    1.  In the **OS disk type** section, select **Standard SSD**.
-
-    1.  Select **Review + create**.
-
-1. In the **Review + Create** tab, review the options that you selected during the previous steps.
-
-1. Select **Create** to create the VM by using your specified configuration.
-
-1. Wait for the creation task to complete before moving forward with this lab.
-
-#### Task 4: Validate the virtual machine
-
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
-
-1.  In the **Resource groups** blade, locate and select the **ContainerCompute** resource group that you created earlier in this lab.
-
-1.  In the **ContainerCompute** blade, select the **simplevm** VM that you created earlier in this lab.
-
-1.  In the **Virtual Machine** blade, select **Connect**.
-
-1.  In the **Connect to virtual machine** pop-up that appears, perform the following actions:
+    3.  **仮想マシン名** テキスト ボックスに、**simplevm** を入力します。
     
-    1.  In the **IP address** text box, select **Public IP address**.
+    4.  **リージョン** ドロップダウン リストで、**米国東部** の場所を選択します。
     
-    2.  In the **Port number** text box, enter **22**.
+    5.  **イメージ** テキスト ボックスで、**Ubuntu Server 18.04 LTS** オプションが選択されていることを確認します。 
     
-    3.  **Copy** the text in the **Login using VM local account** text box.
+    6.  **サイズ** テキスト ボックスで、**サイズの変更** リンクを選択します。 
 
-        > **Note**: The command that you copied will connect to the VM by using SSH from a remote computer. You will use this command later in the lab.
+8.  **VM サイズの選択** ブレードで、次の操作を実行します。
 
-1.  At the top of the portal, select the **Cloud Shell** icon to open a new shell instance.
+<!-- end list -->
 
-    > **Note**: The **Cloud Shell** icon is represented by a greater than symbol and underscore character.
+1.  サイズのリストから **B1s** オプションを選択します。 
 
-1.  If this is your first time opening the **Cloud Shell** by using your subscription, a **Welcome to Azure Cloud Shell Wizard** will appear that allows you to configure **Cloud Shell** for first-time usage. Perform the following actions in the wizard:
+2.  **選択** を押します。
+
+<!-- end list -->
+
+9.  **基本** タブに戻り、次の操作を実行します。
+
+<!-- end list -->
+
+1.  **認証の種類** セクションで、**パスワード** を選択します。
+
+2.  **データベース** 名 テキスト ボックスに、**Student** を入力します。
+
+3.  **パスワード** と **パスワードの確認** フィールドに、**StudentPa55w.rd** と入力します。
+
+4.  **Azure Active Directory を使用してログイン** セクションで、**オフ** を選択します。   
+
+5.  **パブリックインバウンド ポート** セクションで、**選択したポートを許可する** を選択します。 
+
+6.  **選択した着信ポート** ドロップダウン リストで、**SSH (22)** のみを選択します。 
+
+7.  **次へ** を選択します:** Disks \>**.
+
+<!-- end list -->
+
+10. **ディスク** タブで、次の操作を実行します：
+
+<!-- end list -->
+
+1.  **OS ディスクの種類** セクションで、**標準 SSD** を選択します。
+
+2.  **レビュー + 作成** を選択します。
+
+<!-- end list -->
+
+11. **レビュー + 作成** タブで、前の手順で選択したオプションを確認します。
+
+12. 指定した構成を使用してVMを作成するには、**作成** を選択します。
+
+13. 演習を進める前に、作成タスクが完了するまで待ちます。
+
+#### タスク 4: 仮想マシンのバックアップ
+
+1.  ポータルの左側にあるナビゲーション メニューで、**リソース グループ** リンクを選択します。 
+
+2.  **リソース グループ** ブレードで、 この実習ラボで前に作成した **ContainerCompute** リソース グループを見つけて選択します。 
+
+3.  **ContainerCompute** ブレードで、この実習ラボで前に作成した **simplevm** VMを選択します。 
+
+4.  **バーチャルマシン** ブレードで、**接続** を選択します。
+
+5.  **表示される仮想マシンに接続** するポップアップで、次の操作を実行します。
     
-    1.  A dialog box will appear that prompts you to create a new Storage Account to begin using the shell. Accept the default settings and select **Create storage**.
+    1.  **IP アドレス** テキスト ボックスで、**パブリック IP アドレス** を選択します。
     
-    1.  Wait for the **Cloud Shell** to finish its first-time setup procedures before moving forward with the lab.
+    2.  **ポート番号** テキスト ボックスに、**22** と入力します。
+    
+    3.  **VM ローカルアカウントを使用してログイン** テキストボックス内のテキストを **コピー** します。  
 
-    > **Note**: If you do not see the configuration options for the **Cloud Shell**, this is most likely because you are using an existing subscription with this course's labs. The labs are written from the presumption that you are using a new subscription.
+> 注記：コピーしたコマンドは、リモート コンピュータから SSH を使用して VM に接続します。このコマンドは、演習の後半で使用します。
 
-1.  In the **Cloud Shell** command prompt at the bottom of the portal, **paste** the command you copied earlier in this lab and press Enter to connect to your new VM by using SSH.
+6.  ポータルの上部で、**Cloud Shell** アイコンを選択して新しいシェル インスタンスを開きます。
 
-    > **Note**: This command will be dependent on your username and IP address. For example, if the username is **Student** and the IP address is **40.125.245.5**, the command would be **ssh Student@40.125.245.5**.
+> 注記：**Cloud Shell** アイコンは、シンボルとアンダースコア文字より大きい文字で表されます。 
 
-1.  The SSH tool will first inform you that the authenticity of the host can’t be established and then ask if you want to continue connecting. Enter **yes** in the prompt and then press Enter to continue connecting to the VM.
+![](media/image1.png)
 
-1. The SSH tool will then ask you for a password. Enter **StudentPa55w.rd** and then press Enter to authenticate with the VM.
+7.  サブスクリプションを使用して初めて **Cloud Shell** を開く場合は、初めて使用する **Cloud Shell** を構成できる **Azure Cloud シェルへようこそウィザード** が表示されます。 ウィザードで次の操作を実行します。
+    
+    4.  Bash または PowerShell の間で選択が行われた場合は、**Bash** オプションを選択します。 
+    
+    5.  シェルの使用を開始する新しいストレージ アカウントを作成するように求めるダイアログ ボックスが表示されます。既定の設定を受け入れ、**ストレージの作成** を選択します。 
+    
+    6.  **Cloud Shell** が初回のセットアップ手順を完了するのを待ってから、ラボを進めます。 
 
-    > **Note**: Characters do not show when typing password. Please be advised.
+> > 注記：**Cloud Shell** の構成オプションが表示されない場合は、このコースの演習で既存のサブスクリプションを使用している可能性が高いと考えられます。 演習は、新しいサブスクリプションを使用していると仮定して作成されます。
 
-1. After you are connected to the VM by using SSH, you will see a prompt for the Bash shell in the VM. In the prompt, type in the following command and press Enter to view the computer name of the Linux VM:
+8.  ポータルの下部にある **Cloud Shell** コマンド プロンプトで、 この演習で前にコピーしたコマンドを **貼り付け**、Enter キーを押して SSH を使用して新しい VM に接続します。   
 
-    ```
+> 注記：このコマンドは、ユーザー名と IP アドレスによって異なります。たとえば、ユーザー名が **Student** で、IP アドレスが **40.125.245.5** の場合、コマンドは **ssh Student@40.125.245.5** になります。     
+
+9.  SSH ツールは、まずホストの信頼性を確立できないことを通知し、接続を続行するかどうかを確認します。プロンプトに **はい** と入力し、Enter キーを押して VM への接続を続行します。 
+
+10. SSH ツールは、パスワードの入力を求められます。 **StudentPa55w.rd** を入力し、Enter キーを押して VM で認証します。 
+
+> 注記：パスワードを入力しても文字は表示されません。予めご了承ください。
+
+11. SSH を使用して VM に接続すると、VM に Bash シェルのプロンプトが表示されます。プロンプトで次のコマンドを入力し、Enter キーを押して Linux VM のコンピュータ名を表示します。
+
+<!-- end list -->
+
     uname -mnipo
-    ```
 
-12. In the prompt, type in the following command and press Enter to view information about the distribution and operating system of the Linux VM.
+12. プロンプトで次のコマンドを入力し、Enter キーを押して Linux VM の配布およびオペレーティング システムに関する情報を表示します。
 
-    ```
+<!-- end list -->
+
     uname -srv
-    ```
 
-13. Close the **Cloud Shell** pane at the bottom of the portal.
+13. ポータルの下部にある **Cloud Shell** ペインを閉じます。
 
-#### Review
+#### 復習
 
-In this exercise, you created a new VM manually by using the Azure portal interface and connected to the VM by using the Cloud Shell and SSH.
+この演習では、Azure potal インターフェイスを使用して新しい VM を手動で作成し、Cloud Shell と SSH を使用して VM に接続しました。
 
-### Exercise 2: Create a virtual machine by using Azure CLI 
+### エクササイズ 2: Azure CLI を使用して Linux 仮想マシンを作成する 
 
-#### Task 1: Open Cloud Shell
+#### タスク 1: Cloud Shell を開く
 
-1.  In the top navigation bar in the Azure Portal, select the **Cloud Shell** icon to open a new shell instance.
+1.  Azure potal の上部ナビゲーション バーで、**Cloud Shell** アイコンを選択 して新しいシェル インスタンスを開きます。
 
-1.  Wait for the **Cloud Shell** to finish connecting to an instance before moving forward with the lab.
+2.  **Cloud Shell** がインスタンスへの接続を完了するのを待ってから、演習に進みます。 
 
-1.  In the **Cloud Shell** command prompt at the bottom of the portal, type the following command and press Enter to view the version of the Azure CLI tool:
+3.  ポータルの下部にある **Cloud Shell** コマンド プロンプトで次のコマンドを入力し、Enter キーを押して Azure CLI ツールのバージョンを表示します。 
 
-    ```
+<!-- end list -->
+
     az --version
-    ```
 
-#### Task 2: Use the Azure CLI commands
+#### タスク 2: Azure CLI を使用して、次のように入力します。
 
-1.  Type the following command and press Enter to view a list of subgroups and commands at the root level of the CLI:
+1.  次のコマンドを入力し、Enter キーを押すと、CLI のルート レベルにあるサブグループとコマンドの一覧が表示されます。
 
-    ```
+<!-- end list -->
+
     az --help
-    ```
 
-1.  Type the following command and press Enter to view a list of subgroups and commands for **virtual machines**:
+2.  次のコマンドを入力し、Enter キーを押すと、 **仮想マシン** のサブグループとコマンドの一覧が表示されます。
 
-    ```
+<!-- end list -->
+
     az vm --help
-    ```
 
-1.  Type the following command and press Enter to view a list of arguments and examples for the **Create Virtual Machine** command:
+3.  次のコマンドを入力し、Enter キーを押すと、**仮想マシンの作成** コマンドの引数と例の一覧が表示されます。
 
-    ```
+<!-- end list -->
+
     az vm create --help
-    ```
 
-1.  Type the following command and press Enter to create a new **virtual machine** with the following settings:
+4.  次のコマンドを入力し、Enter キーを押して、次の設定で新しい **仮想マシン** を作成します。
     
-      - **Resource group**: ContainerCompute
+      - **リソースグループ**: ContainerCompute
     
-      - **Name**: quickvm
+      - **名前**: quickvm
     
-      - **Image**: Debian
+    <!-- end list -->
     
-      - **Username**: Student
+      - **画像**: Debian
     
-      - **Password**: StudentPa55w.rd
+      - **ユーザー名**：受講者
+    
+      - **パスワード**: StudentPa55w.rd
 
-    ```
+<!-- end list -->
+
     az vm create --resource-group ContainerCompute --name quickvm --image Debian --admin-username student --admin-password StudentPa55w.rd
-    ```
 
-    > **Note**: If this command fails with an error indicating `Resource group 'ContainerCompute'` could not be found, it likely means you either made an error naming your resource group at the start of this lab, or you have more than one subscription associated with your login name.  If you named the resource group wrong, substitute the correct name in the command.  If you have more than one subscription, you can use the `az account set --subscription` command to select the proper subscription.
+5.  VM 作成のプロセスが完了するまで待ちます。プロセスが完了すると、コマンドはマシンに関する詳細を含む JSON ファイルを返します。
 
-1.  Wait for the VM creation process to complete. After the process completes, the command will return a JSON file containing details about the machine.
+6.  次のコマンドを入力し、Enter キーを押すと、新しく作成された VM に関するさまざまなメタデータを含む、より詳細な JSON ファイルが表示されます。
 
-1.  Type the following command and press Enter to view a more detailed JSON file that contains various metadata about the newly created VM:
+<!-- end list -->
 
-    ```
     az vm show --resource-group ContainerCompute --name quickvm
-    ```
 
-1.  Type the following command and press Enter to list all the IP addresses associated with the VM:
+7.  次のコマンドを入力し、Enter キーを押して、VM に関連付けられているすべての IP アドレスを一覧表示します。
 
-    ```
+<!-- end list -->
+
     az vm list-ip-addresses --resource-group ContainerCompute --name quickvm
-    ```
 
-1.  Type the following command and press Enter to filter the output to only return the first IP address value:
+8.  次のコマンドを入力し、Enter キーを押して出力をフィルタリングし、最初の IP アドレス値のみを返します。
 
-    ```
+<!-- end list -->
+
     az vm list-ip-addresses --resource-group ContainerCompute --name quickvm --query '[].{ip:virtualMachine.network.publicIpAddresses[0].ipAddress}' --output tsv
-    ```
 
-1.  Type the following command and press Enter to store the results of the previous command in a new Bash shell variable named *ipAddress*:
+9.  次のコマンドを入力し、Enter キーを押して前のコマンドの結果を *ipAddress* という名前の新しい Bash シェル変数に格納します。
 
-    ```
+<!-- end list -->
+
     ipAddress=$(az vm list-ip-addresses --resource-group ContainerCompute --name quickvm --query '[].{ip:virtualMachine.network.publicIpAddresses[0].ipAddress}' --output tsv)
-    ```
 
-1. Type the following command and press Enter to print the value of the Bash shell variable *ipAddress*:
+10. 次のコマンドを入力し、Enter キーを押して Bash シェル変数 *ipAddress* の値を印刷します。
 
-    ```
+<!-- end list -->
+
     echo $ipAddress
-    ```
 
-1. Type the following command and press Enter to connect to the VM that you created earlier in this lab by using the SSH tool and the IP address stored in the Bash shell variable *ipAddress*:
+11. 次のコマンドを入力し、Enter キーを押して、SSH ツールと Bash シェル変数 *ipAddress* に格納されている IP アドレスを使用して、この演習で前に作成した VM に接続します。
 
-    ```
+<!-- end list -->
+
     ssh student@$ipAddress
-    ```
 
-1. The **SSH** tool will first inform you that the authenticity of the host can’t be established and then ask if you want to continue connecting. Enter **yes** and then press Enter to continue connecting to the VM.
+12. **SSH** ツールは、まずホストの信頼性を確立できないことを通知し、接続を続行するかどうかを確認します。 **はい** と入力し、Enter キーを押して VM への接続を続行します。 
 
-1. The **SSH** tool will then ask you for a password. Enter **StudentPa55w.rd** and then press Enter to authenticate with the VM.
+13. **SSH** ツールは、パスワードの入力を求められます。 **StudentPa55w.rd** を入力し、Enter キーを押して VM で認証します。
 
-1. After you connect to the VM using SSH, type the following command and press Enter to view metadata describing the Linux VM:
+14. SSH を使用して VM に接続したら、次のコマンドを入力し、Enter キーを押して Linux VM を説明するメタデータを表示します。
 
-    ```
+<!-- end list -->
+
     uname -a
-    ```
 
-1. Close the **Cloud Shell** pane at the bottom of the portal.
+15. ポータルの下部にある **Cloud Shell** ペインを閉じます。
 
-#### Review
+#### 復習
 
-In this exercise, you used the Azure Cloud Shell to create a VM as part of an automated script.
+この演習では、Azure Cloud Shell を使用して、自動化されたスクリプトの一部として VM を作成しました。
 
-### Exercise 3: Create a Docker container image and deploy it to Azure Container Registry
+### エクササイズ 3: Docker コンテナー イメージを作成し、Azure Container Registry にデプロイする
 
-#### Task 1: Open Cloud Shell and editor
+#### タスク 1: Cloud Shell とエディタを開く
 
-1.  In the top navigation bar in the Azure Portal, select the **Cloud Shell** icon to open a new shell instance.
+1.  Azure potalの上部ナビゲーション バーで、**Cloud Shell** アイコンを選択 して新しいシェル インスタンスを開きます。
 
-1.  Wait for the **Cloud Shell** to finish connecting to an instance before moving on with the lab.
+2.  **Cloud Shell** がインスタンスへの接続を完了するのを待ってから、ラボに進みます。 
 
-1.  In the **Cloud Shell** command prompt at the bottom of the portal, type the following command and press **Enter** to move from the root directory to the **\~/clouddrive** directory:
+3.  ポータルの下部にある **Cloud Shell** コマンド プロンプトで、次のコマンドを入力し、**Enter** キーを押してルート ディレクトリから **\~/clouddrive** ディレクトリに移動します。   
 
-    ```
+<!-- end list -->
+
     cd ~/clouddrive
-    ```
 
-1.  Type the following command and press Enter to create a new directory named **ipcheck** within the **\~/clouddrive** directory:
+4.  次のコマンドを入力し、Enter キーを押して、**\~/clouddrive** ディレクトリ内に **ipcheck** という名前の新しいディレクトリを作成します。
 
-    ```
+<!-- end list -->
+
     mkdir ipcheck
-    ```
 
-1.  Type the following command and press Enter to change the active directory from **\~/clouddrive** to **\~/clouddrive/ipcheck**:
+5.  次のコマンドを入力し、Enter キーを押してアクティブ ディレクトリを**\~/clouddrive** から **\~/clouddrive/ipcheck** に変更します。
 
-    ```
+<!-- end list -->
+
     cd ~/clouddrive/ipcheck
-    ```
 
-1.  Type the following command and press Enter to create a new .NET Core console application in the current directory:
+6.  次のコマンドを入力し、Enter キーを押して、現在のディレクトリに新しい.NET Core コンソール アプリケーションを作成します。
 
-    ```
-    dotnet new console --output . --name ipcheck
-    ```
+<!-- end list -->
 
-1.  Type the following command and press Enter to create a new file in the **\~/clouddrive/ipcheck** directory named **Dockerfile**:
+    dotnet new console --output .--name ipcheck
 
-    ```
+7.  次のコマンドを入力し、Enter キーを押して、**Dockerfile** という名前の **\~/clouddrive/ipcheck** ディレクトリに新しいファイルを作成します。
+
+<!-- end list -->
+
     touch Dockerfile
-    ```
 
-1.  Type the following command and press Enter to open the embedded graphical editor in the context of the current directory:
+8.  次のコマンドを入力し、Enter キーを押して、現在のディレクトリのコンテキストで埋め込みグラフィカル エディタを開きます。
 
-    ```
+<!-- end list -->
+
     code .
-    ```
 
-#### Task 2: Create and test a .NET Core application
+#### タスク 2: .NET Core アプリケーションの作成とテスト
 
-1.  Within the graphical editor, locate the **FILES** pane and double-select the **Program.cs** file to open that file in the editor.
+1.  グラフィカル エディタ内で **FILES** ペインを見つけ、**Program.cs** ファイルをダブル選択してエディタでそのファイルを開きます。   
 
-1.  Delete the entire contents of the **Program.cs** file.
+2.  **Program.cs** ファイルの内容全体を削除します。 
 
-1.  Copy and paste the following code into the **Program.cs** file:
+3.  次のコードをコピーして **Program.cs** ファイルに貼り付けます。 
 
-    ```
+<!-- end list -->
+
     public class Program
     {
         public static void Main(string[] args)
@@ -393,357 +408,354 @@ In this exercise, you used the Azure Cloud Shell to create a VM as part of an au
             }
         }
     }
-    ```
 
-1.  **Save** the **Program.cs** file by using either the menu in the the graphical editor, or the **Ctrl+S** keyboard shortcut.  Do not close the graphical editor.
+4.  グラフィカル エディタのメニューまたは **Ctrl+S** キーボード ショートカットのいずれかを使用して、**Program.cs** ファイルを **保存** します。
 
-1.  Back in the command prompt, type the following command and press Enter to execute the application:
+5.  コマンド プロンプトに戻り、次のコマンドを入力し、Enter キーを押してアプリケーションを実行します。
 
-    ```
+<!-- end list -->
+
     dotnet run
-    ```
 
-1.  Observe the results of the execution. There should be at least one IP address listed for the Cloud Shell instance.
+6.  実行の結果を確認します。Cloud Shell インスタンスには、少なくとも 1 つの IP アドレスが一覧表示されている必要があります。
 
-1.  Within the graphical editor, locate the **FILES** pane on the left side of the editor and double-select the **Dockerfile** file to open that file in the editor.
+7.  グラフィカル エディタ内で、  エディタの左側にある **FILES** ペインを見つけ、**Dockerfile** ファイルを二重選択してエディタでそのファイルを開きます。   
 
-8.  Copy and paste the following code into the **Dockerfile** file:
+8.  次のコードを **Dockerfile** ファイルにコピーして貼り付けます。 
 
-    ```
-    FROM mcr.microsoft.com/dotnet/core/sdk:2.2-alpine AS build
+<!-- end list -->
+
+    FROM microsoft/dotnet:2.2-sdk AS build
     WORKDIR /app
-
+    
     COPY *.csproj ./
     RUN dotnet restore
-
-    COPY . ./
-    RUN dotnet publish --configuration Release --output out
-
-    FROM mcr.microsoft.com/dotnet/core/runtime:2.2-alpine
+    
+    copy./
+    RUN dotnet publish --configuration Release --output out --runtime ubuntu.18.04-x64 --self-contained
+    
+    FROM microsoft/dotnet:2.2-runtime
     WORKDIR /app
-
     COPY --from=build /app/out .
 
-    ENTRYPOINT ["dotnet", "ipcheck.dll"]
-    ```
+9.  グラフィカル エディタのメニューまたは **Ctrl+ S** キーボード ショートカットのいずれかを使用して、**Dockerfile** ファイルを **保存** します。
 
-1.  **Save** the **Dockerfile** file by using either the menu in the graphical editor or the **Ctrl+S** keyboard shortcut.
+10. ポータルの下部にある **Cloud Shell** ペインを閉じます。
 
-1. Close the **Cloud Shell** pane at the bottom of the portal.
+#### タスク 3: Azure Container Registry  リソースの作成
 
-#### Task 3: Create an Azure Container Registry resource
+1.  ポータルの左側にあるナビゲーション メニューで、**+ リソースを作成** リンクを選択します。
 
-1.  On the navigation menu located on the left side of the portal, select the **+ Create a resource** link.
+2.  **新しい** ブレードの上部で、 おすすめサービスの一覧の上にある **マーケットプレースの検索** テキスト ボックスを検索します。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** text box above the list of featured services.
+3.  検索テキスト ボックスに **コンテナ** を入力し、**Enter** を押します。
 
-1.  In the search text box, enter **Container Registry** and press **Enter**.
+4.  **すべて** 検索結果 ブレードで、**Container Registry** の結果を選択します。
 
-1.  In the **Everything** search results blade, select the **Container Registry** result.
+5.  **Container Registry** ブレードで、**作成** を選択します。   
 
-1.  In the **Container Registry** blade, select **Create**.
+6.  **Container Registry の作成** ブレードで、次の操作を実行します。
 
-1.  In the **Create container registry** blade, perform the following actions:
+<!-- end list -->
 
-    1.  In the **Registry name** text box, give your registry a globally unique name.
+1.  **レジストリ名** テキスト ボックスで、レジストリにグローバルに一意の名前を付けます。 
 
-        >  Note: The blade will automatically check the name for uniqueness and inform you if you are required to choose a different name.
+> > 注記：ブレードは自動的に名前の一意性をチェックし、別の名前を選択する必要がある場合に通知します。
 
-    1.  Leave the **Subscription** text box set to its default value.
+2.  **サブスクリプション** テキスト ボックスは既定値のままにします。
 
-    1.  In the **Resource group** drop-down list, select the existing **ContainerCompute** option.
+3.  **リソース グループ** ドロップダウン リストで、既存の **ContainerCompute** オプションを選択します。 
 
-    1.  In the **Location** text box, select **East US**.
+4.  **場所** テキスト ボックスで、**米国東部** を選択します。   
 
-    1.  In the **Admin user** section, select **Disable**.
+5.  **管理者ユーザー** セクションで、**無効化** を選択します。 
 
-    1.  In the **SKU** drop-down list, select **Basic**.
+6.  **SKU** ドロップダウン リストで、**基本** を選択します。   
 
-    1.  Select **Create**.
+7.  **作成** を選択します。
 
-1.  Wait for the creation task to complete before moving forward with this lab.
+<!-- end list -->
 
-#### Task 4: Open Cloud Shell and store Azure Container Registry metadata
+7.  演習を進める前に、作成タスクが完了するまで待ちます。
 
-1.  At the top of the portal, select the **Cloud Shell** icon to open a new shell instance.
+#### タスク 4: Cloud Shell を開き、Azure Container Registry メタデータを格納する
 
-1.  Wait for the **Cloud Shell** to finish connecting to an instance before moving forward with the lab.
+1.  ポータルの上部で、**Cloud Shell** アイコンを選択して新しいシェル インスタンスを開きます。
 
-1.  In the **Cloud Shell** command prompt at the bottom of the portal, type the following command and press Enter to view a list of all container registries in your subscription:
+2.  **Cloud Shell** がインスタンスへの接続を完了するのを待ってから、演習に進みます。
 
-    ```
+3.  ポータルの下部にある **Cloud Shell** コマンド プロンプトで次のコマンドを入力し、Enter キーを押してサブスクリプション内のすべてのContainer Registry の一覧を表示します。 
+
+<!-- end list -->
+
     az acr list
-    ```
 
-1.  Type the following command and press Enter:
+4.  次のコマンドを入力し、Enter を押します。
 
-    ```
+<!-- end list -->
+
     az acr list --query "max_by([], &creationDate).name" --output tsv
-    ```
 
-1.  Type the following command and press Enter:
+5.  次のコマンドを入力し、Enter を押します。
 
-    ```
+<!-- end list -->
+
     acrName=$(az acr list --query "max_by([], &creationDate).name" --output tsv)
-    ```
 
-1.  Type the following command and press Enter:
+6.  次のコマンドを入力し、Enter を押します。
 
-    ```
+<!-- end list -->
+
     echo $acrName
-    ```
 
-#### Task 5: Deploy a Docker container image to the Azure Container Registry
+#### タスク 5: Dockerコンテナー イメージを Azure Container Registry にデプロイする
 
-1.  Type the following command and press Enter to change the active directory from **\~/** to **\~/clouddrive/ipcheck**:
+1.  次のコマンドを入力し、Enter キーを押してアクティブ ディレクトリを **\~/** から  **\~/clouddrive/ipcheck** に変更します。
 
-    ```
+<!-- end list -->
+
     cd ~/clouddrive/ipcheck
-    ```
 
-1.  Type the following command and press Enter to view the contents of the current directory:
+2.  次のコマンドを入力し、Enter キーを押して現在のディレクトリの内容を表示します。
 
-    ```
-    dir
-    ```
+<!-- end list -->
 
-1.  Type the following command and press Enter to upload the source code to your **Container Registry** and build the container image as an **Azure Container Registry Task**:
+    Dir
 
-    ```
+3.  次のコマンドを入力し、Enter キーを押してソース コードを **Container Registry** にアップロード  し、コンテナー イメージを **Azure Container Registry タスク** としてビルドします。
+
+<!-- end list -->
+
     az acr build --registry $acrName --image ipcheck:latest .
-    ```
 
-1.  Wait for the build task to complete before moving forward with this lab.
+4.  この演習を進める前に、ビルド タスクが完了するのを待ちます。
 
-1.  Close the **Cloud Shell** pane at the bottom of the portal.
+5.  ポータルの下部にある **Cloud Shell** ペインを閉じます。
 
-#### Task 6: Validate your container image in the Azure Container Registry
+#### タスク 6: Azure Container Registry でコンテナー イメージを検証する
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+1.  ポータルの左側にあるナビゲーション メニューで、**リソース グループ** リンクを選択します。
 
-1.  In the **Resource groups** blade, locate and select the **ContainerCompute** resource group that you created earlier in this lab.
+2.  **リソース グループ** ブレードで、 この実習ラボで前に作成した **ContainerCompute** リソース グループを見つけて選択します。
 
-1.  In the **ContainerCompute** blade, select the container registry that you created earlier in this lab.
+3.  **ContainerCompute** ブレードで、この実習ラボで前に作成したContainer Registry を選択します。 
 
-1.  In the **Container Registry** blade, locate the **Services** section and select the **Repositories** link.
+4.  **Container Registry** ブレードで **サービス** セクションを見 つけ、**リポジトリ** リンクを選択します。
 
-1.  In the **Repositories** section, select the **ipcheck** container image repository.
+5.  **リポジトリ** セクションで、**ipcheck** コンテナー イメージ リポジトリを選択します。   
 
-1.  In the **Repository** blade, select the **latest** tag.
+6.  **リポジトリ** ブレードで、**最新** のタグを選択します。   
 
-1.  Observe the metadata for the version of your container image with the **latest** tag.
+7.  **最新の** タグを使用して、コンテナー イメージのバージョンのメタデータを確認します。
 
-    > **Note**: You can also select the **Run ID** hyperlink to view metadata about the build task.
+> 注記： **ID の実行** ハイパーリンクを選択して、ビルド タスクに関するメタデータを表示することもできます。 
 
-#### Review
+#### 復習
 
-In this exercise, you created a .NET Core console application to display a machine’s current IP address. You then added the Dockerfile file to the application so that it could be converted into a Docker container image. Finally, you deployed the container image to Azure Container Registry.
+この演習では、マシンの現在の IP アドレスを表示する .NET Core コンソール アプリケーションを作成しました。次にDockerfileファイルをアプリケーションに追加して、Dockerコンテナー イメージに変換できるようにしました。最後に、コンテナー イメージをAzure Container Registry にデプロイしました。
 
-### Exercise 4: Deploy an Azure container instance 
+### エクササイズ 4: Azure コンテナ- インスタンスをデプロイする 
 
-#### Task 1: Enable Admin User in Azure Container Registry
+#### タスク 1: Azure Container Registry で管理者ユーザーを有効にする
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+1.  ポータルの左側にあるナビゲーション メニューで、**リソース グループ** リンクを選択します。
 
-1.  In the **Resource groups** blade, locate and select the **ContainerCompute** resource group that you created earlier in this lab.
+2.  **リソース グループ** ブレードで、 この実習ラボで前に作成した **ContainerCompute** リソース グループを見つけて選択します。
 
-1.  In the **ContainerCompute** blade, select the container registry that you created earlier in this lab.
+3.  **ContainerCompute** ブレードで、この実習ラボで前に作成したContainer Registry を選択します。
 
-1.  In the **Container Registry** blade, select **Update** from the top of the blade.
+4.  **Container Registry** ブレードで、**更新** を選択します。   
 
-1.  In the **Update container registry** blade, perform the following actions:
+5.  **Container Registry の更新** ブレードで、次の操作を実行します。
     
-    1.  In the **Admin user** section, select **Enable**.
+    1.  **管理者ユーザー** セクションで、**有効** を選択します。
     
-    1.  Select **Save**.
+    2.  **保存** を選択します。
+
+6.  **Container Registry の更新** ブレードを閉じます。
+
+#### タスク 2: コンテナー イメージをAzure コンテナ- インスタンスに自動的にデプロイする
+
+1.  **Container Registry** ブレードで **サービス** セクションを見 つけ、**リポジトリ** リンクを選択します。
+
+2.  **リポジトリ** セクションで、**ipcheck** コンテナー イメージ リポジトリを選択します。
+
+3.  **リポジトリ** ブレードで、**最新** のタグエントリのすぐ右側にある省略記号メニューを選択します。   
+
+4.  表示されるポップアップ メニューで、**インスタンスの実行** リンクを選択します。 
+
+5.  表示される **コンテナ- インスタンスの作成** ブレードで、次のアクションを実行します。 
     
-1.  Close the **Update container registry** blade.
-
-#### Task 2: Deploy a container image automatically to an Azure Container instance
-
-1.  In the **Container Registry** blade, locate the **Services** section and select the **Repositories** link.
-
-1.  In the **Repositories** section, select the **ipcheck** container image repository.
-
-1.  In the **Repository** blade, select the ellipsis menu located immediately to the right of the **latest** tag entry.
-
-1.  In the pop-up menu that appears, select the **Run instance** link.
-
-1.  In the **Create container instance** blade that appears, perform the following actions:
+    1.  **コンテナ-名** テキスト ボックステキスト ボックスに、**managedcompute** と入力します。 
     
-    1.  In the **Container name** text boxtext box, enter **managedcompute**.
+    2.  **コンテナー イメージ** テキスト ボックスは、既定値のままにします。 
     
-    1.  Leave the **Container image** text box set to its default value.
+    3.  **OSの種類** セクションで、**Linux** を選択します。   
     
-    1.  In the **OS type** section, select **Linux**.
+    4.  **サブスクリプション** テキスト ボックスは既定値のままにします。
     
-    1.  Leave the **Subscription** text box set to its default value.
+    5.  **リソース グループ** ドロップダウン リストで、**ContainerCompute** を選択 します。
     
-    1.  In the **Resource group** drop-down list, select **ContainerCompute**.
+    6.  **場所** ドロップダウン リストで、**米国東部** を選択します。   
     
-    1.  In the **Location** drop-down list, select **East US**.
+    7.  **コア数** ドロップダウン リストで、**2** を選択します。
     
-    1.  In the **Number of cores** drop-down list, select **2**.
+    8.  **メモリ (GB)** テキスト ボックスに **4** を入力します。 
     
-    1.  In the **Memory (GB)** text box, enter **4**.
+    9.  **パブリックIPアドレス** セクションで **いいえ** を選択します。
     
-    1.  In the **Public IP address** section, select **No**.
+    10. **OK** を選択します。
+
+6.  演習を進める前に、作成タスクが完了するまで待ちます。
+
+#### タスク 3: コンテナー イメージを Azure コンテナ- インスタンスに手動でデプロイする
+
+1.  ポータルの左側にあるナビゲーション メニューで、**リソース グループ** リンクを選択します。
+
+2.  **リソース グループ** ブレードで、 この実習ラボで前に作成した **ContainerCompute** リソース グループを見つけて選択します。
+
+3.  **ContainerCompute** ブレードで、この実習ラボで前に作成したContainer Registry を選択します。
+
+4.  **Container Registry** ブレードで **設定** セクションを見つけ、**アクセスキー** リンクを選択します。   
+
+5.  **アクセス キー** セクションで、次のフィールドの値をコピーします。 
     
-    1. Select **OK**.
-
-1.  Wait for the creation task to complete before moving forward with this lab.
-
-#### Task 3: Deploy a container image manually to an Azure Container instance
-
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
-
-1.  In the **Resource groups** blade, locate and select the **ContainerCompute** resource group that you created earlier in this lab.
-
-1.  In the **ContainerCompute** blade, select the container registry that you created earlier in this lab.
-
-1.  In the **Container Registry** blade, locate the **Settings** section and select the **Access keys** link.
-
-1.  In the **Access Keys** section, record the values for the following fields:
+    1.  **ログイン サーバー**
     
-    1.  **Login server**
+    2.  **ユーザー名**
     
-    1.  **Username**
+    3.  **パスワード**
+
+> 注記：これらの値は、別の **コンテナ- インスタンス** を作成するときに、この演習の後半で使用します。
+
+6.  ポータルの左側にあるナビゲーション メニューで、**+ リソースを作成** リンクを選択します。
+
+7.  **新しい** ブレードの上部で、 おすすめサービスの一覧の上にある **マーケットプレースの検索** テキスト ボックスを検索します。
+
+8.  検索テキスト ボックスに **コンテナ** を入力し、**Enter** を押します。
+
+9.  **すべて** 検索結果 ブレードで、**コンテナ- インスタンス** の結果を選択します。
+
+10. **コンテナ- インスタンス** ブレードで、 **作成** を選択します。   
+
+11. **コンテナ- インスタンスの作成** ブレードで、**基本** や **構成** などのブレードの左側にあるタブを確認します。 
+
+> 注記：各タブは、ワークフロー内の新しい **コンテナ- インスタンス** を作成するためのステップを表します。 
+
+12. **基本** タブで、次の操作を実行します：
     
-    1.  **Password**
-
-        > **Note**: You will use these values later in this lab when you create another **container instance**.
-
-1.  On the navigation menu located on the left side of the portal, select the **+ Create a resource** link.
-
-1.  At the top of the **New** blade, locate the **Search the Marketplace** text box above the list of featured services.
-
-1.  In the search text box, enter **Container instance** and press **Enter**.
-
-1.  In the **Everything** search results blade, select the **Container Instances** result.
-
-1. In the **Container Instances** blade, select **Create**.
-
-1. In the **Create Container Instances** blade, observe the tabs on the left of the blade, such as **Basics** and **Advanced**.
-
-    > **Note**: Each tab represents a step in the workflow to create a new **container instance**.
-
-1. In the **Basics** tab, perform the following actions:
-
-    1. Leave the **Subscription** text box set to its default value.
-
-    1. In the **Resource group** drop-down list, select **ContainerCompute**.
+    4.  **コンテナ名** テキスト ボックスに、**manualcompute** を入力します。
     
-    1.  In the **Container name** text box, enter **manualcompute**.
-
-    1. In the **Region** drop-down list, select **(US) East US**.
+    5.  **コンテナー イメージの種類**セクションで、**プライベート**を選択します。
     
-    1.  In the **Image type** section, select **Private**.
+    6.  **コンテナー イメージ** テキスト ボックスに、前に記録した **ログイン サーバー** の値を入力し、サフィックス /**ipcheck:latest** を追加します。   
+
+> > 注記：たとえば、**ログイン サーバー** の値が **azadmin.azurecr.io** の場合、コンテナー イメージ名は **azadmin.azurecr.io/ipcheck:latest** です。
+
+7.  **イメージ レジストリ ログイン サーバー** テキスト ボックスに、 この演習で前に記録した **ログイン サーバー** の値を入力します。   
+
+8.  **イメージ レジストリのユーザー名** テキスト ボックスに、この演習で前に記録した **ユーザー名** の値を入力します。   
+
+9.  **イメージ レジストリ パスワード** テキスト ボックスに、この演習で前に記録した **パスワード** の値を入力します。   
+
+10. **サブスクリプション** テキスト ボックスは既定値のままにします。
+
+11. **リソース グループ** ドロップダウン リストで、**ContainerCompute** を選択 します。
+
+12. **場所** ドロップダウン リストで、**米国東部** を選択します。
+
+13. **OK** を選択します。
+
+<!-- end list -->
+
+13. **構成** タブで、次の操作を実行します： 
     
-    1.  In the **Image name** text box, enter the **Login server** value that you recorded earlier and then add the suffix /**ipcheck:latest**.
-
-        > **Note**: For example, if your **Login server** value is **azadmin.azurecr.io**, then your container image name would be **azadmin.azurecr.io/ipcheck:latest**
-
-    1.  In the **Image registry login server** text box, enter the **Login server** value that you recorded earlier in this lab.
-
-    1.  In the **Image registry user name** text box, enter the **Username** value that you recorded earlier in this lab.
-
-    1.  In the **Image registry password** text box, enter the **Password** value that you recorded earlier in this lab.
-
-    1. In the **OS type** section, select **Linux**.
-
-    1. In the **Size** section, select the **Change size** link.
-
-    1. In the **Change container size** blade, perform the following actions:
-
-        1. In the **Number of CPU cores** textbox, enter **1**.
-
-        1. In the **Memory (GiB)** textbox, enter **1.5**.
-
-        1. Leave the default value for the **GPU type** drop-down list.
-
-        1. Select **Ok**.
+    14. **OSの種類** セクションで、**Linux** を選択します。
     
-    1. Select **Next: Networking**
-
-1. In the **Networking** tab, perform the following actions:
+    15. **コア数** ドロップダウン リストで、**1** を選択します。
     
-    1. In the **Include Public IP address** section, select **Yes**.
-
-    1. Ensure in the **Ports** section, the port **80** is there, with the port protocol **TCP**.
+    16. **メモリ (GB)** テキスト ボックスに **1.5** を入力します。
     
-    1. Leave the **DNS name label** text box empty.
-
-    1. Select **Next: Advanced**.
-
-1. In the **Advanced** tab, perform the following actions:
+    17. **パブリックIPアドレス** セクションで **はい** を選択します。   
     
-    1. In the **Restart policy** drop-down list, select **On failure**.
+    18. **DNS名ラベル** のテキスト ボックスを空のままにします。
     
-    1. Leave the **Environment variable** text box empty.
+    19. **ポート** テキスト ボックスに、**80** と入力します。 
     
-    1. Leave the **Command override** text box empty.
+    20. **オープン追加ポート** セクションで **いいえ** を選択します。
+    
+    21. **ポート プロトコル** ドロップダウン リストで、**TCP** を選択します。
+    
+    22. **ポリシーの再起動** ドロップダウン リストで、**失敗時** を選択します。 
+    
+    23. **環境変数** テキストボックスを空のままにします。
+    
+    24. **環境変数の追加** セクションで、**いいえ** を選択します。
+    
+    25. **コマンドオーバーライド**テキスト ボックスに **/ipcheck** を入力します。
 
-    1. Select **Review + create**.
+> > 注記：**ipcheck** ツールは、この実習ラボで前に作成した.NET Coreコマンド ライン アプリケーションです。 
 
-1. In the **Review + create** tab, review the selected options.
+26. **OK** を選択します。
 
-1. Select **Create** to create the container instance by using your specified configuration.
+<!-- end list -->
 
-1. Wait for the creation task to complete before moving forward with this lab.
+14. **概要** タブで、選択したオプションを確認します。 
 
-#### Task 4: Validate that the container instance ran successfully
+15. 指定したコンフィギュレーションを使用してコンテナ- インスタンスを作成するには、**OK** を選択します。
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+16. 演習を進める前に、作成タスクが完了するまで待ちます。
 
-1.  In the **Resource groups** blade, locate and select the **ContainerCompute** resource group that you created earlier in this lab.
+#### タスク 4: コンテナ- インスタンスが正常に実行されたことを検証する
 
-1.  In the **ContainerCompute** blade, select the **manualcompute** container instance that you created earlier in this lab.
+1.  ポータルの左側にあるナビゲーション メニューで、**リソース グループ** リンクを選択します。
 
-1.  In the **Container Instance** blade, locate the **Settings** section and select the **Containers** link.
+2.  **リソース グループ** ブレードで、 この実習ラボで前に作成した**ContainerCompute** リソース グループを見つけて選択します。
 
-1.  In the **Containers** section, observe the list of **Events**.
+3.  **ContainerCompute** ブレードで、この実習ラボで前に作成した **manualcompute** コンテナ- インスタンスを選択します。   
 
-1.  Select the **Logs** tab and observe the text logs from the container instance.
-> **Note**: You can also optionally view the **Events** and **Logs** from the **managedcompute** container instance.
+4.  **コンテナ- インスタンス** ブレードで**設定** セクションを見つけ、**コンテナ** リンクを選択します。
 
-> **Note**: After the application finished executing, the container was terminated because it had completed its work.  For the manually created container instance, you indicated that you indicated that a successful exit was acceptable, so the container shows a single execution run.  The automatically created instance did not offer you this option, and assumes the container should always be running, so you will see repeated restarts of the container.
+5.  **コンテナ** セクションで、**イベント** の一覧を確認します。   
 
-#### Review
+> 注記：アプリケーションの実行が完了すると、コンテナは作業が完了したために終了しました。
 
-In this exercise, you used multiple methods to deploy a container image to an Azure container instance. By using the manual method, you were also able to customize the deployment further and execute task-based applications as part of a container run.
+#### 復習
 
-### Exercise 5: Clean up subscription 
+この演習では、複数のメソッドを使用して、コンテナー イメージを Azure コンテナ- インスタンスにデプロイしました。手動メソッドを使用すると、デプロイをさらにカスタマイズし、コンテナの実行の一部としてタスク ベースのアプリケーションを実行することもできます。
 
-#### Task 1: Open Cloud Shell and list resource groups
+### エクササイズ 5: サブスクリプションのクリーンアップ 
 
-1.  At the top of the portal, select the **Cloud Shell** icon to open a new shell instance.
+#### タスク 1: Cloud Shell を開き、リソース グループを一覧表示する
 
-1.  In the **Cloud Shell** command prompt at the bottom of the portal, type in the following command and press Enter to list all resource groups in the subscription:
+1.  ポータルの上部で、**Cloud Shell** アイコンを選択して新しいシェル インスタンスを開きます。
 
-    ```
+2.  ポータルの下部にある **Cloud Shell** コマンド プロンプトで次のコマンドを入力し、Enterキーを押してサブスクリプション内のすべてのリソース グループを一覧表示します。
+
+<!-- end list -->
+
     az group list
-    ```
 
-1.  Type the following command and press Enter to view a list of possible commands to delete a resource group:
+3.  次のコマンドを入力し、Enter キーを押して、リソース グループを削除する可能性のあるコマンドの一覧を表示します。
 
-    ```
+<!-- end list -->
+
     az group delete --help
-    ```
 
-#### Task 2: Delete resource groups
+#### タスク 2: リソース グループを削除する
 
-1.  Type the following command and press Enter to delete the **ContainerCompute** resource group:
+1.  次のコマンドを入力し、Enter キーを押して **ContainerCompute** リソース グループを削除します。
 
-    ```
+<!-- end list -->
+
     az group delete --name ContainerCompute --no-wait --yes
-    ```
 
-1.  Close the **Cloud Shell** pane at the bottom of the portal.
+2.  ポータルの下部にある **Cloud Shell** ペインを閉じます。
 
-#### Task 3: Close active applications
+#### タスク 3: アクティブなアプリケーションを閉じる
 
-1.  Close the currently running **Microsoft Edge** application.
+1.  現在実行中の **Microsoft Edge** アプリケーションを閉じます。
 
-#### Review
+#### 復習
 
-In this exercise, you cleaned up your subscription by removing the **resource groups** used in this lab.
+この実習では、この演習で使用する **リソース グループ** を削除してサブスクリプションをクリーンアップしました。

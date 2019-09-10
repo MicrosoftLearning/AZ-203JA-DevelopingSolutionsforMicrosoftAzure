@@ -1,794 +1,759 @@
+﻿---
+ラボ:
+    title: ラボ: Azure にデプロイされた監視サービス
+    タイプ: 'Answer Key'
+    ご利用ください。モジュール 5: Azure ソリューションの監視、トラブルシューティング、最適化を行う
 ---
-lab:
-    title: 'Lab: Monitoring services deployed to Azure'
-    type: 'Answer Key'
-    module: 'Module 5: Monitor, troubleshoot, and optimize Azure solutions '
----
 
-# Lab: Monitoring services deployed to Azure
-# Student lab answer key
+# ラボ: Azure にデプロイされた監視サービス
+# 受講ラボの解答キー
 
-## Microsoft Azure user interface
+## Microsoft Azure ユーザー インターフェイス
 
-Given the dynamic nature of Microsoft cloud tools, you might experience Azure user interface (UI) changes after the development of this training content. These changes might cause the lab instructions and steps to not match up.
+Microsoft クラウド ツールのダイナミックな性質を考えると、このトレーニング コンテンツの開発後に Azure ユーザー インターフェイス (UI) の変更が発生する可能性があります。これらの変更により、演習の手順と手順が一致しない場合があります。
 
-Microsoft updates this training course as soon as the community brings needed changes to our attention. However, because cloud updates occur frequently, you might encounter UI changes before this training content is updated. **If this occurs, adapt to the changes and work through them in the labs as needed.**
+Microsoft は、コミュニティが必要な変更を行うとすぐに、このトレーニング コースを更新します。しかし、クラウド更新が頻繁に起きるため、この研修内容が更新される前に、UI の変更を経験するかも知れません。 **その場合は変更に順応して、必要に応じてラボでをそれを処理してください。**
 
-## Instructions
+## 指示
 
-### Before you start
+### 開始する前に
 
-#### Sign in to the lab virtual machine
+#### ラボの仮想マシンへのサインイン
 
-Sign in to your **Windows 10** virtual machine by using the following credentials:
+  - 次の認証情報を使用して **Windows 10** 仮想マシンにサインインします。
     
--   **Username**: Admin
-
--   **Password**: Pa55w.rd
-
-> **Note**: Lab virtual machine sign-in instructions will be provided to you by your instructor.
-
-#### Review installed applications
-
-Observe the taskbar located at the bottom of your **Windows 10** desktop. The taskbar contains the icons for the applications that you will use in this lab:
+      - **ユーザー名**： Admin
     
--   Microsoft Edge
+      - **パスワード**: Pa55w.rd
 
--   File Explorer
+> > **注記**： ラボ仮想マシンのサインイン手順は、インストラクターから提供されます。
 
--   Visual Studio Code
+#### インストールされたアプリケーションの検討
 
--   Windows PowerShell
+  - **Windows 10** デスクトップの下部にあるタスク バーを確認します。タスク バーには、このラボで使用するアプリケーションのアイコンが含まれています。
+    
+      - Microsoft Edge
+    
+      - エクスプローラ
+    
+      - Visual Studio Code:
+    
+      - Windows PowerShell
 
-#### Download the lab files
+#### 練習用ファイルをダウンロードする
 
-1.  On the taskbar, select the **Windows PowerShell** icon.
+1.  タスク バーで、 **Windows PowerShell** アイコンを選択します。
 
-1.  In the PowerShell command prompt, change the current working directory to the **Allfiles (F):\\** path:
+2.  PowerShell コマンド プロンプトで、現在の作業ディレクトリを **Allfiles (F):\\** パスに変更します。
 
     ```
     cd F:
     ```
 
-1.  Within the command prompt, enter the following command and press Enter to clone the **microsoftlearning/AZ-203-DevelopingSolutionsforMicrosoftAzure** project hosted on GitHub into the **Allfiles (F):\\** drive:
+3.  コマンド プロンプト内で次のコマンドを入力し、Enter キーを押して、GitHub でホストされている **Microsoftlearning/AZ-203-DevelopingSolutionsForAzure** プロジェクトを  **Labfiles** ディレクトリに複製します。
 
     ```
     git clone --depth 1 --no-checkout https://github.com/microsoftlearning/AZ-203-DevelopingSolutionsForMicrosoftAzure .
     ```
 
-1.  Within the command prompt, enter the following command and press **Enter** to check out the lab files necessary to complete the **AZ-203T05** lab:
+4.  コマンド プロンプト内で次のコマンドを入力し、**Enter** キーを押 して、**AZ-203.02** ラボを完了するために必要なラボ ファイルをチェックアウトします。
 
     ```
     git checkout master -- Allfiles/*
     ```
 
-1.  Close the currently running **Windows PowerShell** command prompt application.
+5.  現在実行中の **Windows PowerShell** コマンド プロンプト アプリケーションを閉じます。
 
-### Exercise 1: Create and configure Azure resources
+### エクササイズ 1: Azure リソースの作成と構成
 
-#### Task 1: Open the Azure portal
+#### タスク 1: Azure potalを開く
 
-1.  On the taskbar, select the **Microsoft Edge** icon.
+1.  タスク バーで、**Microsoft Edge** アイコンを選択します。
 
-1.  In the open browser window, navigate to the [**Azure portal**](https://portal.azure.com) (portal.azure.com).
+2.  開いているブラウザ ウィンドウで、[**Azure potal**](https://portal.azure.com)(portal.azure.com)に移動します。
 
-1.  At the sign-in page, enter the **email address** for your Microsoft account.
+3.  サインイン ページで、Microsoft アカウントの **電子メール アドレス** を入力します。
 
-1.  Select **Next**.
+4.  **次へ** を選択します。
 
-1.  Enter the **password** for your Microsoft account.
+5.  Microsoft アカウントの **パスワード** を入力します。
 
-1.  Select **Sign in**.
+6.  **サインイン** を選択します。
 
-> **Note**: If this is your first time signing in to the **Azure portal**, a dialog box will display an offer to tour the portal. Select **Get Started** to skip the tour and begin using the portal.
+> **注記**： **Azure potal** に初めてサインインする場合は、ダイアログ ボックスにポータルを見学するオファーが表示されます。  ツアーをスキップしてポータルの使用を開始するには、 **開始** を選択します。
 
-#### Task 2: Create an Application Insights resource
+#### タスク 2: アプリケーション インサイト リソースを作成します。
 
-1.  In the left navigation pane of the portal, select **+ Create a resource**.
+1.  ポータルの左側のナビゲーション ウィンドウで、**+ リソースを作成** を選択します。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** field.
+2.  **新規** ブレードの上部にある **マーケットプレースを検索** フィールドを検索します。   
 
-1.  In the search field, enter **Insights** and press Enter.
+3.  検索フィールドに **インサイト** と入力し、Enterを押します。 
 
-1.  In the **Everything** search results blade, select the **Application Insights** result.
+4.  **すべての** 検索結果ブレードで、 **アプリケーションインサイト** の結果を選択します。 
 
-1.  In the **Application Insights** blade, select **Create**.
+5.  **アプリケーションインサイト** ブレードで、 **作成** を選択します。   
 
-1.  In the second **Application Insights** blade, perform the following actions:
+6.  2番目の **アプリケーション インサイト** ブレードで、次の操作を実行します。 
     
-    1.  Leave the **Subscription** field set to its default value.
+    1.  **名前** フィールド **に、instrm\[*名前を小文字*\]** と入力します。 
     
-    1.  In the **Resource group** section, select **Create new**, and then enter **MonitoredAssets**.
+    2.  **アプリケーションの種類** ボックスの一覧で、**ASP.NETウェブアプリケーション** を選択します。
     
-    1.  In the **Name** field, enter **instrm\[*your name in lowercase*\]**.
-
-    1.  In the **Location** list, select **(US) East US**.
+    3.  **サブスクリプション** フィールドは既定値に設定したままにします。 
     
-    1.  Select **Review + create**
+    4.  **リソース グループ** セクションで、 **新規作成** を選択し、 **監視対象資産** を入力します。   
     
-    1.  Review the options that you entered in the previous steps.
+    5.  **場所** リストで、 **米国東部** リージョンを選択します。
     
-    1. Select **Create**.
+    6.  **作成** を選択します。
 
-1.  Wait for the creation task to complete before you move forward with this lab.
+7.  演習を進める前に、作成タスクが完了するまで待ちます。
 
-1.  In the left navigation pane of the portal, select **Resource groups**.
+8.  ポータルの左側のナビゲーション ウインドウで、**リソース グループ** を選択します。 
 
-1.  In the **Resource groups** blade, select the **MonitoredAssets** resource group that you created earlier in this lab.
+9.  **リソース グループ** ブレードで、 この実習ラボで前に作成した **MonitoredAssets** リソース グループを選択します。  
 
-1. In the **MonitoredAssets** blade, select the **instrm\*** Application Insights account that you created earlier in this lab.
+10. **MonitoredAssets** ブレードで、この実習ラボで前に作成した **instrm\*** アプリケーション インサイト アカウントを選択します。  
 
-1. In the **Application Insights** blade, on the left side of the blade, within the **Configure** category,, select the **Properties** link.
+11. **アプリケーション インサイト** ブレードで、ブレードの左側の **構成** カテゴリ内で、 **プロパティ** リンクを選択します。     
 
-1. In the **Properties** section, observe the value of the **Instrumentation Key** field. This key is used by client applications to connect to Application Insights.
+12. **プロパティ** セクションで、**インストルメンテーション キー** フィールドの値を確認します。 このキーは、クライアント アプリケーションによって Application Insights に接続するために使われます。
 
-#### Task 3: Create an API App resource
+#### タスク 3: API アプリ リソースの作成
 
-1.  In the left navigation pane of the portal, select **+ Create a resource**.
+1.  ポータルの左側のナビゲーション ウィンドウで、 **+ リソースを作成** を選択します。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** field.
+2.  **新規** ブレードの上部にある **マーケットプレースを検索** フィールドを検索します。
 
-1.  In the search field, enter **API** and press Enter.
+3.  検索フィールドに **API** を入力し、Enter キーを押します。 
 
-1.  In the **Everything** search results blade, select the **API App** result.
+4.  **すべての** 検索結果ブレードで、 **API アプリ** の結果を選択します。
 
-1.  In the **API App** blade, select **Create**.
+5.  **API アプリ** ブレードで、**作成** を選択します。
 
-1.  In the second **API App** blade, perform the following actions:
+6.  2番目の **API アプリ** ブレードで、次のアクションを実行します。 
     
-    1.  In the **App name** field, enter **smpapi\[*your name in lowercase*\]**.
+    1.  **アプリ名** フィールドに、**smpapi\[*名前を小文字*\]** と入力します。 
     
-    1.  Leave the **Subscription** field set to its default value.
+    2.  **サブスクリプション** フィールドは既定値に設定したままにします。
     
-    1.  In the **Resource group** section, select **Use existing**, and then select **MonitoredAssets**.
+    3.  **リソース グループ** セクションで、**既存のものを使用** を選択し、**MonitoredAssets** を選択します。   
     
-    1.  Select the **App Service plan/Location** field.
+    4.  **App Services  プラン/場所**フィールドを選択します。 
 
-1.  In the **App Service plan** blade, select **Create new**.
+7.  **App Services 計画** ブレードで、**新規作成** を選択します。 
 
-1.  In the **New App Service Plan** blade, perform the following actions:
+8.  **新しいApp Services プラン** ブレードで、次の操作を実行します。 
     
-    1.  In the **App Service plan** field, enter **MonitoredPlan**.
+    5.  **App Services プラン** フィールドに、**MonitoredPlan** と入力します。 
     
-    1.  In the **Location** list, select the **East US** location.
+    6.  **場所** リストで、**米国東部** の場所を選択します。 
     
-    1.  Set the **Pricing tier** field to the value **S1 Standard**.
+    7.  **価格レベル** フィールドを値 **(S1)** に設定します。   
     
-    1.  Select **OK**.
+    8.  **OK** を選択します。
 
-1.  Back in the **Api App** blade, select the **Application Insights** field.
+9.  **Api アプリ** ブレードに戻り、**アプリケーションインサイト** フィールドを選択します。   
 
-1. In the **Application Insights** blade, perform the following actions:
+10. **アプリケーション インサイト** ブレードで、次の操作を実行します。 
     
-    1.  In the **Application Insights** section, select **Enable**.
+    9.  **アプリケーション インサイト サイト拡張機能** セクションで、**有効にする** を選択します。 
     
-    1. In the **Change your resource** section, select **Select existing resource** and then select the **instrm\*** Application Insights account that you created earlier in this lab.
+    10. **アプリケーションインサイト リソースへのリンク** セクションで、**既存のリソースを選択** を選択し、この実習ラボで前に作成した **instrm\*** アプリケーション インサイト アカウントを選択します。   
     
-    1. In the **Instrument your application** section, select the **.NET Core** tab and then select **Recommended**.
-
-    1. In the **Profiler** section, select **On**.
-
-    1. In the **Snapshot debugger** section, select **On**.
-
-    1. In the **SQL Commands** section, select **On**.
+    11. **アプリケーションをインストゥルメント** セクションで **NET コア** タブを選択し、 **推奨** を選択します。
     
-    1. Select **Apply**.
+    12. **適用** を選択します。
 
-1. Back in the **Api App** blade, select **Create**.
+11. **Api アプリ** ブレードに戻る場合は、 **作成** を選択します。   
 
-1. Wait for the creation task to complete before you move forward with this lab.
+12. 演習を進める前に、作成タスクが完了するまで待ちます。
 
-1. In the left navigation pane of the portal, select **Resource groups**.
+13. ポータルの左側のナビゲーション ウインドウで、 **リソース グループ** を選択します。
 
-1. In the **Resource groups** blade, select the **MonitoredAssets** resource group that you created earlier in this lab.
+14. **リソース グループ** ブレードで、 この実習ラボで前に作成した **MonitoredAssets** リソース グループを選択します。
 
-1. In the **MonitoredAssets** blade, select the **smpapi\*** API app you that created earlier in this lab.
+15. **MonitoredAssets** ブレードで、 この実習ラボで前に作成した **smpapi\*** API アプリを選択します。  
 
-1. In the **App Service** blade, on the left side of the blade, within the **Settings** category, select the **Configuration** link.
+16. **App Services ** ブレードで、ブレードの左側にある **設定** カテゴリ内で、**アプリケーション設定** リンクを選択します。   
 
-1.  In the **Configuration** section, perform the following actions:
+17. **アプリケーション設定** セクションで、APIの **アプリケーション設定** の一覧が表示されるまで下にスクロールします。
+
+18. APIに関連付けられているシークレットを表示するには、 **値を表示** を選択します。
+
+19. **APPINSIGHTS\_インストルメンテーションキー** キーに対応する値を確認します。 この値は、API アプリ リソースの構築時に自動的に設定されました。
+
+20. **App Services ** ブレードで、 **設定** カテゴリ内のブレードの左側 で、 **プロパティ** リンクを選択 します。
+
+21. **プロパティ** セクションで、 **URL** フィールドの値を記録します。 この値は、ラボの後半でこの値を使用して、API に対する要求を行います。
+
+#### タスク 4: API アプリの自動スケール オプションを構成する
+
+1.  **App Services** ブレードで、ブレードの左側にある **設定** カテゴリ内で **スケール アウト** リンクを選択します。   
+
+2.  **スケール アウト** セクションで、次の操作を実行します。 
     
-    1.  Select the **Application settings** tab.
-
-    1.  Select **Show Values** to view the secrets associated with your API.
-
-    1.  Observe the value corresponding to the **APPINSIGHTS\_INSTRUMENTATIONKEY** key. This value was set automatically when you built your API App resource.
-
-1. In the **App Service** blade, on the left side of the blade within the **Settings** category, select the **Properties** link.
-
-1. In the **Properties** section, record the value of the **URL** field. You will use this value later in the lab to make requests against the API.
-
-#### Task 4: Configure API App auto-scale options
-
-1.  In the **App Service** blade, on the left side of the blade, within the **Settings** category, select the **Scale out (App Service Plan)** link.
-
-1.  In the **Scale out** section, perform the following actions:
+    1.  **編集を有効にする** を選択する
     
-    1.  Select **Enable autoscale**.
+    2.  **自動スケール設定名** フィールドに、**ComputeScaler** と入力 します。
     
-    1.  In the **Autoscale setting name** field, enter **ComputeScaler**.
+    3.  **リソース グループ** の一覧で、**監視対象資産** を選択します。   
     
-    1.  In the **Resource group** list, select **MonitoredAssets**.
+    4.  **縮尺モード** セクションで、**メトリックに基づくスケール** を選択します。   
     
-    1.  In the **Scale mode** section, select **Scale based on a metric**.
+    5.  **インスタンスの制限** セクション内の **最小** フィールドに、**2** と入力します。
     
-    1.  In the **Minimum** field within the **Instance limits** section, enter **2**.
+    6.  **インスタンスの制限** セクション内の **最大** フィールドに、 **8** と入力します。
     
-    1.  In the **Maximum** field within the **Instance limits** section, enter **8**.
+    7.  **インスタンスの制限** セクション内の **既定** フィールドで、 **3** と入力します。
     
-    1.  In the **Default** field within the **Instance limits** section, enter **3**.
+    8.  **+ 規則の追加** を選択します。表示される **縮尺 ルール** ウインドウで、すべてのフィールドを既定値に設定したままにし、 **追加** を選択します。   
     
-    1.  Select **+ Add a rule**. In the **Scale rule** window that appears, leave all fields set to their default values and then select **Add**.
+    9.  ページの上部にある **保存** をクリックします。
+
+3.  この演習を進める前に、保存操作が完了するのを待ちます。
+
+#### 復習
+
+この演習では、演習の残りの部分で使用するリソースを作成しました。
+
+### エクササイズ 2: ASP.NETコアWeb API アプリケーションの構築とデプロイ
+
+#### タスク 1: .NET Core Web API プロジェクトの構築
+
+1.  タスク バーで、 **Visual Studio コード** アイコンを選択します。
+
+2.  **ファイル** メニューで、 **フォルダを開く** を選択します。   
+
+3.  開くファイル エクスプローラ ウインドウで、 **すべてのファイル (F):Labfiles\\05\\Starter\\Api** に移動し、 **フォルダの選択** を選択します。
+
+4.  Visual Studio コード ウインドウで、コンテキスト メニューにアクセスするか、 **エクスプローラ** ペインを右クリックし、 **ターミナルで開く** を選択します。
+
+5.  openコマンド プロンプトで次のコマンドを入力し、Enterキーを押して現在のディレクトリに **SimpleApi** という名前の新しいNET Core Web API アプリケーションを作成します。
+
+dotnet new webapi --output .--name SimpleApi
+
+6.  コマンド プロンプトで、次のコマンドを入力し、Enter キーを押して、NuGet から現在のプロジェクトに **Microsoft.ApplicationInsights.AspNetCore** パッケージの **2.6.1** バージョンを追加します。
+
+dotnet add package Microsoft.ApplicationInsights.AspNetCore --version 2.6.1
+
+7.  コマンド プロンプトで次のコマンドを入力し、Enter キーを押して NET Core Web アプリケーションをビルドします。
+
+dotnet build
+
+#### タスク 2: HTTPS を無効にしてアプリケーション インサイトを使用するようにアプリケーション コードを更新する
+
+1.  **Visual Studio コード** ウインドウの左側にある **エクスプローラ** ペインで、**Program.cs** ファイルをダブルクリックしてエディタでファイルを開きます。   
+
+2.  エディタの **Program** クラスで、次のコード ブロックを **20** 行目で見つけます。
+
+public static IWebHostBuilder CreateWebHostBuilder(string\[\] args) =\>
+
+WebHost.CreateDefaultBuilder(args)
+
+.UseStartup\<Startup\>();
+
+3.  プロジェクトの **アプリケーション インサイト** テレメトリを有効にする次のコード ブロックに、そのコード ブロックを置き換えます。
+
+public static IWebHostBuilder CreateWebHostBuilder(string\[\] args) =\>
+
+WebHost.CreateDefaultBuilder(args)
+
+.UseStartup\<Startup\>()
+
+.UseApplicationInsights();
+
+4.  **Program.cs** ファイルを **保存** します。
+
+5.  **Visual Studio コード** ウインドウの左側にある **エクスプローラ** ウインドウで、**Startup.cs** ファイルをダブルクリックしてエディタでファイルを開きます。     
+
+6.  エディタの **Program** クラスで、**44** 行の次のコード行を検索して削除します。 
+
+app.UseHttpsRedirection();
+
+> > **注記**： このコード行は、API アプリにHTTPSを強制的に使用します。この演習では、これは不要です。
+
+7.  **Startup.cs** ファイルを **保存** します。
+
+<!-- end list -->
+
+8.  画面の下部にあるコマンド プロンプトに注目してください。コマンド プロンプトで次のコマンドを入力し、Enter キーを押して.NET Core Webアプリケーションをビルドします。
+
+dotnet build
+
+#### タスク 3: API アプリケーションをローカルでテスト
+
+1.  画面の下部にあるコマンド プロンプトに注目してください。コマンド プロンプトで次のコマンドを入力し、Enter キーを押して.NET Core Webアプリケーションを実行します。
+
+dotnet run
+
+2.  タスク バーで、**Microsoft Edge** アイコンを選択します。
+
+3.  開いているブラウザ ウインドウで、ポート **5000** の **localhost** でホストされているテスト アプリケーションの **/api/values** 相対パスに移動します。
     
-    1.  At the top of the section, select **Save**.
+    **注記**： 完全なURLはhttp://localhost:5000/api/values です
 
-1.  Wait for the save operation to complete before you move forward with this lab.
-
-#### Review
-
-In this exercise, you created the resources that you will use for the remainder of the lab.
-
-### Exercise 2: Build and deploy an .NET Core Web API application
-
-#### Task 1: Build a .NET Core Web API project
-
-1.  On the taskbar, select the **Visual Studio Code** icon.
-
-1.  On the **File** menu, select **Open Folder**.
-
-1.  In the File Explorer pane that opens, go to **Allfiles (F):\\Allfiles\\Labs\\05\\Starter\\Api**, and then select **Select Folder**.
-
-1.  In the Visual Studio Code window, access the context menu or right-click the **Explorer** pane and then select **Open in Terminal**.
-
-1.  In the open command prompt, enter the following command and press Enter to create a new .NET Core Web API application named **SimpleApi** in the current directory:
-
-    ```
-    dotnet new webapi --output . --name SimpleApi
-    ```
-
-1.  In the command prompt, enter the following command and press Enter to add the **2.7.1** version of the **Microsoft.ApplicationInsights.AspNetCore** package from NuGet to the current project:
-
-    ```
-    dotnet add package Microsoft.ApplicationInsights.AspNetCore --version 2.7.1
-    ```
-
-1.  In the command prompt, enter the following command and press Enter to build the .NET Core web application:
-
-    ```
-    dotnet build
-    ```
+4.  同じブラウザ ウインドウで、ポート **5000** の **localhost** でホストされているテスト アプリケーションの **/api/values/7** 相対パスに移動します。
     
-#### Task 2: Update application code to disable HTTPS and use Application Insights
+    **注記**：完全なURLはhttp://localhost:5000/api/values/7 です。
 
-1.  On the left side of the **Visual Studio Code** window, in the **Explorer** pane, double-click the **Program.cs** file to open the file in the editor.
+5.  http://localhost:5000/api/values/7 アドレスを表示するブラウザウインドウを閉じます。
 
-1.  In the editor, in the **Program** class, locate the following block of code at line **20**:
+6.  現在実行中の **Visual Studio Code** アプリケーションを閉じます。
 
-    ```
-    public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
-    ```
-1.  Replace that block of code with the following block of code that enables **Application Insights** telemetry for the project:
+#### タスク 4: アプリケーション インサイトでのメトリックの表示
 
-    ```
-    public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseApplicationInsights();
-    ```
+1.  **Azure potal** を表示する、現在開いているブラウザ ウインドウに戻ります。
 
-1.  **Save** the **Program.cs** file.
+2.  ポータルの左側で、**リソース グループ** を選択します。
 
-1.  On the left side of the **Visual Studio Code** window, in the **Explorer** pane, double-click the **Startup.cs** file to open the file in the editor.
+3.  **リソース グループ** ブレードで、 この実習ラボで前に作成した **MonitoredAssets** リソース グループを見つけて選択します。 
 
-1.  In the editor, in the **Program** class, locate and delete the following line of code at line **43**:
+4.  **MonitoredAssets** ブレードで、この実習ラボで前に作成した**instrm\*** アプリケーション インサイト アカウントを選択します。
 
-    ```
-    app.UseHttpsRedirection();
-    ```
+5.  **アプリケーション インサイト** ブレードにおいて、ブレードの中央にあるタイルで、表示されるメトリックを確認します。 具体的には、発生した **サーバー** **要求** の数と平均 **サーバー応答時間** を確認します。     
 
-    > **Note**: This line of code forces the API App to use HTTPS. For this lab, this is unnecessary.
+#### タスク 5: API アプリにアプリケーションをデプロイする
 
-1.  **Save** the **Startup.cs** file.
+1.  タスク バーで、**Visual Studio コード** アイコンを選択します。
 
-1.  Locate the command prompt at the bottom of the screen. In the command prompt, enter the following command and press Enter to build the .NET Core web application.
+2.  **ファイル** メニューで、 **フォルダを開く** を選択します。
 
-    ```
-    dotnet build
-    ```
+3.  開くファイル エクスプローラ ウインドウで、 **すべてのファイル (F):Labfiles\\StarterAPI** に移動し、 **フォルダの選択** を選択します。
 
-#### Task 3: Test an API application locally
+4.  Visual Studio コード ウインドウで、コンテキスト メニューにアクセスするか、 **エクスプローラ** ペインを右クリックし、 **ターミナルで開く** を選択します。
 
-1.  Locate the command prompt at the bottom of the screen. In the command prompt, enter the following command and press Enter to execute the .NET Core web application.
+5.  openコマンド プロンプトで次のコマンドを入力し、Enterキーを押して Azure CLI にサインインします。
 
-    ```
-    dotnet run
-    ```
-1.  On the taskbar, select the **Microsoft Edge** icon.
+az login
 
-1.  In the open browser window, navigate to the **/api/values** relative path of your test application hosted at **localhost** on port **5000**.
+6.  表示されるブラウザー ウィンドウで、次の操作を実行します：
     
-    > **Note**: The full URL is http://localhost:5000/api/values
-
-1.  In the same browser window, navigate to the **/api/values/7** relative path of your test application hosted at **localhost** on port **5000**.
+    1.  Microsoft アカウントの **電子メール アドレス** を入力します。
     
-    >  **Note**: The full URL is http://localhost:5000/api/values/7
-
-1.  Close the browser window displaying the http://localhost:5000/api/values/7 address.
-
-1.  Close the currently running **Visual Studio Code** application.
-
-#### Task 4: View metrics in Application Insights
-
-1.  Return to your currently open browser window displaying the **Azure portal**.
-
-1.  On the left side of the portal, select **Resource groups**.
-
-1.  In the **Resource groups** blade, locate and select the **MonitoredAssets** resource group that you created earlier in this lab.
-
-1.  In the **MonitoredAssets** blade, select the **instrm\*** Application Insights account that you created earlier in this lab.
-
-1.  In the **Application Insights** blade, in the tiles located in the center of the blade, observe the metrics displayed. Specifically, observe the number of **server** **requests** that have occurred and the average **server response time**.
-
-#### Task 5: Deploy an application to API App
-
-1.  On the taskbar, select the **Visual Studio Code** icon.
-
-1.  On the **File** menu, select **Open Folder**.
-
-1.  In the File Explorer pane that opens, go to **Allfiles (F):\\Allfiles\\Labs\\Starter\\Api**, and then select **Select Folder**.
-
-1.  In the Visual Studio Code window, access the context menu or right-click the **Explorer** pane, and then select **Open in Terminal**.
-
-1.  In the open command prompt, enter the following command and press Enter to sign in to the Azure CLI:
-
-    ```
-    az login
-    ```
-
-1.  In the browser window that appears, perform the following actions:
+    2.  **次へ** を選択します。
     
-    1.  Enter the **email address** for your Microsoft account.
+    3.  Microsoft アカウントの **パスワード** を入力します。 
     
-    1.  Select **Next**.
+    4.  **サインイン** を選択します。
+
+7.  現在開いている **コマンド プロンプト** アプリケーションに戻ります。 サインイン プロセスが完了するのを待ちます。
+
+8.  コマンド プロンプトで次のコマンドを入力し、Enterキーを押して、 **MonitoredAssets** リソース グループ内のすべての **アプリ** を一覧表示します。
+
+az webapp list --resource-group MonitoredAssets
+
+9.  次のコマンドを入力し、Enterキーを押すと、プレフィックス **smpapi\*** を持つ **アプリ** が見つかります。
+
+az webapp list --resource-group MonitoredAssets --query "\[?starts\_with(name, 'smpapi')\]"
+
+10. 次のコマンドを入力し、Enter キーを押して、プレフィックス **smpapi\*** を持つ単一のアプリの名前のみを印刷します。
+
+az webapp list --resource-group MonitoredAssets --query "\[?starts\_with(name, 'smpapi')\].{Name:name}" --output tsv
+
+11. 次のコマンドを入力し、Enter キーを押して現在のディレクトリを、デプロイファイルを含む **すべてのファイル に変更します(F):LABfiles\\05\\Starter** ディレクトリに変更します。 
+
+cd F:\\Labfiles\\05\\Starter\\
+
+12. 次のコマンドを入力し、Enterキーを押して、この実習ラボで作成済みの **API アプリ** に **api.zip** ファイルをデプロイします。
+
+az webapp deployment source config-zip --resource-group MonitoredAssets --src api.zip --name \<name-of-your-api-app\>
+
+> > **注記**： この演習で前に作成したAPI アプリの名前に、 **\<api-appの名前\>** プレースホルダを置き換えます。このアプリ名は、以前のステップで最近クエリしました。
+
+13. この演習を進める前に、展開が完了するのを待ちます。
+
+14. 現在実行中の **Visual Studio Code** アプリケーションを閉じます。
+
+15. ポータルの左側のナビゲーション ウインドウで、 **リソース グループ** を選択します。
+
+16. **リソース グループ** ブレードで、 この実習ラボで前に作成した **MonitoredAssets** リソース グループを選択します。
+
+17. **MonitoredAssets** ブレードで、 この実習ラボで前に作成した **smpapi\*** API アプリを選択します。
+
+18. **App Services ** ブレードで、ブレードの上部にある **参照** を選択します。 
+
+19. 新しいブラウザ ウインドウまたはタブが開き、**404 (見つかりません)** エラーが返されます。ブラウザのアドレス バーで、現在のURLの末尾にサフィックス **/api/値** を追加してURL を更新し、Enterキーを押します。
+
+> > **注記**： たとえば、URL がhttp://smpapistudent.azurewebsites.net の場合、新しい URL はhttp://smpapistudent.azurewebsites.net/api/values となります。
+
+20. API を使用した結果として返される JSON 配列を観察します。
+
+#### 復習
+
+この演習では、ASP.NET Core を使用してAPIを作成し、アプリケーション メトリックをアプリケーション インサイトにストリーミングするように構成しました。次に、アプリケーション インサイト ダッシュボードを使用して、API アプリとアプリで実行されている API に関するパフォーマンスの詳細を表示しました。
+
+### エクササイズ 3: .NET Core を使ったクライアント アプリケーションの構築
+
+#### タスク 1: .NET Core コンソール プロジェクトの構築
+
+1.  タスク バーで、**Visual Studio コード** アイコンを選択します。
+
+2.  **ファイル** メニューで、 **フォルダを開く** を選択します。
+
+3.  開くファイル エクスプローラ ウインドウで、 **すべてのファイル (F):Labfiles\\Starterコンソール** に移動し、 **フォルダの選択** を選択します。
+
+4.  Visual Studio コード ウインドウで、コンテキスト メニューにアクセスするか、 **エクスプローラ** ペインを右クリックし、 **ターミナルで開く** を選択します。
+
+5.  open コマンド プロンプトで、次のコマンドを入力し、Enter キーを押して、現在の ディレクトリに **SimpleConsole** という名前の新しい .NET Core コンソール アプリケーションを作成します。
+
+dotnet new console --output .--name SimpleConsole
+
+6.  コマンド プロンプトで次のコマンドを入力し、Enterキーを押して、NuGetから現在のプロジェクトに **Microsoft.Net.Http** パッケージの **2.2.29** バージョンを追加します。
+
+dotnet add package Microsoft.Net.Http --version 2.2.29
+
+7.  コマンド プロンプトで次のコマンドを入力し、Enterキーを押してNuGetから **Polly パッケージの** 7.0.2 **バージョンを** 現在のプロジェクトに追加します。
+
+dotnet add package Polly --version 7.0.2
+
+8.  コマンド プロンプトで次のコマンドを入力し、Enterキーを押してNET Core Webアプリケーションをビルドします。
+
+dotnet build
+
+#### タスク 2: HTTPクライアント コードの追加
+
+1.  **Visual Studio コード** ウインドウの左側にある **エクスプローラ** ペインで、**Program.cs** ファイルをダブルクリックしてエディタでファイルを開きます。
+
+2.  エディタ で、**System.Net.Http** 名前空間の次の **using** ブロックを追加 します。   
+
+using System.Net.Http;
+
+3.  エディタで、**System.Threading.Tasks** 名前空間の次の **using** ロック を追加します。   
+
+System.Threading.Tasks を使用します；
+
+4.  **SimpleConsole** の名前空間で、次のクラスを **7** 行目で見つけます。 
+
+class Program
+
+{
+
+static void Main(string\[\] args)
+
+{
+
+Console.WriteLine("Hello World\!");
+
+}
+
+}
+
+5.  **プログラム** クラス全体を次の実装に置き換えます。
+
+class Program
+
+{
+
+private const string \_api = "";
+
+private static HttpClient \_client = new HttpClient(){ BaseAddress = new Uri(\_api) };
+
+static void Main(string\[\] args)
+
+{
+
+Run().Wait();
+
+}
+
+static async Task Run()
+
+{
+
+}
+
+}
+
+6.  **9** 行目で **\_api** 定数を見つけます:
+
+private const string \_api = "";
+
+7.  この演習で前に記録したAPI アプリの **URL** に変数の値を設定して、 **\_api** 定数を更新します。
+
+> > **注記**： たとえば、URL がhttp://smpapistudent.azurewebsites.net の場合、新しいコード行は次のようになります: プライベート const 文字列 \_api =  "http://smpapistudent.azurewebsites.net"。
+
+8.  **Run** メソッド内で、次のコード行を追加して、 **/api/values/** の相対パスに対して文字列を渡す **HttpClient.GetStringAsync** メソッドを非同期的に呼び出します。 
+
+string response = await \_client.GetStringAsync("/api/values/");
+
+9.  **Run** メソッド内で、**GET** 要求からの応答をコンソールに書き出すコード行を追加します。
+
+Console.WriteLine(response);
+
+10. **Program.cs** ファイルには、次のコードが必要です。 
+
+using System;
+
+using System.Net.Http;
+
+System.Threading.Tasks を使用します；
+
+namespace SimpleConsole
+
+{
+
+class Program
+
+{
+
+private const string \_api = "http://\<your-api-name\>.azurewebsites.net ";
+
+private static HttpClient \_client = new HttpClient(){ BaseAddress = new Uri(\_api) };
+
+static void Main(string\[\] args)
+
+{
+
+Run().Wait();
+
+}
+
+static async Task Run()
+
+{
+
+string response = await \_client.GetStringAsync("/api/values/");
+
+Console.WriteLine(response);
+
+}
+
+}
+
+}
+
+11. **Program.cs** ファイルを**保存**します。
+
+#### タスク 3: コンソール アプリケーションをローカルでテストする
+
+1.  画面の下部にあるコマンド プロンプトで次のコマンドを入力し、Enterキーを押して .NET Core Web アプリケーションを実行します。
+
+dotnet run
+
+2.  アプリケーションがAzureでAPI アプリを正常に呼び出し、この実習で前に説明したのと同じJSONアレイを返すことに注意してください。結果は、次のJSONコンテンツと同様に表示されます。
+
+\["value1","value2"\]
+
+3.  **Azure potal** を表示する、現在開いているブラウザ ウインドウに戻ります。
+
+4.  ポータルの左側で、**リソース グループ** を選択します。
+
+5.  **リソース グループ** ブレードで、 この実習ラボで前に作成した **MonitoredAssets** リソース グループを見つけて選択します。
+
+6.  **MonitoredAssets** ブレードで、 この実習ラボで前に作成した **smpapi\*** API アプリを選択します。
+
+7.  **App Services** ブレードで、ブレードの上の **停止** を選択してAPI アプリの実施を停止します。
+
+8.  **Web アプリの停止** 確認ダイアログ ボックスで **はい** を選択します。
+
+9.  タスク バーで、 **Visual Studio コード** アイコンを選択します。
+
+10. **ファイル** メニューで、 **フォルダを開く** を選択します。
+
+11. 開くファイル エクスプローラ ウインドウで、 **すべてのファイル (F):Labfiles\\Starterコンソール** に移動し、 **フォルダの選択** を選択します。
+
+12. Visual Studio コード ウインドウで、コンテキスト メニューにアクセスするか、 **エクスプローラ** ペインを右クリックし、 **ターミナルで開く** を選択します。
+
+13. open コマンド プロンプトで次のコマンドを入力し、Enterキーを押して.NET Core Webアプリケーションを実行します。
+
+dotnet run
+
+14. アプリケーションの実行が失敗し、次の例外メッセージに似た **HttpRequestException** メッセージが表示されます。
+
+System.Net.Http.HttpRequestException: 応答ステータス コードは示しません
+
+成功：403 (サイトが無効)。
+
+at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+
+at System.Net.Http.HttpClient.GetStringAsyncCore(Task\`1 getTask)
+
+at SimpleConsole.Program.Run() in F:\\Labfiles\\Starter\\Console\\Program.cs:line 20
+
+> > **注記**：この例外は、API アプリが使用できなくなったために発生します。
+
+#### タスク 4: Pollyを使用して再試行ロジックを追加する
+
+1.  **Visual Studio コード** ウインドウの左側にある **エクスプローラ** ウインドウで、**PollyHandler.cs** ファイルをダブル クリックしてエディタでファイルを開きます。     
+
+2.  **PollyHandler** クラス内で、**13～24** 行目を確認します。 これらのコード行は、**NET Foundation** の **Polly** ライブラリを使用して、失敗した HTTP 要求を5分ごとに再試行する再試行ポリシーを作成します。   
+
+3.  **Visual Studio コード** ウインドウの左側にある **エクスプローラ** ペインで、 **Program.cs** ファイルをダブルクリックしてエディタでファイルを開きます。
+
+4.  **10** 行目で **\_client** 定数を見つける: 
+
+private static HttpClient \_client = new HttpClient(){ BaseAddress = new Uri(\_api) };
+
+5.  **PollyHandler** クラスの新しいインスタンスを使用するように **HttpClient** コンストラクタを更新して **\_client** 定数を更新します。 
+
+private static HttpClient \_client = new HttpClient(new PollyHandler()){ BaseAddress = new Uri(\_api) };
+
+6.  **Program.cs** ファイルを **保存** します。
+
+#### タスク 5: 再試行ロジックの検証
+
+1.  画面の下部にあるコマンド プロンプトで次のコマンドを入力し、Enterキーを押して .NET Core Web アプリケーションを実行します。
+
+dotnet run
+
+2.  HTTP要求の実行は引き続き失敗し、5秒ごとに再試行されます。アプリケーションの障害が発生している間は、コンソールで次のメッセージが表示されます。
+
+試行に失敗しました
+
+3.  コンソールアプリケーションを実行したままにします。API アプリが成功するまで、API アプリに無限にアクセスしようとします。
+
+4.  **Azure potal** を表示する、現在開いているブラウザ ウインドウに戻ります。
+
+5.  ポータルの左側で、 **リソース グループ** を選択します。
+
+6.  **リソース グループ** ブレードで、 この実習ラボで前に作成した **MonitoredAssets** リソース グループを見つけて選択します。
+
+7.  **MonitoredAssets** ブレードで、 この実習ラボで前に作成した **smpapi\*** API アプリを選択します。
+
+8.  **App Services** ブレードで、ブレードの上の **開始** を選択してAPI アプリの実施を再開します。
+
+9.  **Web アプリの停止** 確認ダイアログ ボックスで **はい** を選択します。
+
+10. 現在実行中の **Visual Studio Code** アプリケーションに戻ります。
+
+11. アプリケーションが最終的にAzureでAPI アプリを正常に呼び出し、この実習で前に説明したのと同じJSONアレイを返すことに注意してください。結果は、次のJSONコンテンツのようになります。
+
+\["value1","value2"\]
+
+12. 現在実行中の **Visual Studio Code** アプリケーションを閉じます。
+
+#### 復習
+
+この演習では、条件付き再試行ロジックを使用してAPIにアクセスするコンソール アプリケーションを作成しました。API アプリが利用可能かどうかにかかわらず、アプリケーションは引き続き動作します。
+
+### エクササイズ 4: テスト API アプリの読み込み
+
+#### タスク 1: API アプリでパフォーマンス テストを実行する
+
+1.  **Azure potal** を表示する、現在開いているブラウザ ウインドウに戻ります。
+
+2.  ポータルの左側で、 **リソース グループ** を選択します。
+
+3.  **リソース グループ** ブレードで、 この実習ラボで前に作成した **MonitoredAssets** リソース グループを見つけて選択します。
+
+4.  **MonitoredAssets** ブレードで、 この実習ラボで前に作成した **smpapi\*** API アプリを選択します。
+
+<!-- end list -->
+
+4.  **App Services** ブレードで、**開発ツール** カテゴリ内のブレードの左側で、 **パフォーマンス テスト** を選択します。     
+
+<!-- end list -->
+
+5.  **パフォーマンス テスト** セクションの上部にある **新規** を選択します。 
+
+6.  **新しいパフォーマンス テスト** ブレードで、次の操作を実行します。 
     
-    1.  Enter the **password** for your Microsoft account.
+    1.  **名前** フィールドに **LoadTest** と入力します。   
     
-    1.  Select **Sign in**.
-
-1.  Return to the currently open **command prompt** application. Wait for the sign-in process to finish.
-
-1.  At the command prompt, enter the following command and press Enter to list all the **apps** in your **MonitoredAssets** resource group:
-
-    ```
-    az webapp list --resource-group MonitoredAssets
-    ```
-
-1.  Enter the following command and press Enter to find the **apps** that have the prefix **smpapi\***:
-
-    ```
-    az webapp list --resource-group MonitoredAssets --query "[?starts_with(name, 'smpapi')]"
-    ```
-
-1. Enter the following command and press Enter to print out only the name of the single app that has the prefix **smpapi\***:
-
-    ```
-    az webapp list --resource-group MonitoredAssets --query "[?starts_with(name, 'smpapi')].{Name:name}" --output tsv
-    ```
-
-1. Enter the following command and press Enter to change the current directory to the **Allfiles (F):\\Allfiles\\Labs\\05\\Starter** directory that contains the deployment files:
-
-    ```
-    cd F:\Allfiles\Labs\05\Starter\
-    ```
-
-1. Enter the following command and press Enter to deploy the **api.zip** file to the **API app** that you created earlier in this lab:
-
-    ```
-    az webapp deployment source config-zip --resource-group MonitoredAssets --src api.zip --name <name-of-your-api-app>
-    ```
-
-    > **Note**: Replace the **\<name-of-your-api-app\>** placeholder with the name of the API app that you created earlier in this lab. You recently queried this app’s name in the previous steps.
-
-1. Wait for the deployment to complete before you move forward with this lab.
-
-1. Close the currently running **Visual Studio Code** application.
-
-1. In the left navigation pane of the portal, select **Resource groups**.
-
-1. In the **Resource groups** blade, select the **MonitoredAssets** resource group that you created earlier in this lab.
-
-1. In the **MonitoredAssets** blade, select the **smpapi\*** API app that you created earlier in this lab.
-
-1. In the **App Service** blade, select **Browse** at the top of the blade.
-
-1. A new browser window or tab will open and return a **404 (Not Found)** error. In the browser address bar, update the URL by appending the suffix **/api/values** to the end of the current URL and then press Enter.
-
-    > **Note**: For example, if your URL is http://smpapistudent.azurewebsites.net, the new URL would be http://smpapistudent.azurewebsites.net/api/values.
-
-1. Observe the JSON array that is returned as a result of using the API.
-
-#### Review
-
-In this exercise, you created an API by using ASP.NET Core and configured it to stream application metrics to Application Insights. You then used the Application Insights dashboard to view performance details about your API App and the API running in the app.
-
-### Exercise 3: Build a client application by using .NET Core
-
-#### Task 1: Build a .NET Core console project
-
-1.  On the taskbar, select the **Visual Studio Code** icon.
-
-1.  On the **File** menu, select **Open Folder**.
-
-1.  In the File Explorer pane that opens, go to **Allfiles (F):\\Allfiles\\Starter\\Console**, and then select **Select Folder**.
-
-1.  In the Visual Studio Code window, access the context menu or right-click the **Explorer** pane, and then select **Open in Terminal**.
-
-1.  In the open command prompt, enter the following command and press Enter to create a new .NET Core console application named **SimpleConsole** in the current directory:
-
-    ```
-    dotnet new console --output . --name SimpleConsole
-    ```
-
-1.  In the command prompt, enter the following command and press Enter to add the **7.1.0** version of the **Polly** package from NuGet to the current project:
-
-    ```
-    dotnet add package Polly --version 7.1.0
-    ```
-
-1.  In the command prompt, enter the following command and press Enter to build the .NET Core web application:
-
-    ```
-    dotnet build
-    ```
-
-#### Task 2: Add HTTP client code
-
-1.  On the left side of the **Visual Studio Code** window, in the **Explorer** pane, double-click the **Program.cs** file to open the file in the editor.
-
-1.  In the editor, add the following **using** block for the **System.Net.Http** namespace:
-
-    ```
-    using System.Net.Http;
-    ```
-
-1.  In the editor, add the following **using** block for the **System.Threading.Tasks** namespace:
-
-    ```
-    using System.Threading.Tasks;
-    ```
-
-1.  In the **SimpleConsole** namespace, locate the following class at line **7**:
-
-    ```
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
-    }
-    ```
-
-1.  Replace the entire **Program** class with the following implementation:
-
-    ```
-    class Program
-    {
-        private const string _api = "";
-        private static HttpClient _client = new HttpClient(){ BaseAddress = new Uri(_api) };
+    2.  **読み込み元の生成** リストで、 **米国東部 (Web アプリの場所)** を選択します。
     
-        static void Main(string[] args)
-        {
-            Run().Wait();
-        }
+    3.  **経費の合計** フィールドで、 **1000** と入力します。
     
-        static async Task Run()
-        {
+    4.  **期間** フィールドに、 **10** と入力します。   
     
-        }
-    }
-    ```
+    5.  **使用してテストを構成する** を選択します。 
 
-1.  Locate the **\_api** constant at line **9**:
-
-    ```
-    private const string _api = "";
-    ```
-
-1.  Update the **\_api** constant by setting the value of the variable to the **URL** of the API app you recorded earlier in this lab:
-
-    > **Note**: For example, if your URL is http://smpapistudent.azurewebsites.net, the new line of code will be: private const string \_api = "http://smpapistudent.azurewebsites.net";
-
-1.  Within the **Run** method, add the following line of code to asynchronously invoke the **HttpClient.GetStringAsync** method passing in a string for the relative path of **/api/values/**:
-
-    ```
-    string response = await _client.GetStringAsync("/api/values/");
-    ```
-
-1.  Within the **Run** method, add an additional line of code to write out the response from the **GET** request to the console:
-
-    ```
-    Console.WriteLine(response);
-    ```
-
-1. Your **Program.cs** file should now have the following code:
-
-    ```
-    using System;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-
-    namespace SimpleConsole
-    {
-        class Program
-        {
-            private const string _api = "http://<your-api-name>.azurewebsites.net/";
-            private static HttpClient _client = new HttpClient(){ BaseAddress = new Uri(_api) };
-        
-            static void Main(string[] args)
-            {
-                Run().Wait();
-            }
-        
-            static async Task Run()
-            {
-                string response = await _client.GetStringAsync("/api/values/");
-                Console.WriteLine(response);    
-            }
-        }
-    }
-    ```
-
-1. **Save** the **Program.cs** file.
-
-#### Task 3: Test a console application locally
-
-1.  At the bottom of the screen, in the command prompt, enter the following command and press Enter to execute the .NET Core web application.
-
-    ```
-    dotnet run
-    ```
-
-1.  Observe that the application successfully invokes the API app in Azure and returns the same JSON array that you observed earlier in this lab. Your result should appear similar to the following JSON content:
-
-    ```
-    ["value1","value2"]
-    ```
-
-1.  Return to your currently open browser window displaying the **Azure portal**.
-
-1.  On the left side of the portal, select **Resource groups**.
-
-1.  In the **Resource groups** blade, locate and select the **MonitoredAssets** resource group that you created earlier in this lab.
-
-1.  In the **MonitoredAssets** blade, select the **smpapi\*** API app that you created earlier in this lab.
-
-1.  In the **App Service** blade, select **Stop** at the top of the blade to halt the execution of the API app.
-
-1.  In the **Stop web app** confirmation dialog box, select **Yes**.
-
-1.  On the taskbar, select the **Visual Studio Code** icon.
-
-1. On the **File** menu, select **Open Folder**.
-
-1. In the File Explorer pane that opens, go to **Allfiles (F):\\Allfiles\\Labs\\05\\Starter\\Console**, and then select **Select Folder**.
-
-1. In the Visual Studio Code window, access the context menu or right-click the **Explorer** pane, and then select **Open in Terminal**.
-
-1. In the open command prompt, enter the following command and press Enter to execute the .NET Core web application.
-
-    ```
-    dotnet run
-    ```
-
-1. Observe that the application execution fails and displays a **HttpRequestException** message that is similar to the following exception message:
-
-    ```
-    System.Net.Http.HttpRequestException: Response status code does not indicate
-
-    success: 403 (Site Disabled).
-
-    at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
-
-    at System.Net.Http.HttpClient.GetStringAsyncCore(Task\`1 getTask)
-
-    at SimpleConsole.Program.Run() in F:\Allfiles\Labs\05\Starter\Console\Program.cs:line 20
-    ```
-
-    > **Note**: This exception occurs because the API app is no longer available.
-
-#### Task 4: Add retry logic by using Polly
-
-1.  On the left side of the **Visual Studio Code** window, in the **Explorer** pane double-click the **PollyHandler.cs** file to open the file in the editor.
-
-1.  Within the **PollyHandler** class, observe lines **13-24**. These lines of code use the **Polly** library from the **.NET Foundation** to create a retry policy that will retry a failed HTTP request every five minutes.
-
-1.  On the left side of the **Visual Studio Code** window, in the **Explorer** pane, double-click the **Program.cs** file to open the file in the editor.
-
-1.  Locate the **\_client** constant at line **10**:
-
-    ```
-    private static HttpClient _client = new HttpClient(){ BaseAddress = new Uri(_api) }; 
-    ```
-
-1.  Update the **\_client** constant by updating the **HttpClient** constructor to use a new instance of the **PollyHandler** class:
-
-    ```
-    private static HttpClient _client = new HttpClient(new PollyHandler()){ BaseAddress = new Uri(_api) };
-    ```
-
-1.  **Save** the **Program.cs** file.
-
-#### Task 5: Validate retry logic
-
-1.  At the bottom of the screen, in the command prompt, enter the following command and press Enter to execute the .NET Core web application.
-
-    ```
-    dotnet run
-    ```
-
-1.  Observe that the HTTP request execution continues to fail and is re-attempted every five seconds. You will observe the following message in the console while the application is failing:
-
-    ```
-    Failed Attempt
-    ```
-
-1.  Leave the console application running. It will attempt to access the API app infinitely until it is successful.
-
-1.  Return to your currently open browser window displaying the **Azure portal**.
-
-1.  On the left side of the portal, select **Resource groups**.
-
-1.  In the **Resource groups** blade, locate and select the **MonitoredAssets** resource group that you created earlier in this lab.
-
-1.  In the **MonitoredAssets** blade, select the **smpapi\*** API app that you created earlier in this lab.
-
-1.  In the **App Service** blade, select **Start** at the top of the blade to resume the API app.
-
-1.  In the **Stop web app** confirmation dialog box, select **Yes**.
-
-1. Return to the currently running **Visual Studio Code** application.
-
-1. Observe that the application finally successfully invokes the API app in Azure and returns the same JSON array that you observed earlier in this lab. Your result should resemble the following JSON content:
-
-    ```
-    ["value1","value2"]
-    ```
-
-1. Close the currently running **Visual Studio Code** application.
-
-#### Review
-
-In this exercise, you created a console application to access your API by using conditional retry logic. The application continued to work regardless of whether the API App was available.
-
-### Exercise 4: Load test API app
-
-#### Task 1: Run a performance test on an API app
-
-1.  Return to your currently open browser window displaying the **Azure portal**.
-
-1.  On the left side of the portal, select **Resource groups**.
-
-1.  In the **Resource groups** blade, locate and select the **MonitoredAssets** resource group that you created earlier in this lab.
-
-1.  In the **MonitoredAssets** blade, select the **smpapi\*** API app that you created earlier in this lab.
-
-1.  In the **App Service** blade, on the left side of the blade within the **Development Tools** category, select **Performance test**.
-
-1.  In the **Performance test** section, at the top of the section, select **New**.
-
-1.  In the **New performance test** blade, perform the following actions:
+7.  **使用したテストを構成する** ブレードで、次の操作を実行します。 
     
-    1.  In the **Name** field, enter **LoadTest**.
+    6.  **テストの種類** の一覧で、 **手動テスト** を選択します。   
     
-    1.  In the **Generate Load From** list, select **East US (Web app Location)**.
+    7.  **URL** フィールドで、サフィックス **/api/値** を現在のURLの末尾に追加してURLを更新します。 
+
+> > **注記**： たとえば、URL がhttp://smpapistudent.azurewebsites.net の場合、新しい URL はhttp://smpapistudent.azurewebsites.net/api/values となります。
+
+8.  **完了** を選択します。 
+
+<!-- end list -->
+
+8.  **新しいパフォーマンス テスト** ブレードに戻り、 **テストの実行** を選択します。   
+
+9.  **パフォーマンス テスト** セクションに戻り、**最近の実行** の一覧で、 **LoadTest** を選択します。     
+
+10. **LoadTest** ブレードで、テストが開始されるのを待ってから、演習を続行します。
+
+> > **注記**： ほとんどのロード テストでは、リソースの収集と開始に約10～15分かかります。ロード テストが開始されると自動的にリフレッシュするので、このブレードで待てます。
+
+11. ロード テストが完了するのを待ってから、演習を続行します。API アプリの使用率が増加するにつれて、ライブ チャートの更新に注意してください。
+
+> > **注記**： ロード テストには、演習の前の手順で指定した10分かかります。
+
+#### タスク 2: パフォーマンス テスト後にAzure モニタのメトリックを使用する
+
+1.  Azureポータルの左のナビゲーション ペインで、 **すべてのサービス** をクリックします。
+
+2.  **すべてのサービス** ブレードで、**モニタ** を選択します。
+
+3.  **モニタ** ブレードの左側で、 **メトリック** を選択します。   
+
+4.  **メトリック** セクションで、次の操作を実行します。
     
-    1.  In the **User Load** field, enter **1000**.
+    1.  **リソース** セクションで、 **リソースを選択** を選択します。 
     
-    1.  In the **Duration** field, enter **10**.
+    2.  **リソース グループ** リストで表示される** リソースの選択** ウインドウで **MonitoredAssets** を選択します。 次に、**リソース** リストで、**instrm\*** アプリケーション インサイト アカウント オプションを選択します。 最後に、 **適用** を選択してウインドウを閉じ、選択内容を確認します。 
     
-    1.  Select **Configure Test Using**.
-
-1.  In the **Configure test using** blade, perform the following actions:
+    3.  **標準** カテゴリの **メトリック名前空間** リストで、 **標準メトリック** を選択します。     
     
-    1.  In the **Test Type** list, select **Manual Test**.
+    4.  **メトリック** リストで、 **パフォーマンス カウンタ** カテゴリで **CPUの処理** を選択します。     
     
-    1.  In the **URL** field, update the URL by appending the suffix **/api/values** to the end of the current URL.
-
-        > **Note**: For example, if your URL is http://smpapistudent.azurewebsites.net, the new URL would be http://smpapistudent.azurewebsites.net/api/values.
-
-    1.  Select **Done**.
-
-1.  Back in the **New performance test** blade, select **Run test**.
-
-1.  Back in the **Performance test** section, in the list of **Recent runs,** select **LoadTest**.
-
-1. In the **LoadTest** blade, wait for the test to start before you proceed with the lab.
-
-    > **Note**: Most load tests take about 10 to 15 minutes to gather the resources and start. You can wait at this blade because it will automatically refresh when the load testing is started.
-
-1. Wait for the load test to finish before you proceed with the lab. Observe the live chart updating as your API app experiences increased usage.
-
-    > **Note**: The load test will take the 10 minutes you specified in the previous steps of the lab.
-
-#### Task 2: Use Azure Monitor metrics after performance test
-
-1.  In the left navigation pane of the Azure portal, select **All services**.
-
-1.  In the **All services** blade, select **Monitor**.
-
-1.  In the **Monitor** blade, on the left side of the blade, select **Metrics**.
-
-1.  In the **Metrics** section, perform the following actions:
+    5.  **集合** リストで **平均** を選択します。
     
-    1.  In the **Resource** section, select **Select a resource**.
+    6.  セクションの上部で、**過去24時間 (自動)** を選択します。  表示されるウインドウで **時間範囲** カテゴリで **過去30分** を 選択し、**適用** を選択して選択範囲を保存します。     
     
-    1.  In the **Select a resource** window that appears, in the **Resource group** list, select **MonitoredAssets**. Then, in the **Resource** list, select the **instrm\*** Application Insights account option. Finally, select **Apply** to close the window and confirm your selection.
+    7.  セクションの上部で、**ライン チャート** を選択します。  表示されるメニューで、 **面グラフ** を選択します。 
+
+5.  新しく作成したグラフを確認します。
+
+6.  セクションの上部で、 **メトリックを追加** を選択します。
+
+7.  **メトリック** セクションで、リスト内の新しいメトリック項目を使用して次のアクションを実行します。 
     
-    1.  In the **Metric Namespace** list, in the **Standard** category, select **Standard metrics (preview)**.
+    8.  **標準** カテゴリの **メトリック名前空間** リストで、 **ログベースのメトリック** を選択します。    
     
-    1.  In the **Metric** list, in the **Performance Counter** category, select **Process CPU**.
+    9.  **サーバー** カテゴリの **メトリック** ボックスで、 **サーバー応答時間** を選択します。
     
-    1.  In the **Aggregation** list, select **Avg**.
-    
-    1.  At the top of the section, select **Last 24 hours (Automatic - 5 minutes)**. In the window that appears, in the **Time range** category, select **Last 30 minutes** and then select **Apply** to save your selection.
-    
-    1.  At the top of the section, select **Line chart**. In the menu that appears, select **Area chart**.
+    10. **集合** リストで **平均** を選択します。
 
-1.  Observe your newly created chart.
+8.  更新されたグラフを確認します。グラフに表示される情報を確認します。アプリケーションの負荷が増大するにつれて、サーバーの応答時間と CPU 時間との相関関係を確認できます。
 
-1.  At the top of the section, select **Add metric**.
+#### 復習
 
-1.  In the **Metrics** section, perform the following actions with the new metric item in the list:
-    
-    1.  In the **Metric Namespace** list, in the **Standard** category, select **Log-based metrics**.
-    
-    1.  In the **Metric** list, in the **Server** category, select **Server response time**.
-    
-    1. In the **Aggregation** list, select **Avg**.
+この演習では、Azureで使用できるツールを使用して、API アプリのパフォーマンス（読み込み）テストを実行しました。ロード テストを実行した後、Azure Monitorインターフェイスでメトリックを使用してAPI アプリの動作を測定できます。
 
-1.  Observe your updated chart. Observe the information displayed in your chart. You can observe how the server response time correlates with the CPU time as load on the application increased.
+### エクササイズ 5: サブスクリプションのクリーンアップ 
 
-#### Review
+#### タスク 1: Cloud Shell を開く
 
-In this exercise, you performed a performance (load) test of your API app by using the tools available to you in Azure. After you performed the load test, you were able to measure your API app’s behavior by using metrics in the Azure Monitor interface.
+1.  Azure potalの上部で、**Cloud Shell** アイコンを選択して新しいシェル インスタンスを開きます。
 
-### Exercise 5: Clean up subscription 
+2.  **Cloud Shell** コマンド プロンプトのポータルの下部にある次のコマンドを入力し、Enter キーを押してサブスクリプション内のすべてのリソース グループを一覧表示します。
 
-#### Task 1: Open Cloud Shell
+az group list
 
-1.  At the top of the Azure portal, select the **Cloud Shell** icon to open a new shell instance.
+3.  次のコマンドを入力し、Enter キーを押して、リソース グループを削除する可能性のあるコマンドの一覧を表示します。
 
-1.  At the bottom of the portal in the **Cloud Shell** command prompt, type the following command and press Enter to list all resource groups in the subscription:
+az group delete --help
 
-    ```
-    az group list
-    ```
+#### タスク 2: リソース グループを削除する
 
-1.  Type the following command and press Enter to view a list of possible commands to delete a resource group:
+1.  次のコマンドを入力し、Enter キーを押して **MonitoredAssets** リソース グループを削除します。
 
-    ```
-    az group delete --help
-    ```
+az group delete --name MonitoredAssets --no-wait --yes
 
-#### Task 2: Delete resource groups
+2.  ポータルの下部にある **Cloud Shell** ペインを閉じます。
 
-1.  Type the following command and press Enter to delete the **MonitoredAssets** resource group:
+#### タスク 3: アクティブなアプリケーションを閉じる
 
-    ```
-    az group delete --name MonitoredAssets --no-wait --yes
-    ```
-    
-1.  Close the **Cloud Shell** pane at the bottom of the portal.
+1.  現在実行中の **Microsoft Edge** アプリケーションを閉じます。
 
-#### Task 3: Close active applications
+2.  現在実行中の **Visual Studio Code** アプリケーションを閉じます。
 
-1.  Close the currently running **Microsoft Edge** application.
+#### 復習
 
-1.  Close the currently running **Visual Studio Code** application.
-
-#### Review
-
-In this exercise, you cleaned up your subscription by removing the **resource groups** used in this lab.
+この実習では、この演習で使用する **リソース グループ** を削除してサブスクリプションをクリーンアップしました。

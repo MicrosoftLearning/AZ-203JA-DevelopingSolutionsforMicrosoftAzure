@@ -1,730 +1,705 @@
+﻿---
+ラボ:
+    title: ラボ: Azure のサービスを使用して多層ソリューションを作成する
+    タイプ: 'Answer Key'
+    ご利用ください。モジュール 6：接続して Azure を使用する、サード パーティのサービス
 ---
-lab:
-    title: 'Lab: Creating a multi-tier solution by using services in Azure'
-    type: 'Answer Key'
-    module: 'Module 6: Connect to and consume Azure, and third-party, services'
----
 
-# Lab: Creating a multi-tier solution by using services in Azure
-# Student lab answer key
+# ラボ: Azure のサービスを使用して多層ソリューションを作成する
+# 受講ラボの解答キー
 
-## Microsoft Azure user interface
+## Microsoft Azure ユーザー インターフェイス
 
-Given the dynamic nature of Microsoft cloud tools, you might experience Azure user interface (UI) changes after the development of this training content. These changes might cause the lab instructions and steps to not match up.
+Microsoft クラウド ツールのダイナミックな性質を考えると、このトレーニング コンテンツの開発後に Azure ユーザー インターフェイス (UI) の変更が発生する可能性があります。これらの変更により、演習の手順と手順が一致しない場合があります。
 
-The Microsoft Worldwide Learning team updates this training course as soon as the community brings needed changes to our attention. However, because cloud updates occur frequently, you might encounter UI changes before this training content is updated. **If this occurs, adapt to the changes and work through them in the labs as needed.**
+Microsoft ワールドワイド ラーニング チームは、コミュニティが必要な変更を行うとすぐに、このトレーニング コースを更新します。しかし、クラウド更新が頻繁に起きるため、この研修内容が更新される前に、UI の変更を経験するかも知れません。**その場合は変更に順応して、必要に応じてラボでをそれを処理してください。**
 
-## Instructions
+## 指示
 
-### Before you start
+### 開始する前に
 
-#### Sign in to the lab virtual machine
+#### ラボの仮想マシンへのサインイン
 
-Sign in to your **Windows 10** virtual machine by using the following credentials:
+  - 次の認証情報を使用して**Windows 10** 仮想マシンにサインインします。
     
--   **Username**: Admin
-
--   **Password**: Pa55w.rd
-
-> **Note**: Lab virtual machine sign-in instructions will be provided to you by your instructor.
-
-#### Review installed applications
-
-Observe the taskbar located at the bottom of your **Windows 10** desktop. The taskbar contains the icons for the applications you will use in this lab:
+      - **ユーザー名**： Admin
     
--   Microsoft Edge
+      - **パスワード**: Pa55w.rd
 
--   File Explorer
+> > **注記**： ラボ仮想マシンのサインイン手順は、インストラクターから提供されます。
 
--   Microsoft Azure Storage Explorer
+#### インストールされたアプリケーションの検討
 
-#### Download the lab files
+  - **Windows 10** デスクトップの下部にあるタスク バーを確認します。タスク バーには、このラボで使用するアプリケーションのアイコンが含まれています。
+    
+      - Microsoft Edge
+    
+      - エクスプローラ
+    
+      - Azure Storage Explorer をインストールする
 
-1.  On the taskbar, select the **Windows PowerShell** icon.
+#### 練習用ファイルをダウンロードする
 
-1.  In the PowerShell command prompt, change the current working directory to the **Allfiles (F):\\** path:
+1.  タスク バーで、 **Windows PowerShell** アイコンを選択します。
+
+2.  PowerShell コマンド プロンプトで、現在の作業ディレクトリを **Allfiles (F):\\** パスに変更します。
 
     ```
     cd F:
     ```
 
-1.  Within the command prompt, enter the following command and press Enter to clone the **microsoftlearning/AZ-203-DevelopingSolutionsforMicrosoftAzure** project hosted on GitHub into the **Allfiles (F):\\** drive:
+3.  コマンド プロンプト内で次のコマンドを入力し、Enter キーを押して、GitHub でホストされている **Microsoftlearning/AZ-203-DevelopingSolutionsForAzure** プロジェクトを **Labfiles** ディレクトリに複製します。
 
     ```
     git clone --depth 1 --no-checkout https://github.com/microsoftlearning/AZ-203-DevelopingSolutionsForMicrosoftAzure .
     ```
 
-1.  Within the command prompt, enter the following command and press **Enter** to check out the lab files necessary to complete the **AZ-203T06** lab:
+4.  コマンド プロンプト内で次のコマンドを入力し、**Enter**  キーを押 して、**AZ-203.02** ラボを完了するために必要なラボ ファイルをチェックアウトします。
 
     ```
     git checkout master -- Allfiles/*
     ```
 
-1.  Close the currently running **Windows PowerShell** command prompt application.
+5.  現在実行中の **Windows PowerShell** コマンド プロンプト アプリケーションを閉じます。
 
-### Exercise 1: Creating an Azure Search service in the portal
+### エクササイズ 1: ポータルで Azure Search Serviceを作成する
 
-#### Task 1: Open the Azure portal
+#### タスク 1: Azure potalを開く
 
-1.  On the taskbar, select the **Microsoft Edge** icon.
+1.  タスク バーで、**Microsoft Edge** アイコンを選択します。
 
-1.  In the open browser window, navigate to the [**Azure portal**](https://portal.azure.com) (portal.azure.com).
+2.  開いているブラウザ ウィンドウで、[**Azure potal**](https://portal.azure.com)(portal.azure.com)に移動します。
 
-1.  At the sign-in page, enter the **email address** for your Microsoft account.
+3.  サインイン ページで、Microsoft アカウントの **電子メール アドレス** を入力します。
 
-1.  Select **Next**.
+4.  **次へ** を選択します。
 
-1.  Enter the **password** for your Microsoft account.
+5.  Microsoft アカウントの **パスワード** を入力します。 
 
-1.  Select **Sign in**.
+6.  **サインイン** を選択します。
 
-    > **Note**: If this is your first time signing in to the **Azure portal**, a dialog box will display offering a tour of the portal. Select **Get Started** to skip the tour and begin using the portal.
+> **注記**： **Azure potal** に初めてサインインする場合は、ポータルのツアーを提供するダイアログ ボックスが表示されます。  ツアーをスキップしてポータルの使用を開始するには、 **開始** を選択します。
 
-#### Task 2: Create API Management resource
+#### タスク 2: Azure Search アカウントを作成する
 
-1.  In the left navigation pane of the portal, select **+ Create a resource**.
+1.  ポータルの左側のナビゲーション ウィンドウで、**+ リソースを作成** を選択します。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** field.
+> **注記**： リンクが見つからない場合は、リソースの作成 アイコンは、ポータルの左側にあるプラス記号文字です。
 
-1.  In the search field, enter **API** and press Enter.
+2.  **新規** ブレードの上部にある **マーケットプレースを検索** フィールドを検索します。
 
-1.  In the **Everything** search results blade, select the **API Management** result.
+3.  検索フィールドに**'検索」** というテキストを入力し、Enter」を押します。 
 
-1.  In the **API Management** blade, select **Create**.
+4.  ［**すべて** の検索結果］ ブレードで、Azure **検索** 結果 を選択します。
 
-1.  In the **API Management Service** blade, perform the following actions:
-    
-    1.  In the **Name** field, enter **prodapi\[*your name in lowercase*\]**.
-    
-    1.  Leave the **Subscription** field set to its default value.
-    
-    1.  In the **Resource group** list, select **MultiTierService**.
-    
-    1.  In the **Location** list, select **East US**.
-    
-    1.  In the **Organization name** field, enter **Contoso**.
-    
-    1.  Leave the **Administrator email** field set to its default value.
-    
-    1.  In the **Pricing tier** list, select **Developer (No SLA)**.
-    
-    1.  Select **Create**.
-
-1.  Wait for the creation task to complete before you move forward with this lab.
-
-    > **Note**: It usually takes between 20 and 30 minutes to create an API Management service.
-
-#### Task 3: Create an Azure Search account
-
-1.  In the left navigation pane of the portal, select **+ Create a resource**.
-
-    > **Note**: If you cannot find the link, the Create a resource icon is a plus-sign character located on the left side of the portal.
-
-1.  At the top of the **New** blade, locate the **Search the Marketplace** field.
-
-1.  In the search field, enter the text **Search** and press Enter.
-
-1.  In the **Everything** search results blade, select the **Azure Search** result.
-
-1.  In the **Azure Search** blade, select **Create**.
+5.  **Azure 検索** ブレードで、 **作成** を選択 します。   
 
-6.  In the **New Search Service** blade, observe the tabs at the top of the blade, such as **Basics**.
-
-    > **Note**: Each tab represents a step in the workflow to create a new **search account**. At any time, you can select **Review + create** to skip the remaining tabs.
-
-6.  In the **Basics** tab, perform the following actions:
+6.  **新しい検索サービス** ブレードで、次の操作を実行します。 
     
-    2.  Leave the **Subscription** field set to its default value.
+    1.  **URL** フィールドに、値 **prodsearch\[*名前を小文字*\] と** 入力します。 
     
-    3.  In the **Resource group** section, select **Create new**, in the pop-up field enter **MultiTierService**, and then select **OK**.
+    2.  **サブスクリプション** フィールドは既定値に設定したままにします。 
     
-    1.  In the **URL** field, enter the value **prodsearch\[*your name in lowercase*\]**.
+    3.  **リソース グループ** セクションで、 **新規作成** を選択し、**MultiTierService** を選択し、**OK** を選択します。
     
-    4.  In the **Location** list, select **East US**.
+    4.  **場所** リストで、**米国東部** リージョンを選択します。
     
-    5.  Select the **Pricing tier** link. In the **Pricing tier** blade, select **Basic** and then select **Select**.
+    5.  **価格設定** リンクを選択します。 **価格設定** ブレードで **基本** を選択し、 **選択** を選択します。
     
-    9.  Select **Review + Create**.
-
-7.  In the **Review + Create** tab, review the options that you selected during the previous steps.
-
-8.  Select **Create** to create the search account by using your specified configuration.
+    6.  **作成** を選択します。
 
-9.  Wait for the creation task to complete before you move forward with this lab.
+7.  演習を進める前に、作成タスクが完了するまで待ちます。
 
-1.  In the left navigation pane of the portal, select **Resource groups**.
+8.  ポータルの左側のナビゲーション ウィンドウで、 **リソース グループ** を選択します。 
 
-1.  In the **Resource groups** blade, select the **MultiTierService** resource group that you created earlier in this lab.
+9.  **リソース グループ** ブレードで、この実習ラボで前に作成した **MultiTierService** リソースグループを選択します。  
 
-1. In the **MultiTierService** blade, select the **prodsearch\*** Search service that you created earlier in this lab.
+10. **MultiTierService** ブレードで、この実習ラボで前に作成した **prodsearch\*** 検索サービスを選択します。  
 
-1. In the **Search Service** blade, in the **Settings** section, select the **Keys** link.
+11. **検索サービス** ブレードで、**設定** セクションで **キー** リンクを選択します。
 
-1. In the **Keys** section, select any one of the keys and record the value. You will use this value later in the lab.
+12. **キー** セクションで、いずれかのキーを選択し、値を記録します。 これらの値は、この演習の後半で使用します。
 
-    > **Note**: It does not matter which connection string you choose to use. They are interchangeable.
+> > **注記**： 使用を選択する接続文字列は関係ありません。それらは交換可能です。
 
-#### Task 4: Create an index
+#### タスク 3: インデックスの作成
 
-1.  In the left navigation pane of the portal, select **Resource groups**.
+1.  ポータルの左側のナビゲーション ウィンドウで、 **リソース グループ** を選択します。 
 
-1.  In the **Resource groups** blade, select the **MultiTierService** resource group that you created earlier in this lab.
+2.  **リソース グループ** ブレードで、この実習ラボで前に作成した **MultiTierService** リソースグループを選択します。  
 
-1.  In the **MultiTierService** blade, select the **prodsearch\*** Search service that you created earlier in this lab.
+3.  **MultiTierService** ブレードで、この実習ラボで前に作成した **prodsearch\*** 検索サービスを選択します。  
 
-1.  In the **Search Service** blade, select **Add index**.
+4.  **検索サービス** ブレードで、 **インデックスの追加** を選択します。
 
-1.  In the **Add index** blade, perform the following actions:
+5.  **インデックスの追加** ブレードで、次の操作を実行します。
     
-    1.  In the **Index name** field, enter **retail**.
+    1.  **インデックス名** フィールドに、**小売** と入力します。
     
-    1.  In the **Key** list, select **id**.
+    2.  **キー]** リストで **ID]** を選択します。
     
-    1.  Leave the **Suggester name** field blank.
+    3.  **'提案者名」** フィールドは空白のままにします。 
     
-    1.  Leave the **Search mode** list blank.
+    4.  **検索モード** の一覧は空白のままにします。 
 
-1.  Within the **Add index** blade, a list of fields is displayed. Perform the following actions to configure the **id** field:
+6.  **インデックスの追加]** ブレード内に、フィールドの一覧が表示されます。 次のアクションを実行して、**ID** フィールドを構成 します。 
     
-    1.  In the **Field Name** field, observe the hard-coded value of **id**.
+    5.  **フィールド名** フィールドで、**ID** のハードコーディングされた値を確認します。   
     
-    1.  In the **Type** list, observe the hard-coded option of **Edm.String**.
+    6.  **タイプ** リストで、**Edm.String** のハードコーディングされたオプションを確認します。   
     
-    1.  In the **Retrievable** option, observe that it is hard-coded to **true**.
+    7.  **取得可能** オプションで、それが **true** にハードコーディングされていることに注意してください。
     
-    1.  Leave **Filterable** unselected.
+    8.  **フィルタ可能** を選択しないままにします。 
     
-    1.  Select **Sortable**.
+    9.  **ソート可能** を選択します。 
     
-    1. Leave **Facetable** unselected.
+    10. **フェイステーブル** を選択解除したままにします。 
     
-    1. Leave **Searchable** unselected.
+    11. **検索可能** を選択しないままにします。 
 
-    1. Select **+ Add field**.
-
-1.  Within the **Add index** blade, perform the following actions to configure the new **name** field:
-    
-    1. Select **+ Add field**.
+7.  **インデックスの追加** ブレード内で、 次の操作を実行して、新しい **名前** フィールドを構成します。   
     
-    1. In the **Field Name** field, enter **name**.
+    12. **フィールド名** フィールドに **名前** を入力します。
     
-    1. In the **Type** list, select **Edm.String**.
+    13. **種類** リストで、**Edm.String** を選択します。
     
-    1. Select **Retrievable**.
+    14. **取得可能** を選択します。 
     
-    1. Leave **Filterable** unselected.
+    15. **フィルタ可能** を選択しないままにします。 
     
-    1. Select **Sortable**.
+    16. **ソート可能** を選択します。 
     
-    1. Leave **Facetable** unselected.
+    17. **フェイステーブル** を選択解除したままにします。 
     
-    1. Select **Searchable**.
+    18. **検索可能** を選択します。 
     
-    1. In the **Analyzer** list, select **Standard - Lucene**.
+    19. **分析** の一覧で、**標準 - ルセン** を選択します。   
 
-    1. Select **+ Add field**.
-
-1.  Within the **Add index** blade, perform the following actions to configure the new **price** field:
-    
-    1. Select **+ Add field**.
+8.  **インデックスの追加** ブレードで、次のアクションを実行して、新しい **価格** フィールドを選択します。   
     
-    1. In the **Field Name** field, enter **price**.
+    20. **フィールド名** フィールドに **価格** を入力します。   
     
-    1. In the **Type** list, select **Edm.Double**.
+    21. **種類** リストで **仕事仲間** を選択します。
     
-    1. Select **Retrievable**.
+    22. **取得可能** を選択します。 
     
-    1. Select **Filterable**.
+    23. **フィルター可能** を選択する
     
-    1. Select **Sortable**.
+    24. **ソート可能** を選択します。
     
-    1. Select **Facetable**.
+    25. **フェイステーブル** を選択します。 
 
-    1. Select **+ Add field**.
-
-1.  Within the **Add index** blade, perform the following actions to configure the new **quantity** field:
-    
-    1. Select **+ Add field**.
+9.  **インデックスの追加** ブレードで、次のアクションを実行して、新しい **数量** フィールドを構成します。   
     
-    1. In the **Field Name** field, enter **quantity**.
+    26. **フィールド名** フィールドに **数量** を入力します。   
     
-    1. In the **Type** list, select **Edm.Int32**.
+    27. **種類** リストで **Edm.Int32** を選択します。
     
-    1. Select **Retrievable**.
+    28. **取得可能** を選択します。 
     
-    1. Select **Filterable**.
+    29. **フィルター可能** を選択する
     
-    1. Select **Sortable**.
+    30. **ソート可能** を選択します。 
     
-    1. Select **Facetable**.
+    31. **フェイステーブル** を選択します。 
 
-    1. Select **+ Add field**.
-
-1. Within the **Add index** blade, perform the following actions to configure the new **manufacturer** field:
-    
-    1. Select **+ Add field**.
+10. **インデックスの追加** ブレードで、次の操作を実行して、新しい **製造元** フィールドを構成します。   
     
-    1. In the **Field Name** field, enter **manufacturer**.
+    32. **フィールド名** フィールドに **製造元** を入力します。   
     
-    1. In the **Type** list, select **Edm.String**.
+    33. **種類** リストで **Edm.String** を選択します。
     
-    1. Select **Retrievable**.
+    34. **取得可能** を選択します。
     
-    1. Select **Filterable**.
+    35. **フィルター可能** を選択する
     
-    1. Select **Sortable**.
+    36. **ソート可能** を選択します。
     
-    1. Select **Facetable**.
+    37. **フェイステーブル** を選択します。 
     
-    1. Leave **Searchable** unselected.
+    38. **検索可能** を選択しないままにします。 
 
-1. Within the **Add index** blade, select **Create**.
+11. **インデックスの追加** ブレードで、**作成** を選択 します。   
 
-#### Review
+#### 復習
 
-In this exercise, you created a new Azure Search account and built an index within the account.
+この演習では、新しい Azure Storage アカウントを作成し、アカウント内にインデックスを作成しました。
 
-### Exercise 2: Index an Azure Storage table in Azure Search
+### エクササイズ 2: Azure 検索で Azure Storage テーブルのインデックスを作成する
 
-#### Task 1: Create an Azure Storage account
+#### タスク 1: Azure Storage  アカウントを作成する
 
-1.  In the left navigation pane of the portal, select **+ Create a resource**.
+1.  ポータルの左側のナビゲーション ウィンドウで、 **+ リソースを作成** を選択します。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** field.
+2.  **新規** ブレードの上部にある **マーケットプレースを検索** フィールドを検索します。   
 
-1.  In the search field, enter **Storage** and press Enter.
+3.  検索フィールドで **'ストレージ」** を入力し、'Enter」を押します。 
 
-1.  In the **Everything** search results blade, select the **Storage Account** result.
+4.  **すべて** 検索結果] ブレードで、 **ストレージ アカウント** の結果 を選択します。   
 
-1.  In the **Storage Account** blade, select **Create**.
+5.  **ストレージ アカウント** ブレードで、 **作成]** を選択 します。   
 
-1.  In the **Create Storage Account** blade, observe the tabs at the top of the blade.
+6.  **ストレージ アカウントを作成** ブレードで、ブレードの上部にあるタブを確認します。 
 
-    >  **Note**: Each tab represents a step in the workflow to create a new **storage account**. At any time, you can select **Review + create** to skip the remaining tabs.
+> **注記**： 各タブは、ワークフロー内の新しい **ストレージ アカウント** を作成するためのステップを表 します。 いつでも **レビュー + 作成** を選択して、残りのタブをスキップできます。
 
-1.  In the **Basics** tab, perform the following actions:
+7.  **基本** タブで、次の操作を実行します：
     
-    1.  Leave the **Subscription** field set to its default value.
+    1.  **サブスクリプション** フィールドは既定値に設定したままにします。 
     
-    1.  In the **Resource group** list, select **MultiTierService**.
+    2.  **リソース グループ** の一覧で、**マルチ層サービス** を選択します。
     
-    1.  In the **Storage Account Name** field, enter **prodstorage\[*your name in lowercase*\]**.
+    3.  **ストレージ アカウント名** フィールドに、**prodstorage\[*小文字で名前を入力*\]** と入力します。
     
-    1.  In the **Location** list, select **(US) East US**.
+    4.  **場所** リストで、 **米国東部** リージョンを選択します。
     
-    1.  In the **Performance** section, select **Standard**.
+    5.  **パフォーマンス** セクションで、 **標準** を選択します。   
     
-    1.  In the **Account kind** list, select **StorageV2 (general purpose v2)** .
+    6.  **アカウントの種類** の一覧で、 **StorageV2(汎用 v2)** を選択します。 
     
-    1.  In the **Replication** list, select **Read-access geo-redundant storage (RA-GRS)**.
+    7.  **レプリケーション** リストで、 **Read-access geo-redundant storage ストレージ (RA-GRS)** を選択します。  
     
-    1.  In the **Access tier** section, ensure that **Hot** is selected.
+    8.  **アクセス層** セクションで、 **Hot** が選択されていることを確認します。
     
-    1.  Select **Review + Create**.
+    9.  **レビュー + 作成** を選択します。 
 
-1.  In the **Review + Create** tab, review the options that you entered in the previous steps.
+8.  **レビュー + 作成** タブで、前の手順で入力したオプションを確認します。 
 
-1.  Select **Create** to create the Storage account by using your specified configuration.
+9.  指定した構成を使用してストレージ アカウントを作成するには、 **作成** を選択します。
 
-1. Wait for the creation task to complete before you move forward with this lab.
+10. 演習を進める前に、作成タスクが完了するまで待ちます。
 
-1. In the left navigation pane of the portal, select **Resource groups**.
+11. ポータルの左側のナビゲーション ウィンドウで、**リソース グループ** を選択 します。 
 
-1. In the **Resource groups** blade, select the **MultiTierService** resource group that you created earlier in this lab.
+12. **リソース グループ** ブレードで、この実習ラボで前に作成した **MultiTierService** リソースグループを選択します。
 
-1. In the **MultiTierService** blade, select the **prodstorage\*** storage account that you created earlier in this lab.
+13. **MultiTierService** ブレードで、 この実習ラボで前述した **prodstorage\*** ストレージ アカウントを選択します。  
 
-1. In the **Storage Account** blade, on the left side of the blade, in the **Settings** section, select the **Access keys** link.
+14. **ストレージ アカウント** ブレードの左側にある **設定** セクションで、 **アクセス キー** リンクを選択します。   
 
-1. In the **Access keys** blade, select any one of the keys and record the value of either of the **Connection string** fields. You will use this value later in this lab.
+15. **アクセス キー** ブレードで、いずれかのキーを選択し、いずれかの **接続文字列** フィールドの値を記録します。これらの値は、この演習の後半で使用します。
 
-    > **Note**: It does not matter which connection string you choose. They are interchangeable.
+> > **注記**： どの接続文字列を選択してもかまいません。それらは交換可能です。
 
-#### Task 2: Upload table entities to Azure Storage
+#### タスク 2: Azure Storage にテーブルエンティティをアップロードする
 
-1.  In the left navigation pane of the portal, select **Resource groups**.
+1.  ポータルの左側のナビゲーション ウィンドウで、 **リソース グループ** を選択 します。
 
-1.  In the **Resource groups** blade, select the **MultiTierService** resource group that you created earlier in this lab.
+2.  **リソース グループ** ブレードで、この実習ラボで前に作成した **MultiTierService** リソースグループを選択します。
 
-1.  In the **MultiTierService** blade, select the **prodstorage\*** storage account that you created earlier in this lab.
+3.  **MultiTierService** ブレードで、 この実習ラボで前述した **prodstorage\*** ストレージ アカウントを選択します。
 
-1.  In the **Storage Account** blade, on the left side of the blade, in the **Table service** section, select the **Tables** link.
+4.  **ストレージ アカウント** ブレードで、ブレードの左側にある **テーブル サービス** セクションで、 **テーブル** リンクを選択します。   
 
-1.  In the **Tables** section, select **+ Table**.
+5.  **テーブル** グループで、 **＋テーブル** を選択します。
 
-1.  In the **Add table** window, perform the following actions:
+6.  **テーブルの追加** ウィンドウで、次の操作を実行します。 
     
-    1.  In the **Table** **Name** field, enter **products**.
+    1.  **テーブル** **名**] フィールドに **製品** を入力 します。     
     
-    1.  Select **OK**.
+    2.  **OK** を選択します。
 
-1.  Back in the **Tables** section, on the left side of the blade, select the **Overview** link.
+7.  **テーブル** セクションに戻 り、 ブレードの左側にある **概要**リンクを選択します。   
 
-    > **Note**: You might have to scroll up or down the menu on the left side of the blade.
+> > **注記**： ブレードの左側にあるメニューを上下にスクロールする必要がある場合があります。
 
-1.  Back in the **Overview** section, select **Open in Explorer**.
+8.  **概要** セクションに戻り、 **エクスプローラで開く** を選択します。 
 
-1.  In the **Azure Storage Explorer** window, select the **Open Azure Storage Explorer** link.
+9.  **Azure Storage Explorer** ウィンドウで、 **Azure Storage Explorerを開く** リンクを選択します。   
 
-    > **Note**: If this is your first time opening the **Azure Storage Explorer** by using the portal, you might be prompted to allow the portal to open these types of links in the future. You should accept the prompt.
+> > **注記**： ポータルを使用して **Azure Storage Explorer** を初めて開く場合 は、今後、ポータルでこれらの種類のリンクを開くことを許可するように求めるメッセージが表示されることがあります。 プロンプトを受け入れる必要があります。
 
-1. In the **Azure Storage Explorer** application that appears, locate and expand the **prodstorage\* S**torage account that you created earlier in this lab.
+10. 表示される **Azure Storage Explorer** アプリケーションで、このラボで前に作成した **prodstorage\* S** torage アカウントを見つけて展開します。 
 
-1. Within the **prodstorage\*** storage account, locate and expand the **Tables** node.
+11. **prodstorage\*** ストレージ アカウント内で、**テーブル** ノードを見つけて展開します。 
 
-1. Within the **Tables** node, select the **products** table that you created earlier in this lab.
+12. **[テーブル]** ノードで、この演習で前に作成した **製品** テーブルを選択します。   
 
-1. In the **Products Table** tab, select **Import**.
+13. **[製品テーブル]** タブで、 **[インポート]** を選択します。
 
-1. In the **File Explorer** dialog box that opens, perform the following actions:
+14. **[エクスプローラを開く]** ダイアログボックスで、次の操作を実行します。
     
-    1.  Go to **Allfiles (F):\\Allfiles\\Labs\\06\\Starter**.
+    3.  **[すべてのファイル(F):ラボファイル\\06\\スターター** に移動します。 
     
-    1.  Select the **products.csv** file.
+    4.  **products.csv** というファイルを選択します。
     
-    1.  Select **Open**.
+    5.  **[開く]** を選択します。
 
-1. In the **Import Entities** window that appears, select **Insert**.
+15. **[エンティティのインポート]** ウィンドウで、**[挿入]** を選択 します。
 
-1. Wait for the table entities to be uploaded before you continue with this lab.
+16. この演習を続行する前に、テーブルエンティティがアップロードされるのを待ちます。
 
-1. Observe the five entities that were added to your **products** table.
+17. **製品** テーブルに追加された 5 つのエンティティを確認します。
 
-1. Return to the browser window showing the **Azure portal**.
+18. **Azure potal** を示すブラウザ ウィンドウに戻ります。 
 
-#### Task 3: Create an Azure Search indexer
+#### タスク 3: Azure Search インデクサーの作成
 
-1.  In the left navigation pane of the portal, select **Resource groups**.
+1.  ポータルの左側のナビゲーション ウィンドウで、**リソース グループ** を選択 します。
 
-1.  In the **Resource groups** blade, select the **MultiTierService** resource group that you created earlier in this lab.
+2.  **リソース グループ** ブレードで、この実習ラボで前に作成した **MultiTierService** リソースグループを選択します。
 
-1.  In the **MultiTierService** blade, select the **prodsearch\*** Search service you created earlier in this lab.
+3.  **MultiTierService** ブレードで、 この実習ラボで前に作成した **prodsearch\*** 検索サービスを選択します。  
 
-1.  In the **Search Service** blade, select **Import Data**.
+4.  **検索サービス** ブレードで、 **データのインポート** を選択 します。
 
-1.  In the **Import Data** blade, observe the tabs at the top of the blade.
+5.  **データのインポート** ブレードで、ブレードの上部にあるタブを確認します。 
 
-1.  In the **Connect to your data** tab, perform the following actions:
+6.  **データに接続** タブで、次の操作を実行します：
     
-    1.  In the **Data Source** list, select **Azure Table Storage**.
+    1.  **データ ソース** リストで、 **Azure テーブルストレージ** を選択 します。   
     
-    1.  In the **Name** field, enter **tabledatasource**.
+    2.  **名前** フィールド に、**テーブルデータソース** を入力します。 
     
-    1.  In the **Connection string** field, select **Choose an existing connection**. In the **Choose storage account** window, select the **prodstorage\*** Storage account that you created earlier in this lab.
+    3.  **接続文字列** フィールドで、**既存の接続を選択** を選択します。 **ストレージ アカウントの選択** ウィンドウで、 この実習ラボで前に作成した **prodstorage\*** ストレージ アカウントを選択します。  
     
-    1.  In the **Table name** field, enter **products**.
+    4.  **テーブル名** フィールドに **製品** を入力 します。
     
-    1.  Leave the **Query** field empty.
+    5.  **クエリ** フィールドは空のままにします。
     
-    1.  Leave the **Description** field empty.
+    6.  **説明** フィールドは空のままにします。
     
-    1.  Select **Next: Add cognitive search (Optional)**.
+    7.  **次へ** を選択します: **認知検索を追加します (オプション)**.
 
-        > **Note**: Azure Search validates your settings at each step. It can take a few minutes to complete validation and move to the next tab in the list.
+> > **注記**： Azure Search は、各ステップで設定を検証します。検証が完了し、リスト内の次のタブに移動するまでに数分かかる場合があります。
 
-1.  In the **Add cognitive search (optional)** tab, select **Skip to: Customize target index**.
+7.  **コグニティブ検索の追加** タブで、 **次へ** を選択します: **ターゲット インデックスをカスタマイズ** します。
 
-1.  In the **Customize target index** tab, perform the following actions:
+8.  **ターゲットインデックスのカスタマイズ** タブで、次の操作を実行します：
     
-    1.  In the **Index name** field, enter **products**.
+    8.  **インデックス名** フィールドに **RowKey** を入力 します。
     
-    1.  In the **Key** list, select **RowKey**.
+    9.  **キー** リストで **RowKey** を選択します。
 
-1.  In the **Customize target index** tab, a list of fields is displayed. Leave the configuration of the **PartitionKey**, **RowKey**, **ETag,** and **Timestamp** fields set to their default values.
+9.  **ターゲットインデックスのカスタマイズ** タブに、フィールドの一覧が表示されます。 **パーティショキー**、 **RowKey**、 **ETag**、 および **タイムスタンプ** フィールドの構成は規定値に設定したままにします。       
 
-1. In the **Customize target index** tab, perform the following actions to configure the **Key** field:
+10. **ターゲット インデックスのカスタマイズ** タブ で、次の操作を実行して **キー** フィールドを構成します。   
     
-    1. In the **Field Name** field, observe the hard-coded value of **Key**.
+    39. **フィールド名** フィールドで、 **キー** のハードコーディングされた値を確認 します。   
     
-    1. In the **Type** list, observe the hard-coded option of **Edm.String**.
+    40. **タイプ** リストで、 **Edm.String** のハードコーディングされたオプションを確認します。   
     
-    1. Leave **Retrievable** selected.
+    41. **取得可能** を選択します。
     
-    1. Leave **Filterable** unselected.
+    42. **フィルタ可能** を選択しないままにします。
     
-    1. Select **Sortable**.
+    43. **ソート可能** を選択します。
     
-    1. Leave **Facetable** unselected.
+    44. **フェイステーブル** を選択解除したままにします。 
     
-    1. Leave **Searchable** unselected.
+    45. **検索可能** を選択しないままにします。
 
-1. In the **Customize target index** tab, perform the following actions to configure the **name** field:
+11. **ターゲット インデックスのカスタマイズ** タブ で、 **名前** フィールドを構成するために次のアクションを実行します。   
     
-    1. In the **Field Name** field, observe the hard-coded value of **name**.
+    10. **フィールド名** フィールドで、 **名前** のハードコーディングされた値を確認します。   
     
-    1. In the **Type** list, observe the hard-coded option of **Edm.String**.
+    11. **タイプ** リストで、 **Edm.String** のハードコーディングされたオプションを確認します。
     
-    1. Select **Retrievable**.
+    12. **取得可能** を選択します。
     
-    1. Leave **Filterable** unselected.
+    13. **フィルタ可能** を選択しないままにします。
     
-    1. Select **Sortable**.
+    14. **ソート可能** を選択します。
     
-    1. Leave **Facetable** unselected.
+    15. **フェイステーブル** を選択解除したままにします。
     
-    1. Select **Searchable**.
+    16. **検索可能** を選択します。
     
-    1. In the **Analyzer** list, select **Standard - Lucene**.
+    17. **分析** の一覧で、**標準 - ルセン**を選択します。
 
-1. In the **Customize target index** tab, perform the following actions to configure the **price** field:
+12. **ターゲット インデックスのカスタマイズ タブ** で、次のアクションを実行して **価格** フィールドを構成します。   
     
-    1. In the **Field Name** field, observe the hard-coded value of **price**.
+    18. **フィールド名** フィールドで、 **価格** のハードコーディングされた値を確認します。   
     
-    1. In the **Type** list, observe the hard-coded option of **Edm.Double**.
+    19. **タイプ** リストで、 **Edm.Double** のハードコーディングされたオプションを確認 します。   
     
-    1. Select **Retrievable**.
+    20. **取得可能** を選択します。
     
-    1. Select **Filterable**.
+    21. **フィルター可能** を選択する
     
-    1. Select **Sortable**.
+    22. **ソート可能** を選択します。
     
-    1. Select **Facetable**.
+    23. **フェイステーブル** を選択します。
 
-1. In the **Customize target index** tab, perform the following actions to configure the **quantity** field:
+13. **ターゲット インデックスのカスタマイズ** タブで、次のアクションを実行して **数量** フィールドを構成します。   
     
-    1. In the **Field Name** field, observe the hard-coded value of **quantity**.
+    24. **フィールド名** フィールドで、 **数量** のハードコーディングされた値を確認します。   
     
-    1. In the **Type** list, observe the hard-coded option of **Edm.Int32**.
+    25. **タイプ** リストで、 **Edm.Int32** のハードコーディングされたオプションを確認します。   
     
-    1. Select **Retrievable**.
+    26. **取得可能** を選択します。
     
-    1. Select **Filterable**.
+    27. **フィルター可能** を選択する
     
-    1. Select **Sortable**.
+    28. **ソート可能** を選択します。
     
-    1. Select **Facetable**.
+    29. **フェイステーブル** を選択します。
 
-1. In the **Customize target index** tab, select **Next: Create an indexer**.
+14. **ターゲット インデックスのカスタマイズ** タブで、**次へ** を選択します: **インデクサーを作成**
 
-    > **Note**: Azure Search validates your settings at each step. It can take a few minutes to complete validation and move to the next tab in the list.
+> > **注記**： Azure Search は、各ステップで設定を検証します。検証が完了し、リスト内の次のタブに移動するまでに数分かかる場合があります。
 
-1. In the **Create an indexer** tab, perform the following actions:
+15. **インデクサーを作成** タブで、次の操作を実行します：
     
-    1. In the **Name** field, enter **tableindexer**.
+    30. **名前** フィールドに、 **テーブルインデックス** を入力します。  
     
-    1. In the **Schedule** section, select **Custom**.
+    31. **スケジュール** セクションで、 **カスタム** を選択します。   
     
-    1. In the **Interval** field, enter **5**.
+    32. **間隔** フィールドに **5** と入力します。   
     
-    1. Set the **Start time** field to midnight UTC on today's date.
+    33. **開始時刻** フィールドは既定値のままにします。 
     
-    1. Leave the **Track deletions** field set to its default value.
+    34. **トラック削除** フィールドは既定値に設定したままにします。 
     
-    1. Leave the **Description** field blank.
+    35. **説明** フィールドは空白のままにします。 
     
-    1. Select **Submit**.
+    36. **送信** を選択します。
 
-        > **Note**: You may need to select and then unselect the **Track deletions** field and **Once/Custom** options to get the **Submit** button to appear. This behavior is due to a portal bug.
+16. **検索サービス** ブレードに戻り、 **インデクタ** タブを選択します。   
 
-1. Back in the **Search Service** blade, select the **Indexers** tab.
+17. **インデクサー** タブで、 この実習ラボで前に作成した **テーブルインデクサー** インデクサーを選択します。   
 
-    > **Note**: If you do not see your indexer yet, you may need to refresh the blade.
-
-1. In the **Indexers** tab, select the **tableindexer** indexer that you created earlier in this lab.
-
-1. In the **Indexer** blade, perform the following actions:
+18. **インデクサー** ブレードで、次の操作を実行します。 
     
-    1. Select **Run**.
+    37. **実行** を選択します。
     
-    1. When prompted for confirmation, select **Yes**.
+    38. 確認を求めるメッセージが表示されたら、**Yes** をクリックします。
     
-    1. Close the **Indexer** blade.
+    39. **インデクサー** ブレードを閉じます。
+
+19. インデクサーの実行が完了するのを待ってから、 ブレードの上部にある **更新** を選択します。
+
+> > **注記**： インデクサーが実行されるのに 1 から 5 分かかる場合があります。インデクサーのステータスが **検索サービス** ブレードに **成功** と表示されている場合は、インデクサーが成功したことがわかります。
+
+20. **検索サービス** ブレードに戻り、 **インデクタ** タブを選択します。   
 
-1. Wait for the indexer to finish running and then select **Refresh** at the top of the blade.
+21. **インデクサー** タブで、 ドキュメント数や最後のインデックス作成操作の状態など、 **テーブルインデクサー** インデクサーのメタデータを確認します。  
 
-    > **Note**: It can take from one to five minutes for the indexer to run. You will know that the indexer was successful if its status is listed as **Success** in the **Search Service** blade.
+22. **インデクサー** ブレードを閉じます。
 
-1. In the **Indexers** tab, observe the metadata of the **tableindexer** indexer, such as the document count and the status of the last indexing operation.
+#### タスク 4: インデックス化した表データを確認します
 
-#### Task 4: Validate the indexed table data
+1.  **検索サービス** ブレードで、 **エクスプローラの検索** を選択します。 
 
-1.  In the **Search Service** blade, select **Search Explorer** at the top of the blade.
+2.  **エクスプローラの検索** ブレードで、**検索** を選択します。   
 
-1.  In the **Search Explorer** blade, select **Search**.
+3.  すべてのドキュメントの検索結果を確認します。
 
-1.  Observe the results of a search for all documents.
+4.  **クエリ文字列** フィールドに次のクエリを入力し、 **検索** を押します。
 
-1.  In the **Query string** field, enter the following query and then press **Search**:
+<!-- end list -->
 
-    ```
     search=seat
-    ```
 
-1.  Observe the results of the search query.
+5.  検索クエリの結果を確認します。
 
-1.  In the **Query string** field, enter the following query and then press **Search**:
+6.  **クエリ文字列** フィールドに次のクエリを入力し、 **検索** を押します。
 
-    ```
+<!-- end list -->
+
     $filter=price lt 100
-    ```
 
-1.  Observe the results of the search query.
+7.  検索クエリの結果を確認します。
 
-1.  In the **Query string** field, enter the following query and then press **Search**:
+8.  **クエリ文字列** フィールドに次のクエリを入力し、 **検索** を押します。
 
-    ```
+<!-- end list -->
+
     facet=quantity,interval:25
-    ```
 
-1.  Observe the results of the search query.
+9.  検索クエリの結果を確認します。
 
-1. In the **Query string** field, enter the following query and then press **Search**:
+10. **クエリ文字列** フィールドに次のクエリを入力し、 **検索** を押します。
 
-    ```
+<!-- end list -->
+
     $filter=quantity gt 25&facet=price,values:100|1000|10000
-    ```
 
-1. Observe the results of the search query.
+11. 検索クエリの結果を確認します。
 
-1. Close the **Search Explorer** blade.
+#### タスク 5: Azure Search ベース URL を取得する
 
-#### Task 5: Retrieve your Azure Search base URL
+1.  ポータルの左側のナビゲーション ウィンドウで、 **リソース グループ** を選択 します。
 
-1.  In the left navigation pane of the portal, select **Resource groups**.
+2.  **リソース グループ** ブレードで、この実習ラボで前に作成した **MultiTierService** リソースグループを選択します。
 
-1.  In the **Resource groups** blade, select the **MultiTierService** resource group that you created earlier in this lab.
+3.  **MultiTierService** ブレードで、この実習ラボで前に作成した **prodsearch\*** 検索サービスを選択します。
 
-1.  In the **MultiTierService** blade, select the **prodsearch\*** Search service that you created earlier in this lab.
+4.  **検索サービス** ブレードで、 **URL** フィールドの値をコピー します。 これらの値は、この演習の後半で使用します。
 
-1.  In the **Search Service** blade, copy the value of the **URL** field. You will use this value later in this lab.
+#### 復習
 
-#### Review
+この演習では、Azure Storage アカウントを作成し、Azure Search を使用してアカウント内のストレージ テーブルにインデックスを作成しました。表がインデックス化された後、Storage 表のエンティティ―のコピーに対して検索クエリを発行することができました。
 
-In this exercise, you created an Azure Storage account and indexed a Storage table within the account by using Azure Search. After the table was indexed, you were able to issue search queries against a copy of the entities in the Storage table.
+### エクササイズ 3: Azure API Management を使って、ＡＰＩ プロクシー層を構築
 
-### Exercise 3: Build an API proxy tier by using Azure API Management
+#### タスク 1: API Management リソースの作成
 
-#### Task 1: Define a new API
+1.  ポータルの左側のナビゲーション ウィンドウで、 **+ リソースを作成** を選択します。
 
-1.  In the left navigation pane of the portal, select **Resource groups**.
+2.  **新規** ブレードの上部にある **マーケットプレースを検索** フィールドを検索します。
 
-1.  In the **Resource groups** blade, select the **MultiTierService** resource group that you created earlier in this lab.
+3.  検索フィールドに **API** を入力し、Enter キーを押します。 
 
-1.  In the **MultiTierService** blade, select the **prodapi\*** API Management account that you created earlier in this lab.
+4.  **すべての** 検索結果] ブレードで、**API Management** 結果を選択します。 
 
-1.  In the **API Management Service** blade, on the left side of the blade, in the **API Management** section, select **APIs** .
+5.  **API Ｍａｎａｇｅｍｅｎｔ** ブレードで、**作成** を選択 します。
 
-1.  In the **Add a new API** section, select **Blank API**.
-
-1.  In the **Create a blank API** window, perform the following actions:
+6.  **API Ｍａｎａｇｅｍｅｎｔ サービス** ブレードで、次のアクションを実行します。 
     
-    1.  In the **Display name** field, enter **Search API**.
+    1.  **名前**フィールドに、 **prodapi\[*小文字*\]** と入力します。
     
-    1.  In the **Name** field, enter **search-api**.
+    2.  **サブスクリプション** フィールドは既定値に設定したままにします。
     
-    1.  In the **Web service URL** field, enter the URL from the **Search Service URL** field that you copied earlier in this lab.
+    3.  **リソース グループ** の一覧で、**マルチ層サービス** を選択します。
     
-    1.  Append the value of the **Web service URL** field with the following relative URL:
-
-    ```
-    /indexes/products/docs
-    ```
-
-    > **Note**: For example, if your web service URL is https://prodsearchstudent.search.windows.net, then your new URL will be https://prodsearchstudent.search.windows.net/indexes/products/docs.
-
-1.  In the **API URL suffix** field, enter **search**.
-
-1.  In the **Products** field, select both **Starter** and **Unlimited**.
-
-1.  Select **Create.**
-
-1.  Wait for the new API to finish being created.
-
-1.  In the **Design** tab, select **+ Add operation**.
-
-1.  In the **Add operation** section, perform the following actions:
+    4.  **場所**リストで、 **米国東部** リージョンを選択します。
     
-    1.  In the **Display name** field, enter **List All Documents**.
+    5.  **組織名** フィールドに **Contoso** と入力します。
     
-    1.  In the **Name** field, enter **list-all-documents**.
+    6.  **管理者の電子メール** フィールドを既定値に設定したままにします。 
     
-    1. In the **URL** list, select **GET**.
+    7.  **価格層** ボックスの一覧で、**開発者 (SLA なし)** を選択します。   
     
-    1. In the **URL** field, enter **/**.
+    8.  **作成** を選択します。
+
+7.  演習を進める前に、作成タスクが完了するまで待ちます。
+
+> > **注記**： 通常、API Management サービスの作成には 20 、 30 分かかります。
+
+#### タスク 2: 新しい API の定義
+
+1.  ポータルの左側のナビゲーション ウィンドウで、 **リソース グループ** を選択 します。
+
+2.  **リソース グループ** ブレードで、この実習ラボで前に作成した **MultiTierService** リソースグループを選択します。
+
+3.  **MultiTierService** ブレードで、 この実習ラボで前に作成した **prodapi\*** API Management アカウントを選択します。  
+
+4.  **API Management サービス** ブレードで、ブレードの左側にある **API Management** セクションで **API** を選択 します。
+
+5.  **[新しい API を追加]** セクションで、**[空白 API]** を選択します。   
+
+6.  **[空白の API を作成する]** ウィンドウで、次のアクションを実行します。 
     
-    1. Select **Save**.
-
-1. Back in the **Design** tab, in the list of operations, select **All Operations**.
-
-1. In the **Design** section for **All Operations**, locate the **Inbound processing** tile and select **+ Add policy**.
-
-1. In the **Add inbound policy** section, select the **Set headers** tile.
-
-1. In the **Inbound processing, Set Headers** section, perform the following actions:
+    1.  **[名前の表示]** フィールドに **検索 API** を入力 します。
     
-    1. In the **Name** field, enter **api-key**.
+    2.  **[名前]** フィールドに、**検索 api** を入力します。
     
-    1. In the **Value** field, select the list, select **+ Add Value**, and then enter the value for the **Search Service Key** that you recorded earlier in this lab.
+    3.  **[Web サービスの URL]** フィールドに、 この実習ラボで前にコピーした **[検索サービス URL]** フィールドのURL を入力します。 
     
-    1. In the **Action** list, select the **override** option.
+    4.  **Web サービス URL** フィールドの値を次の相対 URL で追加します。
+
+> 
+> 
+>     /indexes/products/docs
+> 
+> > **注記**： たとえば、Web サービスの URL が https://prodsearchstudent.search.windows.net 場合、新しい URL は https://prodsearchstudent.search.windows.net/indexes/products/docs になります。
+
+5.  **API URL サフィックス** フィールドに、 **［検索］** を入力 します。
+
+6.  **製品** フィールドで、**スターター** と **無制限** の両方を選択します。 　
+
+7.  **作成** を選択します。
+
+<!-- end list -->
+
+7.  新しい API の作成が完了するのを待ちます。
+
+8.  **デザイン** タブで、 **+ 追加操作** を選択します。 
+
+9.  **操作の追加** セクションで、次の操作を実行します。 
     
-    1. Select **Save**.
-
-1. Back in the **Design** tab, in the list of operations, select **All Operations**.
-
-1. In the **Design** section for **All Operations**, locate the **Inbound processing** tile and select **+ Add policy**.
-
-1. In the **Add inbound policy** section, select the **Set query parameters** tile.
-
-1. In the **Inbound processing, Set Query Parameters** section, perform the following actions:
+    8.  **名前の表示** フィールド に、**すべてのドキュメントの一覧** を入力します。 
     
-    1. In the **Name** field, enter **api-version**.
+    9.  **名前** フィールドに、 **すべてのドキュメントの一覧** を入力します。  
     
-    1. In the **Value** field, enter **2017-11-11**.
+    10. **URL** リストで **GET** を選択します。
     
-    1. In the **Action** list, select **override**.
+    11. **URL**フィールドに、 **/** を入力します。
     
-    1. Select **Save**.
+    12. **保存** を選択します。
 
-1. Back in the **Design** tab, in the list of operations, select **List All Documents**.
+10. **デザイン** タブに戻 り、 操作の一覧で **すべての操作** を選択 します。
 
-1. In the **Design** section for the **List All Documents** operation, locate the **Inbound processing** tile and select the **+ Add policy** button.
+11. **すべての操作** の **設計** セクション で、 **受信処理** タイルを検索し、 **+ ポリシーを追加** を選択します。       
 
-1. In the **Add inbound policy** section, select the **Set query parameters** tile.
+12. **受信ポリシーの追加** セクションで、 **ヘッダーの設定** タイルを選択します。   
 
-1. In the **Inbound processing, Set Query Parameters** section, perform the following actions:
+13. **入庫処理** セクションでは、次のアクションを実行します。
     
-    1. In the **Name** field, enter **search**.
+    13. **名前** フィールドに、**api キー** を入力します。
     
-    1. In the **Value** field, enter **\***.
+    14. **値** フィールドで、リストを選択し、 **+ 付加価値** を選択し、この実習ラボで前に記録した **検索サービス キー** の値を入力します。   
     
-    1. In the **Action** list, select **override**.
+    15. **アクション** リストで、 **オーバーライド** オプションを選択します。 
     
-    1. Select **Save**.
+    16. **保存** を選択します。
 
-1. Back in the **Design** tab, in the list of operations, select **List All Documents**.
+14. **デザイン** タブに戻 り、 操作の一覧で **すべての操作** を選択 します。
 
-1. Select the **Test** tab.
+15. **すべての操作** の **設計** セクション で、 **受信処理** タイルを検索し、 **+ ポリシーを追加** を選択します。
 
-1. Select the **List All Documents** operation.
+16. **受信ポリシーの追加** セクションで、 **クエリ パラメータの設定** タイルを選択します。
 
-1. In the **List All Documents** section, select **Send**.
+17. **着信処理、クエリ パラメータ** セクションでは、次のアクションを実行します。
+    
+    17. **名前** フィールドに、 **api-version** を入力します。   
+    
+    18. **値** フィールド に、 **2017-11-11** と入力します。 
+    
+    19. **アクション** リストで **オーバーライド** を選択します。
+    
+    20. **保存** を選択します。
 
-1. Observe the results of the API request.
+18. **デザイン** タブに戻る操作の一覧で、 **すべてのドキュメントの一覧** を選択します。   
 
-    > **Note**: Observe how there is a large amount of Azure Search metadata in the response. You might not want API users to know the implementation details that occur behind the scenes. In the next task, you will obfuscate much of this data.
+19. **すべてのドキュメントの一覧** 操作の **デザイン** セクションで、 **受信処理** タイルを検索 し、 **+ ポリシーを追加** ボタンを選択します。
 
-1. Select the **Design** tab to return to the list of operations.
+20. **受信ポリシーの追加** セクションで、 **クエリ パラメータの設定** タイルを選択します。
 
-#### Task 2: Manipulate an API response
+21. **着信処理、クエリ パラメータ** セクションでは、次のアクションを実行します。
+    
+    21. **名前** フィールドに、 **[検索]** を入力します。   
+    
+    22. **値** フィールドに **\*** と入力します。   
+    
+    23. **アクション** リストで **オーバーライド** を選択します。
+    
+    24. **保存** を選択します。
 
-1.  Back in the **Design** tab, in the list of operations, select **List All Documents** .
+22. **デザイン** タブに戻る操作の一覧で、 **すべてのドキュメントの一覧** を選択します。
 
-1.  In the **Design** section for the **List All Documents** operation, locate the **Outbound processing** tile and select **+ Add policy**.
+23. **テスト** タブを選択します。
 
-1.  In the **Add outbound policy** section, select the **Other policies** tile.
+24. **すべてのドキュメントの一覧** 操作を選択します。 
 
-1.  In the policy code editor, locate the following block of XML content:
+25. **すべてのドキュメントの一覧** セクションで、 **送信** を選択します。
 
-    ```
+26. API 要求の結果を確認します。
+
+> > **注記**： 応答に大量の Azure Search メタデータがある方法を確認します。API ユーザーに、バックグラウンドで発生する実装の詳細を知られたくない場合があります。次のタスクでは、このデータの大部分を難読化します。
+
+27. 操作の一覧に戻る **デザイン** タブを選択します。
+
+#### タスク 3: API 応答の操作
+
+1.  **デザイン** タブに戻る 操作の一覧で、 **すべてのドキュメントの一覧** を選択します。   
+
+2.  **すべてのドキュメントの一覧** 操作の **デザイン** セクション で、 **送信処理** タイルを検索し、**+ ポリシーを追加** を選択します。
+
+3.  **送信ポリシーの追加** セクションで、 **その他のポリシー** タイルを選択します。
+
+4.  ポリシー コード エディターで、次の XML コンテンツのブロックを見つけます。
+
+<!-- end list -->
+
     <outbound>
         <base />
     </outbound>
-    ```
 
-1. Replace that block of XML with the following XML:
+Replace that block of XML with the following XML:
 
-    ```
     <outbound>
         <base />
         <set-body>
@@ -734,284 +709,307 @@ In this exercise, you created an Azure Storage account and indexed a Storage tab
         }
         </set-body>
     </outbound>
-    ```
 
-1.  In the policy code editor, select **Save**.
+5.  ポリシー コード エディタで、 **保存** を選択 します。 
 
-1.  Back in the **Design** tab, in the list of operations, select **List All Documents**.
+6.  **デザイン** タブに戻る操作の一覧で、 **すべてのドキュメントの一覧** を選択します。
 
-1.  In the **Design** section for the **List All Documents** operation, locate the **Outbound processing** tile and select **+ Add policy**.
+7.  **すべてのドキュメントの一覧** 操作の **デザイン** セクション で、 **送信処理** タイルを検索し、 **+ ポリシーを追加** を選択します。
 
-1.  In the **Add outbound policy** section, select the **Set headers** tile.
+8.  **送信ポリシーの追加** セクションで、 **ヘッダーの設定** タイルを選択します。
 
-1.  In the **Outbound processing, Set Headers** section, perform the following actions:
+9.  **送信処理** セクションでは、次のアクションを実行します。 
     
-    1.  In the **Name** field, enter **preference-applied**.
+    1.  **名前** フィールドに、 **プレファランス設定が適用済み** と入力します。 
     
-    1.  In the **Action** list, select **delete**.
+    2.  **アクション** リストで **削除** を選択します。
     
-    1.  Select **+** **Add header**.
+    3.  Select **+** **ヘッドの追加**.
     
-    1.  In the new **Name** field, enter **odata-version**.
+    4.  新しい **名前** フィールドに、**odata バージョン** を入力します。
     
-    1.  In the new **Action** list, select **delete**.
+    5.  新しい**アクション** リストで、 **削除** を選択します。   
     
-    1.  Select **+ Add header**.
+    6.  **＋ ヘッドの追加** を選択します。
     
-    1.  In the new **Name** field, enter **powered-by**.
+    7.  新しい **名前** フィールドに、 **電源付き** と入力します。
     
-    1.  In the new **Value** field, select the list, select the **+ Add Value** link, and then enter **Contoso**.
+    8.  新しい **値** フィールドで、一覧を選択し、 **+ 値の追加** リンクを選択 し、 **Contoso** を入力します。
     
-    1.  In the new **Action** list, select **override**.
+    9.  新しい **アクション** リストで、 **オーバーライド** を選択します。 
     
-    1. Select **Save**.
+    10. **保存** を選択します。
 
-1. Back in the **Design** tab, in the list of operations, select **List All Documents**.
+10. **デザイン** タブに戻る操作の一覧で、 **すべてのドキュメントの一覧** を選択します。
 
-1. Select the **Test** tab.
+11. **テスト** タブを選択します。
 
-1. Select the **List All Documents** operation.
+12. **すべてのドキュメントの一覧** 操作を選択します。
 
-1. In the **List All Documents** section, select **Send**.
+13. **すべてのドキュメントの一覧** セクションで、 **送信** を選択します。
 
-1. Observe the results of the API request.
+14. API 要求の結果を確認します。
 
-    > **Note**: You will observe that the **preference-applied** and **odata-version** headers that you specified have been deleted and replaced with a new **powered-by** header. You will also notice that the response doesn’t contain context data about the OData response, but instead contains a flattened JSON array as the response body.
+> > **注記**： **指定したプリファレンス適用** ヘッダーと **odata バージョン** ヘッダーが削除され、新しい **電源付き** ヘッダーに置き換えられている ことがわかります。また、応答には OData 応答に関するコンテキスト データが含まれておらず、応答本文としてフラット化された JSON 配列が含まれていることにも気付きます。
 
-#### Review
+#### 復習
 
-In this exercise, you built a proxy tier between your Azure Search account and any developers who wish to make search queries.
+この演習では、Azure Search アカウントと検索クエリを実行する開発者の間にプロキシ層を構築しました。
 
-### Exercise 4: Create new table entities by using Azure Logic Apps
+### エクササイズ 4: Azure ロジック アプリを使用して新しいテーブル エンティティを作成する
 
-#### Task 1: Create a Logic Apps resource
+#### タスク 1: Logic アプリ リソースの作成
 
-1.  In the left navigation pane of the portal, select **+ Create a resource**.
+1.  ポータルの左側のナビゲーション ウィンドウで、 **+ リソースを作成** を選択します。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** field.
+2.  **新規** ブレードの上部にある **マーケットプレースを検索** フィールドを検索します。
 
-1.  In the search field, enter **Logic** and press Enter.
+3.  検索フィールドで、 **ロジック** を入力し、Enter キーを押します。 
 
-1.  In the **Everything** search results blade, select the **Logic App** result.
+4.  [**すべて** 検索結果] ブレードで、 **ロジック アプリの結果** を選択します。
 
-1.  In the **Logic App** blade, select **Create**.
+5.  **ロジック アプリ** ブレードで、 **作成** を選択します。   
 
-1.  In the **Logic App** blade, perform the following actions:
+6.  **ロジック アプリ** ブレードで、次の操作を実行します。 
     
-    1.  In the **Name** field, enter **prodworkflow\[*your name in lowercase*\]**.
+    1.  **名前** フィールド に、**prodworkflow\*小文字*\]** と入力します。
     
-    1.  Leave the **Subscription** field set to its default value.
+    2.  **サブスクリプション** フィールドは既定値に設定したままにします。
     
-    1.  In the **Resource group** section, select **Use existing** and then select the **MultiTierService** option from the list.
+    3.  **リソース グループ** セクションで、**既存の使用** を選択し、一覧から **マルチ層サービス** オプションを選択します。   
     
-    1.  In the **Location** list, select **East US**.
+    4.  **場所** リストで、**米国東部** リージョンを選択します。
     
-    1.  In the **Log Analytics** section, select **Off**.
+    5.  **ログ分析** セクションで、**オフ** を選択します。   
     
-    1.  Select **Create**.
+    6.  **作成** を選択します。
 
-1.  Wait for the creation task to complete before you move forward with this lab.
+7.  演習を進める前に、作成タスクが完了するまで待ちます。
 
-#### Task 2: Create a trigger for Logic Apps workflow
+#### タスク 2: Logic アプリのワークフロー用トリガーの作成
 
-1.  In the left navigation pane of the portal, select **Resource groups**.
+1.  ポータルの左側のナビゲーション ウィンドウで、**リソース グループ** を選択 します。
 
-1.  In the **Resource groups** blade, select the **MultiTierService** resource group that you created earlier in this lab.
+2.  **リソース グループ** ブレードで、この実習ラボで前に作成した **MultiTierService** リソースグループを選択します。
 
-1.  In the **MultiTierService** blade, select the **prodworkflow\*** logic app that you created earlier in this lab.
+3.  **MultiTierService** ブレードで、 この実習ラボで前に作成した **prodworkflow\*** ロジック アプリを選択します。  
 
-1.  In the **Logic Apps Designer** blade, select the **Blank Logic App** template.
+4.  **ロジック アプリ デザイナ** ブレードで、 **空白のロジック アプリ** テンプレートを選択します。 
 
-1.  In the **Designer** area, perform the following actions to add a **HTTP Trigger**:
+5.  **デザイナ** 領域で、 **HTTP トリガー** を追加するには、次のアクションを実行します。
     
-    1.  In the **Search connectors and triggers** field, enter **HTTP**.
+    1.  **コネクタとトリガー** フィールドに **HTTP** と入力します。
     
-    1.  In the **Triggers** result list, select **When a HTTP request is received**.
+    2.  **トリガー結果** ボックスの一覧で、 **HTTP 要求を受信した場合** を選択します。
     
-    1.  Select **Use sample payload to generate schema**.
+    3.  スキーマを生成するには、 **サンプル ペイロードを使用する** を選択します。 
     
-    1.  In the **Enter or paste a sample JSON payload** window, enter the following JSON object:
+    4.  **サンプル JSON ペイロード ウィンドウの入力または貼り付け** で、次の JSON オブジェクトを入力します。 
 
-    ```
-    { 
-        "id": "",
-        "manufacturer": "",
-        "price": 0.00,
-        "quantity": 0,
-        "name": ""
-    }
-    ```
+> 
+> 
+> ``` 
+> { 
+> ```
+> 
+> ``` 
+>     "id": "",
+> ```
+> 
+> ``` 
+>     "manufacturer": "",
+> ```
+> 
+> ``` 
+>     "price": 0.00,
+> ```
+> 
+> ``` 
+>     "quantity": 0,
+> ```
+> 
+> ``` 
+>     "name": ""
+> ```
+> 
+> ``` 
+> }
+> ```
 
-1.  Select **Done**.
+5.  **完了** を選択します。 
 
-1.  Observe the schema in the **Request Body JSON Schema** field. This schema is built by Azure automatically based on the JSON content that you entered in the previous step.
+6.  **要求本文 JSON スキーマ** フィールドでスキーマを確認します。このスキーマは、前の手順で入力した JSON コンテンツに基づいて Azure によって自動的に作成されます。
 
-#### Task 3: Build a connector for Azure Storage
+#### タスク 3: Azure Storage 用コネクターの構築
 
-1.  In the **Designer** area, select **+ New step**.
+1.  **デザイナ** 領域で、 **+ 新しいステップ** を選択します。   
 
-1.  In the **Designer** area, perform the following actions to add an **Insert or Replace Entity Action**:
+2.  **デザイナー** 領域で、次のアクションを実行して、 **エンティティの挿入または置換アクション** を追加します。  
     
-    1.  In the **Search connectors and triggers** field, enter **Table**.
+    1.  **コネクターとトリガー** フィールドに **テーブル** と入力 します。
     
-    1.  In the category list, select **Azure Table Storage**.
+    2.  カテゴリ リストで、 **Azure テーブルストレージ** を選択します。
     
-    1.  In the **Actions** result list, select **Insert or Replace Entity**.
+    3.  **アクション** 結果] リストで、 **エンティティの挿入または置換** を選択します。 
     
-    1.  In the **Connection Name** field, enter **tableconnection**.
+    4.  **接続名** フィールドに、 **テーブル接続** を入力します。   
     
-    1.  In the **Storage Account** section, select the **prodstorage\*** Storage account that you created earlier in this lab.
+    5.  **ストレージ アカウント** セクションで、 この実習ラボで前に作成した **prodstorage\*** ストレージ アカウントを選択します。  
     
-    1.  Select **Create**.
+    6.  **作成** を選択します。
     
-    1.  Wait for the connector resource to finish creating.
+    7.  コネクタ リソースの作成が完了するのを待ちます。
 
-        > **Note**: These resources take one to five minutes to create.
+> **注記**： これらのリソースの作成には 1 から 5 分かかります。
 
-1.  In the **Table** list, select **products**.
+8.  **テーブル** リストで **製品** を選択します。
 
-1.  On the right side of the **Partition Key** field, in the **Dynamic content** pane, within the **When a HTTP request is received** category, select **manufacturer**.
+9.  **パーティション キー** フィールドの右側 にある **動的コンテンツ** ウィンドウで、 ** HTTP 要求を受信した場合** カテゴリ内で、 **製造元** を選択します。     
 
-1. On the right side of the **Row Key** field, in the **Dynamic content** pane, within the **When a HTTP request is received** category, select **id**.
+10. **RowKey** フィールドの右側にある **動的コンテンツ** ウィンドウで、 **HTTP 要求を受信した場合** カテゴリ内で、 **id** を選択します。
 
-1. On the right side of the **Entity** field, in the **Dynamic content** pane, within the **When a HTTP request is received** category, select **Body**.
+11. **エンティティー** フィールドの 右側 にある **動的コンテンツ** ウィンドウで、 **HTTP 要求を受信した場合 カテゴリ内で**、 **本文** を選択します。 
 
-#### Task 4: Build a HTTP response action
+#### タスク 4: HTTP 応答アクションの構築
 
-1.  In the **Designer** area, select **+ New step**.
+1.  **デザイナー** 領域で、 **+ 新しいステップ** を選択します。   
 
-1.  In the **Designer** area, perform the following actions to add a **Response Action**:
+2.  **デザイナー** 領域で、次のアクションを実行して、 **応答アクション** を追加します。
     
-    1.  In the **Search connectors and triggers** field, enter **Response**.
+    1.  **コネクターとトリガーを検索** フィールドで、 **応答** と入力します。
     
-    1.  In the **Actions** result list, select **Response**.
+    2.  **アクション結果** ボックスの一覧で、 **応答** を選択します。   
     
-    1.  In the **Status Code** field, enter **201**.
+    3.  **ステータスコード** フィールドに  **201** と入力します。
     
-    1.  On the right side of the **Body** field, in the **Dynamic content** pane, within the **Insert of Replace Entity** category, select **Body**.
+    4.  **本文** フィールドの右側にある **動的コンテンツ** ウィンドウで、 **エンティティの置換 **カテゴリ内で **本文** を選択します。 
 
-#### Task 5: Retrieve a HTTP trigger POST URL
+#### タスク 5: HTTP トリガー POST URL の取得
 
-1.  In the **Designer** area, select **Save**.
+1.  **デザイナー** 領域で、 **保存** を選択します。
 
-1.  After the workflow is saved, the **HTTP POST URL** field in the **When a HTTP request is received** trigger will be updated with a new URL that you’ll need to start this workflow. Copy the URL in the **HTTP POST URL** field. You will use this URL later in this lab.
+2.  ワークフローが保存されると、 **HTTP 要求を受信した場合** の **HTTP POST URL** フィールドが新しい URL で更新され、このワークフローを開始する必要があります。 **HTTP POST URL** フィールドに URL をコピー します。  この URL は、この演習の後半で使用します。
 
-    > **Note**: This is a very long URL because it includes the URL with the SAS token. Make sure that you copy the entire URL.
+> > **注記**： SAS トークンを持った URL を含むため、これは非常に長い URL となります。確実に URL 全体をコピーしてください。
 
-#### Task 6: Validate that logic app results are indexed
+#### タスク 6: ロジック アプリの結果がインデックス化されていることを確認してください。
 
-1.  At the top of the portal, select the **Cloud Shell** icon to open a new shell instance.
+1.  ポータルの上部で、 **Cloud Shell** アイコンを選択して新しいシェルインスタンスを開きます。 
 
-    > **Note**: The **Cloud Shell** icon is represented by a greater than symbol and underscore character.
+> **注記**： **Cloud Shell** アイコンは、シンボルとアンダースコア文字より大きい文字で表されます。
 
-1.  If this is your first time opening the **Cloud Shell** by using your subscription, a **Welcome to Azure Cloud Shell** wizard will display how to configure **Cloud Shell** for first-time usage. Perform the following actions:
+![](media/image1.png)
+
+2.  サブスクリプションを使用して初めて **Cloud Shell** を開く場合 は、 **Azure Cloud Shell へようこそ** で、初めて使用する **Cloud Shell** を構成する方法が表示されます。 以下のアクションを非表示にします：
     
-    1.  When offered a choice between **Bash** or **PowerShell**, select **Bash**.
+    1.  **Bash** または **PowerShell** の間で選択が行われた場合は、 **[Bash]** を選択します。     
     
-    1.  A dialog box prompts you to create a new Storage account to begin by using the shell. Accept the default settings and select **Create storage**.
+    2.  ダイアログボックスを表示すると、シェルを使用して開始する新しいストレージ アカウントを作成するよう求めるメッセージが表示されます。既定の設定を受け入れ、 **ストレージの作成** を選択します。 
     
-    1.  Wait for the **Cloud Shell** to finish its first-time setup procedures before you move forward with the lab.
+    3.  **Cloud Shell** が初回セットアップ手順を完了するのを待ってから、ラボを進めます。 
 
-        > **Note**: If you the configuration options for the **Cloud Shell** do not appear, this is most likely because you are using an existing subscription with this course's labs. The labs are written from the perspective that you are using a new subscription.
+> > **注記**： **Cloud Shell** の構成オプションが表示されない場合は、このコースのラボで既存のサブスクリプションを使用している可能性が高いと考えられます。 演習は、新しいサブスクリプションを使用しているという観点から記述されます。
 
-1.  At the bottom of the portal, in the **Cloud Shell** command prompt, enter the following partial **CURL** command to issue a **HTTP POST** request to the Logic Apps instance and then press **Enter**:
+3.  ポータルの下部にある **Cloud Shell** コマンド プロンプトで、次の部分的な **CURL** コマンドを入力して、Logic Apps インスタンスに **HTTP POST** 要求を発行し、次に **[入力]** を押します。
 
-    ```
+<!-- end list -->
+
     curl \
     --header "Content-Type: application/json" \
     --data '{"id":"6","manufacturer":"VEHTOP","price":750,"quantity":6,"name":"car roof rack"}' \
-    ```
 
-1.  Next, enter the logic app’s **HTTP POST URL** that you copied earlier in this lab, ensuring that you place the URL within **quotation marks** so that the URL characters are not escaped. Press **Enter** to execute the command.
+4.  次に、この演習で前にコピーしたロジック アプリの **HTTP POST URL** を入力し、URL 文字がエスケープされないように **引用符** で囲みます。 **Enter**  キーを押してコマンドを実行します。
 
-    > **Note**: For example, if the URL is https://prod.eastus.logic.azure.com:443/workflows/test/triggers/invoke?api-version=2016\&sig=3, then you would insert “https://prod.eastus.logic.azure.com:443/workflows/test/triggers/manual?invoke?api-version=2016\&sig=3”. If you don’t include the quotation marks, you will get an error message indicating that the SAS token has been truncated and is required to issue the request. This occurs because the query string separator, **&,** is truncated if not enclosed in quotation marks.
+> > **注記**： たとえば、URL が https://prod.eastus.logic.azure.com:443/workflows/test/triggers/invoke?api-version=2016\&sig=3の場合、"https://prod.eastus.logic.azure.com:443/workflows/test/triggers/manual?invoke?api-version=2016\&sig=3"を挿入します。引用符を含めないと、SAS トークンが切り捨てられ、要求を発行する必要があることを示すエラー メッセージが表示されます。これは、クエリ文字列区切り記号 **&** が引用符で囲まれていない場合に切り捨てられるために発生します。
 
-1.  In the left navigation pane of the portal, select **Resource groups**.
+5.  ポータルの左側のナビゲーション ウィンドウで、 **リソース グループ** を選択 します。
 
-1.  In the **Resource groups** blade, select the **MultiTierService** resource group that you created earlier in this lab.
+6.  **リソース グループ** ブレードで、この実習ラボで前に作成した **MultiTierService** リソースグループを選択します。
 
-1.  In the **MultiTierService** blade, select the **prodsearch\*** Search service that you created earlier in this lab.
+7.  **MultiTierService** ブレードで、この実習ラボで前に作成した **prodsearch\*** 検索サービスを選択します。
 
-1.  In the **Search Service** blade, select the **Indexers** tab.
+8.  **検索サービス** ブレードで、 **インデクサー** タブを選択します。   
 
-1.  In the **Indexers** tab, select the **tableindexer** indexer that you created earlier in this lab.
+9.  **インデクサー** タブで、 この実習ラボで前に作成した **テーブルインデクサー** インデクサーを選択します。
 
-1. In the **Indexer** blade, perform the following actions:
+10. **インデクサー** ブレードで、次の操作を実行します。
     
-    1. Select **Run**.
+    40. **実行** を選択します。
     
-    1. When prompted for confirmation, select **Yes**.
+    41. 確認を求めるメッセージが表示されたら、**Yes** をクリックします。
     
-    1. Close the **Indexer** blade.
+    42. **インデクサー** ブレードを閉じます。
 
-1. Wait for the indexer to finish running, and then select **Refresh** at the top of the blade.
+11. インデクサーの実行が完了するのを待ってから、 ブレードの上部にある **更新** を選択します。
 
-1. Back in the **Search Service** blade, select **Search Explorer**.
+<!-- end list -->
 
-1. In the **Search Explorer** blade, select **Search**.
+12. **検索サービス** ブレードに戻り、 **エクスプローラの検索** を選択 します。   
 
-1. Observe the results of a search for all documents.
+13. **エクスプローラの検索** ブレードで、 **検索** を選択します。
 
-    > **Note**: At this point, you will notice a sixth document in your index representing the new document that was inserted by the logic app.
+14. すべてのドキュメントの検索結果を確認します。
 
-1. In the left navigation pane of the portal, select **Resource groups**.
+> > **注記**： この時点で、ロジックアプリによって挿入された新しいドキュメントを表すインデックス内の 6 番目のドキュメントが表示されます。
 
-1. In the **Resource groups** blade, select the **MultiTierService** resource group that you created earlier in this lab.
+15. ポータルの左側のナビゲーション ウィンドウで、 **リソース グループ** を選択 します。
 
-1. In the **MultiTierService** blade, select the **prodapi\*** API Management account that you created earlier in this lab.
+16. **リソース グループ** ブレードで、この実習ラボで前に作成した **MultiTierService** リソースグループを選択します。
 
-1. In the **API Management Service** blade, on the left side of the blade, in the **API Management** section, select **APIs** .
+17. **MultiTierService** ブレードで、 この実習ラボで前に作成した **prodapi\*** API Management アカウントを選択します。
 
-1. In the **APIs** section, select **Search API**.
+18. **API Management サービス** ブレードで、ブレードの左側にある **API Management** セクションで **API** を選択 します。
 
-1. In the **Design** tab, select the **Test** tab.
+19. **API** セクションで、 **API の検索** を選択します。   
 
-1. Select the **List All Documents** operation.
+20. **デザイン** タブで、 **テスト** タブを選択します。   
 
-1. In the **List All Documents** section, select **Send**.
+21. **すべてのドキュメントの一覧** 操作を選択します。
 
-1. Observe the results of the API request.
+22. **すべてのドキュメントの一覧** セクションで、 **送信** を選択します。
 
-    > **Note**: Observe that there are six documents now instead of five.
+23. API 要求の結果を確認します。
 
-#### Review
+> > **注記**： 5 つではなく 6 つのドキュメントが現在あることに注意してください。
 
-In this exercise, you created a logic app that takes a HTTP request and then persists the JSON body of the request as a new Azure Storage table entity.
+#### 復習
 
-### Exercise 5: Clean up subscription 
+この演習では、HTTP 要求を受け取り、要求の JSON 本体を新しい Azure Storage テーブル エンティティとして保持するロジックアプリを作成しました。
 
-#### Task 1: Open Cloud Shell
+### エクササイズ 5: サブスクリプションのクリーンアップ 
 
-1.  At the top of the portal, select the **Cloud Shell** icon to open a new shell instance.
+#### タスク 1: Cloud Shell を開く
 
-1.  At the bottom of the portal, in the **Cloud Shell** command prompt, type the following command and press Enter to list all resource groups in the subscription:
+1.  ポータルの上部で、**Cloud Shell** アイコンを選択して新しいシェルインスタンスを開きます。
 
-    ```
+2.  ポータルの下部にある **Cloud Shell** コマンド プロンプトで、次のコマンドを入力し、Enter キーを押してサブスクリプション内のすべてのリソース グループを一覧表示します。
+
+<!-- end list -->
+
     az group list
-    ```
 
-1.  Type the following command and press Enter to view a list of possible commands to delete a resource group:
+3.  次のコマンドを入力し、Enter キーを押して、リソース グループを削除する可能性のあるコマンドの一覧を表示します。
 
-    ```
+<!-- end list -->
+
     az group delete --help
-    ```
 
-#### Task 2: Delete resource groups
+#### タスク 2: リソース グループを削除する
 
-1.  Type the following command and press Enter to delete the **MultiTierService** resource group:
+1.  次のコマンドを入力し、Enter キーを押して **MultiTierService** リソース グループを削除します。
 
-    ```
+<!-- end list -->
+
     az group delete --name MultiTierService --no-wait --yes
-    ```
-    
-1.  Close the **Cloud Shell** pane at the bottom of the portal.
 
-#### Task 3: Close active applications
+2.  ポータルの下部にある **Cloud Shell** ペインを閉じます。 
 
-1.  Close the currently running **Microsoft Edge** application.
+#### タスク 3: アクティブなアプリケーションを閉じる
 
-1.  Close the currently running **Microsoft Azure Storage Explorer** application.
+1.  現在実行中の **Microsoft Edge** アプリケーションを閉じます。
 
-#### Review
+2.  今実行している **Microsoft Azure Storage Explorer** アプリケーションを閉じます。
 
-In this exercise, you cleaned up your subscription by removing the **resource groups** used in this lab.
+#### 復習
+
+この実習では、この演習で使用する **リソース グループ** を削除してサブスクリプションをクリーンアップしました。

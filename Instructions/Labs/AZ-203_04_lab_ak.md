@@ -1,880 +1,857 @@
+﻿---
+ラボ:
+    title: ラボ: サービス間でリソースシークレットに安全にアクセスする
+    タイプ: 'Answer Key'
+    ご利用ください。モジュール 4：Azure Security の実装'
 ---
-lab:
-    title: 'Lab: Access resource secrets securely across services'
-    type: 'Answer Key'
-    module: 'Module 4: Implement Azure security'
----
 
-# Lab: Access resource secrets securely across services
-# Student lab answer key
+# ラボ: サービス間でリソース シークレットに安全にアクセスする
+# 受講ラボの解答キー
 
-## Microsoft Azure user interface
+## Microsoft Azure ユーザー インターフェイス
 
-Given the dynamic nature of Microsoft cloud tools, you might experience Azure user interface (UI) changes after the development of this training content. These changes might cause the lab instructions and lab steps to not match up.
+Microsoft クラウド ツールのダイナミックな性質を考えると、このトレーニング コンテンツの開発後に Azure ユーザー インターフェイス (UI) の変更が発生する可能性があります。これらの変更により、演習の手順と演習手順が一致しない場合があります。
 
-Microsoft updates this training course as soon as the community brings needed changes to our attention. However, because cloud updates occur frequently, you might encounter UI changes before this training content is updated. **If this occurs, adapt to the changes and work through them in the labs as needed.**
+Microsoft は、コミュニティが必要な変更を行うとすぐに、このトレーニング コースを更新します。しかし、クラウド更新が頻繁に起きるため、この研修内容が更新される前に、UI の変更を経験するかも知れません。 **その場合は変更に順応して、必要に応じてラボでをそれを処理してください。**
 
-## Instructions
+## 指示
 
-### Before you start
+### 開始する前に
 
-#### Sign in to the lab virtual machine
+#### ラボの仮想マシンへのサインイン
 
-Sign in to your **Windows 10** virtual machine by using the following credentials:
+  - 次の認証情報を使用して **Windows 10** 仮想マシンにサインインします。
     
--   **Username**: Admin
-
--   **Password**: Pa55w.rd
-
-> **Note**: Lab virtual machine sign-in instructions will be provided to you by your instructor.
-
-#### Review installed applications
-
-Observe the taskbar located at the bottom of your **Windows 10** desktop. The taskbar contains the icons for the applications you will use in this lab:
+      - **ユーザー名**： Admin
     
--   Microsoft Edge
+      - **パスワード**: Pa55w.rd
 
--   File Explorer
+> > **注記**： ラボ仮想マシンのサインイン手順は、インストラクターから提供されます。
 
-#### Download the lab files
+#### インストールされたアプリケーションの検討
 
-1.  On the taskbar, select the **Windows PowerShell** icon.
+  - **Windows 10** デスクトップの下部にあるタスク バーを確認します。タスク バーには、このラボで使用するアプリケーションのアイコンが含まれています。
+    
+      - Microsoft Edge
+    
+      - エクスプローラ
 
-1.  In the PowerShell command prompt, change the current working directory to the **Allfiles (F):\\** path:
+#### 練習用ファイルをダウンロードする
+
+1.  タスク バーで、**Windows PowerShell** アイコンを選択します。
+
+2.  PowerShell コマンド プロンプトで、現在の作業ディレクトリを **Allfiles (F):\\** パスに変更します。
 
     ```
     cd F:
     ```
 
-1.  Within the command prompt, enter the following command and press Enter to clone the **microsoftlearning/AZ-203-DevelopingSolutionsforMicrosoftAzure** project hosted on GitHub into the **Allfiles (F):\\** drive:
+3.  コマンド プロンプト内で次のコマンドを入力し、Enter キーを押して、GitHub でホストされている **Microsoftlearning/AZ-203-DevelopingSolutionsForAzure** プロジェクトを **Labfiles** ディレクトリに複製します。
 
     ```
     git clone --depth 1 --no-checkout https://github.com/microsoftlearning/AZ-203-DevelopingSolutionsForMicrosoftAzure .
     ```
 
-1.  Within the command prompt, enter the following command and press **Enter** to check out the lab files necessary to complete the **AZ-203T04** lab:
+4.  コマンド プロンプト内で次のコマンドを入力し、**Enter**  キーを押 して、**AZ-203.02** ラボを完了するために必要なラボ ファイルをチェックアウトします。
 
     ```
     git checkout master -- Allfiles/*
     ```
 
-1.  Close the currently running **Windows PowerShell** command prompt application.
+5.  現在実行中の **Windows PowerShell** コマンド プロンプト アプリケーションを閉じます。
 
-### Exercise 1: Create Azure resources
+### エクササイズ 1: Azureのリソースを作成
 
-#### Task 1: Open the Azure portal
+#### タスク 1: Azure potalを開く
 
-1.  On the taskbar, select the **Microsoft Edge** icon.
+1.  タスク バーで、**Microsoft Edge** アイコンを選択します。
 
-1.  In the open browser window, navigate to the **Azure portal** ([portal.azure.com](https://portal.azure.com)).
+2.  開いているブラウザ ウインドウで、**Azure potal** ([portal.azure.com](https://portal.azure.com))に移動します。
 
-1.  Enter the **email address** for your Microsoft account.
+3.  Microsoft アカウントの **電子メール アドレス** を入力します。
 
-1.  Select **Next**.
+4.  **次へ** を選択します。
 
-1.  Enter the **password** for your Microsoft account.
+5.  Microsoft アカウントの **パスワード** を入力します。
 
-1.  Select **Sign in**.
+6.  **サインイン** を選択します。
 
-    > **Note**: If this is your first time signing in to the **Azure Portal**, a dialog box will appear offering a tour of the portal. Select **Get Started** to skip the tour and begin using the portal.
+> > 注記：**Azure potal** に初めてサインインする場合は、ポータルのツアーを提供するダイアログ ボックスが表示されます。ツアーをスキップしてポータルの使用を開始するには、**開始** を選択します。
 
-#### Task 2: Create an Azure Storage account
+#### タスク 2: Azure Storage  アカウントを作成する
 
-1.  In the navigation pane on the left side of the Azure portal, select **All services**.
+1.  Azure potalの左側にあるナビゲーションペインで、**すべてのサービス** ナビゲーションペインをクリックしてください。
 
-1.  In the **All services** blade, select **Storage Accounts**.
+2.  **すべてのサービス** ブレードで、**ストレージ アカウント** を選択します。
 
-1.  In the **Storage accounts** blade, view your list of Storage instances.
+3.  **ストレージ アカウント** ブレードで、ストレージ インスタンスの一覧を表示します。
 
-1.  At the top of the **Storage accounts** blade, select **+ Add**.
+4.  **ストレージ アカウント** ブレードの上部にある **追加** を選択 します。
 
-1.  In the **Create storage account** blade, observe the tabs at the top of the blade, such as **Basics**.
+5.  **ストレージ アカウント作成** ブレードで、**基本** などのブレードの上部にあるタブを確認します。
 
-  > **Note**: Each tab represents a step in the workflow to create a new **storage account**. At any time, you can select **Review + create** to skip the remaining tabs.
+> 注記：各タブは、ワークフロー内の新しい **ストレージ アカウント** を作成するためのステップを表 します。 いつでも **レビュー + 作成** を選択して、残りのタブをスキップできます。
 
-1.  In the **Basics** tab, perform the following actions:
+6.  **基本** タブで、次の操作を実行します：
     
-    1.  Leave the **Subscription** text box set to its default value.
+    1.  **サブスクリプション** テキスト ボックスは既定値のままにします。
     
-    1.  In the **Resource group** section, select **Create new**, enter **SecureFunction**, and then select **OK**.
+    2.  **リソース グループ** セクションで、**新規作成** を選択し、**SecureFunction** を選択し、**OK** を選択します。
     
-    1.  In the **Storage account** **name** text box, enter **securestor\[your name in lowercase\]**.
+    3.  **ストレージ アカウント** **名** テキスト ボックスに、**securestor\[名前を小文字で入力\]** と入力します。
     
-    1.  In the **Location** drop-down list, select the **(US) East US** region.
+    4.  **場所** ドロップダウン リストで、 **米国東部** リージョンを選択します。
     
-    1.  In the **Performance** section, select **Standard**.
+    5.  **パフォーマンス** セクションで、**標準** を選択します。
     
-    1.  In the **Account kind** drop-down list, select **StorageV2 (general purpose v2)**.
+    6.  **アカウントの種類** ドロップダウン リストで、**StorageV2 (汎用 v2)** を選択します。
     
-    1.  In the **Replication** drop-down list, select **Locally-redundant storage (LRS)**.
+    7.  **レプリケーション** ドロップダウン リストで、**ローカル冗長ストレージ (LRS)** を選択します。
     
-    1.  In the **Access tier** section, ensure that **Hot** is selected.
+    8.  **アクセス層** セクションで、**Hot ** が選択されていることを確認します。
     
-    1.  Select **Review + Create**.
+    9.  **レビュー + 作成** を選択します。
 
-1.  In the **Review + Create** tab, review the options that you selected during the previous steps.
+7.  **レビュー + 作成** タブで、前の手順で選択したオプションを確認します。
 
-1.  Select **Create** to create the storage account by using your specified configuration.
+8.  指定した構成を使用してストレージ アカウントを作成するには、**作成** を選択します。
 
-1.  Wait for the creation task to complete before you move forward with this lab.
+9.  演習を進める前に、作成タスクが完了するまで待ちます。
 
-1. In the navigation pane on the left side of the Azure portal, select **All services**.
+10. Azureポータルの左側にあるナビゲーションペインで、**すべてのサービス** ナビゲーションペインをクリックしてください。
 
-1. In the **All services** blade, select **Storage Accounts**.
+11. **すべてのサービス** ブレードで、**ストレージ アカウント** を選択します。
 
-1. In the **Storage accounts** blade, select the storage account instance with the prefix **securestor**.
+12. **ストレージ アカウント** ブレードで、プレフィックス **セキュアスタを** 持つストレージ アカウント インスタンスを選択します。 
 
-1. In the **Storage account** blade, locate the **Settings** section on the left side of the blade and select the **Access keys** link.
+13. **ストレージ アカウント** ブレードで、ブレードの左側にある **設定** セクションを見つけ、**アクセスキー** リンクを選択 します。
 
-1. In the **Access keys** blade, select any one of the keys and record the value in either of the **Connection string** fields. You will use this value later in this lab.
+14. **アクセス キー** ブレードでいずれかのキーを選択し、 **接続文字列** テキスト ボックスに値を記録します。これらの値は、この演習の後半で使用します。
 
-    > **Note**: It does not matter which connection string you choose to use. They are interchangeable.
+> > 注記：使用を選択する接続文字列は関係ありません。それらは交換可能です。
 
-#### Task 3: Create an Azure Key Vault
+#### タスク 3: Azure Key Vault を作成します。
 
-1.  On the navigation menu located on the left side of the portal, select the **+ Create a resource** link.
+1.  ポータルの左側にあるナビゲーション メニューで、**+ リソースを作成** リンクを選択します。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** text box above the list of featured services.
+2.  **新しい** ブレードの上部で、 おすすめサービスの一覧の上にある **マーケットプレースの検索** テキスト ボックスを検索します。
 
-1.  In the search text box, enter **Vault** and then press Enter.
+3.  検索テキスト ボックスに **ボルト** を入力し、Enterを押します。
 
-1.  In the **Everything** search results blade, select the **Key Vault** result.
+4.  **すべて** 検索結果 ブレードで、**キー ボルト** の結果を選択します。
 
-1.  In the **Key Vault** blade, select **Create**.
+5.  **キー ボルト** ブレードで、 **作成** を選択します。
 
-1.  In the **Create key vault** blade, perform the following actions:
+6.  **キー ボルトの作成** ブレードで、次の操作を実行します。
     
-    1.  In the **Name** text box, enter **securevault\[your name in lowercase\]**.
+    1.  **名前** テキストボックスに **securevault\[*名前を小文字*\]** と入力します。
     
-    1.  Leave the **Subscription** text box set to its default value.
+    2.  **サブスクリプション** テキスト ボックスは既定値のままにします。
     
-    1.  In the **Resource group** section, select **Use existing**, and then select **SecureFunction** from the list.
+    3.  **リソース グループ** セクションで、 **既存のものを使用** を選択し、**SecureFunction** を選択します。
     
-    1.  In the **Location** drop-down list, select **East US**.
+    4.  **場所** ドロップダウン リストで、**米国東部** を選択します。
     
-    1.  Leave the **Pricing tier** text box set to its default value.
+    5.  **価格層** テキスト ボックスは、既定値のままにします。
     
-    1.  Leave the **Access policies** text box set to its default value.
+    6.  **アクセス ポリシー** テキスト ボックスは既定値のままにします。 
     
-    1.  Leave the **Virtual Network Access** text box set to its default value.
+    7.  **仮想ネットワーク アクセス** テキスト ボックスを既定値のままにします。 
     
-    1.  Select **Create**.
+    8.  **作成** を選択します。
 
-1.  Wait for the creation task to complete before you move forward with this lab.
+7.  演習を進める前に、作成タスクが完了するまで待ちます。
 
-#### Task 4: Create an Azure Function app
+#### タスク 4: Azure Functionアプリの作成
 
-1.  On the navigation menu located on the left side of the portal, select the **+ Create a resource** link.
+1.  ポータルの左側にあるナビゲーション メニューで、**+ リソースを作成** リンクを選択します。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** text box above the list of featured services.
+2.  **新しい** ブレードの上部で、 おすすめサービスの一覧の上にある **マーケットプレースの検索** テキスト ボックスを検索します。
 
-1.  In the search text box, enter **Function** and then press Enter.
+3.  検索テキスト ボックスに **関数** を入力し、Enterを押します。
 
-1.  In the **Everything** search results blade, select the **Function App** result.
+4.  **すべて** 検索結果ブレードで、 **関数アプリ** の結果を選択します。
 
-1.  In the **Function App** blade, select **Create**.
+5.  **関数アプリ** ブレードで、**作成** を選択します。
 
-1.  In the **Create function app** blade, perform the following actions:
+6.  **関数アプリの作成** ブレードで、次の操作を実行します。
     
-    1.  In the **App name** text box, enter **securefunc\[your name in lowercase\]**.
+    1.  **アプリ名** テキストボックスに **securevault\[*名前を小文字*\]** と入力します。
     
-    1.  Leave the **Subscription** text box set to its default value.
+    2.  **サブスクリプション** テキスト ボックスは既定値のままにします。
     
-    1.  In the **Resource group** section, select **Use existing**, and then select **SecureFunction** from the list.
+    3.  **リソース グループ** セクションで、**既存のものを使用** を選択し、**SecureFunction** を選択します。
     
-    1.  In the **OS** section, select **Windows**.
+    4.  **OS** セクションで、**Windows** を選択 します。   
     
-    1.  In the **Hosting Plan** drop-down list, select **Consumption Plan**.
+    5.  **ホスティング プラン** ドロップダウン リストで、**消費プラン** を選択します。
     
-    1.  In the **Location** drop-down list, select **East US**.
+    6.  **場所** ドロップダウン リストで、**米国東部** を選択します。
     
-    1.  In the **Runtime Stack** drop-down list, select **.NET Core**.
+    7.  **ランタイム スタック** ドロップダウン リストで、**.NET** を選択します。
     
-    1.  In the **Storage** section, select **Use existing**, and then select **securestor\[your name in lowercase\]** from the list.
+    8.  **ストレージ** セクションで **既存のものを使用** を選択し、一覧から **securestor\[小文字で名前]** を選択します。   
     
-    1.  Leave the **Application Insights** option set to its default value.
+    9.  **アプリケーション インサイト** テキスト ボックスは既定値のままにします。 
     
-    1. Select **Create**.
+    10. **作成** を選択します。
 
-1.  Wait for the creation task to complete before you move forward with this lab.
+7.  演習を進める前に、作成タスクが完了するまで待ちます。
 
-#### Review
+#### 復習
 
-In this exercise, you created all the resources that you will use for this lab.
+この演習では、この演習で使用するすべてのリソースを作成しました。
 
-### Exercise 2: Configure secrets and identities 
+### エクササイズ 2: シークレットと ID の構成 
 
-#### Task 1: Configure a system-assigned managed service identity
+#### タスク 1: システムに割り当てられた管理サービス ID の構成
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+1.  ポータルの左側にあるナビゲーション メニューで、**リソース グループ** リンクを選択します。
 
-1.  In the **Resource groups** blade, locate and select the **SecureFunction** resource group that you created earlier in this lab.
+2.  **リソース グループ** ブレードで、 この演習で前に作成した **SecureFunction** リソース グループを見つけて選択します。
 
-1.  In the **SecureFunction** blade, select the **securefunc\*** function app that you created earlier in this lab.
+3.  **SecureFunction** ブレードで、このラボで前に作成した **securefunc\*** 関数アプリを選択します。  
 
-1.  In the **Function Apps** blade, select the **Platform features** tab.
+4.  **機能アプリ** ブレードで、 **プラットフォームの機能** タブを選択します。
 
-1.  In the **Platform features** tab, select the **Identity** link located in the **Networking** section.
+5.  **プラットフォームの機能** タブで、 **ネットワーク** セクションにある **ID** リンクを選択 します。     
 
-1.  In the **Identity** blade, locate the **System assigned** tab and then perform the following actions:
+6.  **ID** ブレードで、**システムに割り当てられた** タブを見つけて、次のアクションを実行します。   
     
-    1.  In the **Status** section, select **On**.
+    1.  **ステータス**セクションで、**オン**を選択します。 
     
-    1.  Select **Save**.
+    2.  **保存** を選択します。
     
-    1.  Select **Yes** in the confirmation dialog.
+    3.  確認ダイアログで **はい** を選択します。
 
-1.  Wait for the system-assigned managed identity to be created before you move forward with this lab.
+7.  この演習を進める前に、システムに割り当てられた管理 ID が作成されるまで待ちます。
 
-#### Task 2: Create a Key Vault secret
+#### タスク 2: Key Vaultを作成します
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+1.  ポータルの左側にあるナビゲーション メニューで、**リソース グループ** リンクを選択します。
 
-1.  In the **Resource groups** blade, locate and select the **SecureFunction** resource group that you created earlier in this lab.
+2.  **リソース グループ** ブレードで、 この演習で前に作成した **SecureFunction** リソース グループを見つけて選択します。
 
-1.  In the **SecureFunction** blade, select the **securevault\*** Key Vault that you created earlier in this lab.
+3.  **SecureFunction** ブレードで、この演習で前に作成した **securevault\*** キー ボルトを選択します。
 
-1.  In the **Key Vault** blade, select the **Secrets** link located in the **Settings** section.
+4.  **キー ボルト** タブで、**設定** セクションにある **シークレット** リンクを選択 します。
 
-1.  In the **Secrets** pane, select **+ Generate/Import**.
+5.  **シークレット** ペインで、 **生成/インポート** を選択します。   
 
-1.  In the **Create a secret** blade, perform the following actions:
+6.  **シークレットの作成** ブレードで、次の操作を実行します。
     
-    1.  In the **Upload options** drop-down list, select **Manual**.
+    1.  **アップロード オプションの** ドロップダウン リストで、 **手動** を選択します。
     
-    1.  In the **Name** text box, enter **storagecredentials**.
+    2.  **名前** テキスト ボックスに、**ストレージ資格情報** を入力します。
     
-    1.  In the **Value** text box, enter the storage account **Connection String** that you recorded earlier in this lab.
+    3.  **値** テキスト ボックスに、この演習で前に記録したストレージ アカウント **接続文字列を** 入力します。  
     
-    1.  Leave the **Content Type** text box set to its default value.
+    4.  **内容種別** テキスト ボックスは既定値のままにします。
     
-    1.  Leave the **Set activation date** text box set to its default value.
+    5.  **設定の開始日** テキスト ボックスは既定値のままにします。 
     
-    1.  Leave the **Set expiration date** text box set to its default value.
+    6.  **有効期限の設定** テキスト ボックスは既定値のままにします。 
     
-    1.  In the **Enabled** section, select **Yes**.
+    7.  **有効** セクションで、**はい** を選択します。   
     
-    1.  Select **Create**.
+    8.  **作成** を選択します。
 
-1.  Wait for the secret to be created before you move forward with this lab.
+7.  この演習を進める前に、シークレットが作成されるのを待ちます。
 
-1.  Back in the **Secrets** pane, select the **storagecredentials** item in the list.
+8.  **シークレット** ウインドウに戻り、リスト内の **ストレージ資格情報** 項目を選択します。
 
-1.  In the **Versions** pane, select the latest version of the **storagecredentials** secret.
+9.  **バージョン** ウインドウで、**ストレージ資格情報**シークレットの最新バージョンを選択します。
 
-1. In the **Secret Version** pane, perform the following actions.
+10. **シークレット バージョン** ウインドウで、次の操作を実行します。
     
-    1.  Observe the metadata for the latest version of the secret.
+    9.  シークレットの最新バージョンのメタデータを確認します。
     
-    1. Select **Show secret value** to view the value of the secret.
+    10. シークレットの値を表示するには、**シークレット値を表示** を選択します。
     
-    1. Record the value of the **Secret Identifier** text box because you will use this later in the lab.
+    11. これを後の演習で使用するため、**シークレット識別子** テキスト ボックスの値を記録します。
 
-      > **Note**: You are recording the value of the **Secret Identifier** field, not the **Secret Value** field.
+> > 注記：**シークレット値** フィールドではなく、 **シークレット識別子** フィールドの値を記録しています。   
 
-#### Task 3: Configure a Key Vault access policy
+#### タスク 3: キー ボルト アクセス ポリシーの構成
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+1.  ポータルの左側にあるナビゲーション メニューで、**リソース グループ** リンクを選択します。
 
-1.  In the **Resource groups** blade, locate and select the **SecureFunction** resource group that you created earlier in this lab.
+2.  **リソース グループ** ブレードで、 この演習で前に作成した **SecureFunction** リソース グループを見つけて選択します。
 
-1.  In the **SecureFunction** blade, select the **securevault\*** Key Vault that you created earlier in this lab.
+3.  **SecureFunction** ブレードで、この演習で前に作成した **securevault\*** キー ボルトを選択します。
 
-1.  In the **Key Vault** blade, select the **Access policies** link located in the **Settings** section.
+4.  **キー ボルト** タブで、**設定** セクションにある **アクセス ポリシー** リンクを選択 します。
 
-1.  In the **Access policies** pane, select **+ Add new**.
+5.  **アクセス ポリシー** ペインで、**新規追加** を選択します。 
 
-1.  In the **Add access policy** blade, perform the following actions:
+6.  **アクセス ポリシーの追加** ブレードで、次の操作を実行します。 
     
-    1.  Select the **Select principal** link.
+    1.  **プリンシパルの選択** リンクを選択します。 
     
-    1.  In the **Principal** blade, locate and select the service principal named **securefunc\[your name in lowercase\]**, and then select **Select**.
+    2.  **プリンシパル** ブレードで、**securefunc\[名前を小文字で指定]** という名前のサービス プリンシパルを見つけて選択し、**選択** を選択します。
     
-    1.  Leave the **Key permissions** list set to its default value.
+    3.  **キーアクセス許可** リストは既定値に設定したままにします。 
     
-    1.  In the **Secret permissions** drop-down list, select the **GET** permission.
+    4.  シークレットアクセス許可ドロップダウン リストで、GET アクセス許可を選択します。
     
-    1.  Leave the **Certificate permissions** list set to its default value.
+    5.  **証明書のアクセス許可** リストは、既定値に設定したままにします。 
     
-    1.  Leave the **Authorized application** text box set to its default value.
+    6.  **承認済みアプリケーション** テキスト ボックスは、既定値のままにしておきます。 
     
-    1.  Select **OK**.
+    7.  **OK** を選択します。
 
-1.  Back in the **Access policies** pane, select **Save**.
+7.  **アクセス ポリシー** ペインに戻る場合は、**保存** を選択します。
 
-1.  Wait for your changes to the access policies to be saved before you move forward with this lab.
+8.  この演習を進める前に、アクセス ポリシーに対する変更が保存されるのを待ちます。
 
-#### Review
+#### 復習
 
-In this exercise, you created a server-assigned managed service identity for your function app and then gave that identity the appropriate permissions to get the value of a secret in your Key Vault. Finally, you created a secret that you will use within your function app.
+この演習では、関数アプリにサーバー割り当てが行われた管理サービス ID を作成し、Key Vault でシークレットの値を取得するための適切なアクセス許可をその ID に付与しました。最後に、関数アプリ内で使用するシークレットを作成しました。
 
-### Exercise 3: Write function app code 
+### エクササイズ 3: 関数アプリ コードの作成 
 
-#### Task 1: Create a .NET Core application setting
+#### タスク 1: キー ボルト派生アプリケーション設定を作成する 
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+1.  ポータルの左側にあるナビゲーション メニューで、**リソース グループ** リンクを選択します。
 
-1.  In the **Resource groups** blade, locate and select the **SecureFunction** resource group that you created earlier in this lab.
+2.  **リソース グループ** ブレードで、 この演習で前に作成した **SecureFunction** リソース グループを見つけて選択します。
 
-1.  In the **SecureFunction** blade, select the **securefunc\*** function app that you created earlier in this lab.
+3.  **SecureFunction** ブレードで、このラボで前に作成した **securefunc\*** 関数アプリを選択します。
 
-1.  In the **Function App** blade, select the **Platform features** tab.
+4.  **機能アプリ** ブレードで、**プラットフォームの機能** タブを選択します。
 
-1.  In the **Platform features** tab, select the **Configuration** link located in the **General Settings** section.
+5.  **プラットフォームの機能** タブで、**一般設定** セクションにある **アプリケーション設定** リンクを選択 します。
 
-1.  In the **Configuration** section, perform the following actions:
+6.  **アプリケーション設定** タブで、次の操作を実行します：
     
-    1.  Select the **Application settings** tab.
+    1.  **アプリケーション設定** セクションが表示されるまで、下にスクロールします。
     
-    1.  Select **+ New application setting**.
+    2.  **新しい出席者の追加** を選択します。
     
-    1.  In the **Add/Edit application setting** popup that appears, in the **Name** field, enter **DOTNET_SKIP_FIRST_TIME_EXPERIENCE**.
+    3.  **名前を入力** テキストボックスに、**StorageConnectionString** を入力します。
     
-    1.  In the **Value** field, enter **true**.
+    4.  **値を入力** ボックスで、次の構文を使用して値を作成します。 **@Microsoft.KeyVault(SecretUri=\<Secret Identifier\>)**
 
-        > **Note**: The ``DOTNET_SKIP_FIRST_TIME_EXPERIENCE`` application setting tells .NET Core to disable it's built-in NuGet package caching mechanisms. On a temporary compute instance, this would effectively be a waste of time and cause build issues with your Azure Function.
-    
-    1.  Leave the **deployment slot setting** field set to its default value.
+> > 注記：上記の構文を使用して、**シークレット識別子** への参照を構築する必要があります。たとえば、シークレット識別子 **がhttps://securevaultstudent.vault.azure.net/secrets/storagecredentials/17b41386df3e4191b92f089f5efb4cbf**の場合、値は **@Microsoft.KeyVault(SecretUri= https://securevaultstudent.vault.azure.net/secrets/storagecredentials/17b41386df3e4191b92f089f5efb4cbf)** になります。
 
-    1.  Select **OK** to close the popup and return to the **Configuration** section.
-    
-    1.  Select **Save** at the top of the blade to persist your settings.
+5.  **スロット設定** テキスト ボックスは、既定値のままにしておきます。
+
+6.  タブの上部まで戻り、**保存** を選択します。
 
-1.  Wait for your application settings to persist before you move forward with the lab.
+<!-- end list -->
 
-#### Task 2: Create a Key Vault-derived application setting 
+7.  演習を進める前に、アプリケーションの設定が保持されるまで待ちます。
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+#### タスク 2: HTTP トリガ関数の作成
 
-1.  In the **Resource groups** blade, locate and select the **SecureFunction** resource group that you created earlier in this lab.
+1.  ポータルの左側にあるナビゲーション メニューで、**リソース グループ** リンクを選択します。
 
-1.  In the **SecureFunction** blade, select the **securefunc\*** function app that you created earlier in this lab.
+2.  **リソース グループ** ブレードで、 この演習で前に作成した **SecureFunction** リソース グループを見つけて選択します。
 
-1.  In the **Function App** blade, select the **Platform features** tab.
+3.  **SecureFunction** ブレードで、このラボで前に作成した **securefunc\*** 関数アプリを選択します。
 
-1.  In the **Platform features** tab, select the **Configuration** link located in the **General Settings** section.
+4.  **機能アプリ** ブレードで、 **+ 新機能** を選択します。
 
-1.  In the **Configuration** section, perform the following actions:
+5.  **新しい Azure Function** のクイック スタートで、次のアクションを実行します。
     
-    1.  Select the **Application settings** tab.
+    1.  **開発環境の選択** ヘッダーで、**ポータル内** を選択します。
     
-    1.  Select **+ New application setting**.
+    2.  **続行** を選択します。
     
-    1.  In the **Add/Edit application setting** popup that appears, in the **Name** field, enter **StorageConnectionString**.
+    3.  **関数の選択** ヘッダーで、**その他のテンプレート** を選択します。
     
-    1.  In the **Value** field, construct a value by using the following syntax: **@Microsoft.KeyVault(SecretUri=\<Secret Identifier\>)**
-
-      > **Note**: You will need to build a reference to your **Secret Identifier** by using the above syntax. For example, if your Secret Identifier is **https://securevaultstudent.vault.azure.net/secrets/storagecredentials/17b41386df3e4191b92f089f5efb4cbf**, then your value would be **@Microsoft.KeyVault(SecretUri= https://securevaultstudent.vault.azure.net/secrets/storagecredentials/17b41386df3e4191b92f089f5efb4cbf)**
+    4.  **テンプレートの終了と表示** を選択します。
     
-    1.  Leave the **deployment slot setting** field set to its default value.
-
-    1.  Select **OK** to close the popup and return to the **Configuration** section.
+    5.  **テンプレート** ドロップダウン リストで、**HTTPトリガ** を選択します。
+    
+    6.  **新機能** ポップアップで **名前** テキスト ボックスを検索し、**FileParser** を入力します。
     
-    1.  Select **Save** at the top of the blade to persist your settings.
+    7.  **新機能** ポップアップで、**承認レベル** リストを検索し、**匿名** を選択します。
+    
+    8.  **新機能** ポップアップで、**作成** を選択します。   
 
-1.  Wait for your application settings to persist before you move forward with the lab.
+6.  関数エディタで、関数スクリプトの例を確認します。
 
-#### Task 3: Create a HTTP-triggered function
+\#r "Newtonsoft.Json"
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+using System.Net;
 
-1.  In the **Resource groups** blade, locate and select the **SecureFunction** resource group that you created earlier in this lab.
+using Microsoft.AspNetCore.Mvc;
 
-1.  In the **SecureFunction** blade, select the **securefunc\*** function app that you created earlier in this lab.
+using Microsoft.Extensions.Primitives;
 
-1.  In the **Function App** blade, select **+ New function**.
+using Newtonsoft.Json;
 
-1.  In the **New Azure Function** quickstart, perform the following actions:
-    
-    1.  Under the **Choose a Development Environment** header, select **In-Portal**.
-    
-    1.  Select **Continue**.
-    
-    1.  Under the **Choose a Function** header, select **More templates…**.
-    
-    1.  Select **Finish and view templates**.
-    
-    1.  In the **Templates** drop-down list, select **HTTP trigger**.
-    
-    1.  In the **New Function** pop-up, locate the **Name** text box and enter **FileParser**.
-    
-    1.  In the **New Function** pop-up, locate the **Authorization level** list and select **Anonymous**.
-    
-    1.  In the **New Function** pop-up, select **Create**.
+public static async Task\<IActionResult\> Run(HttpRequest req, ILogger log)
 
-1.  In the function editor, observe the example function script:
+{
 
-    ```
-    #r "Newtonsoft.Json"
+log.LogInformation("C\# HTTP trigger function processed a request.");
 
-    using System.Net;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Primitives;
-    using Newtonsoft.Json;
+string name = req.Query\["name"\];
 
-    public static async Task<IActionResult> Run(HttpRequest req, ILogger log)
-    {
+string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
-        log.LogInformation("C\# HTTP trigger function processed a request.");
+dynamic data = JsonConvert.DeserializeObject(requestBody);
 
-        string name = req.Query\["name"\];
+name = name ?? data?.name;
 
-        string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+return name \!= null
 
-        dynamic data = JsonConvert.DeserializeObject(requestBody);
+? (ActionResult)new OkObjectResult($"Hello, {name}")
 
-        name = name ?? data?.name;
+: new BadRequestObjectResult("Please pass a name on the query string or in the request body");
 
-        return name != null
-            ? (ActionResult)new OkObjectResult($"Hello, {name}")
-            : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
-    }
-    ```
+}
 
-1.  **Delete** all the example code.
+7.  サンプル コードをすべて **削除** します。
 
-1.  Within the function editor, copy and paste the following placeholder function:
+8.  関数エディタ内で、次のプレースホルダ関数をコピーして貼り付けます。
 
-    ```
-    using System.Net;
-    using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
-    public static async Task<IActionResult> Run(HttpRequest req)
-    {
-        return new OkObjectResult("Test Successful");
-    }
-    ```
+using Microsoft.AspNetCore.Mvc;
 
-1.  Select **Save and run** to save the script and perform a test execution of the function.
+public static async Task\<IActionResult\> Run(HttpRequest req)
 
-1. The **Test** and **Logs** panes will automatically appear when the script executes for the first time.
+{
 
-1. Observe the **Output** text box in the **Test** pane. You should now see the value **Test Successful** returned from the function.
+return new OkObjectResult("Test Successful");
 
-#### Task 4: Test the Key Vault-derived application setting
+}
 
-1.  Delete the existing code within the **Run** method of the script.
+9.  **保存して実行** を選択してスクリプトを保存し、関数のテスト実行を実行します。 
 
-1.  The **Run** method should now look like this:
+10. スクリプトが初めて実行されると、**テスト** ペインと **ログ** ペインが自動的に表示されます。   
 
-    ```
-    using System.Net;
-    using Microsoft.AspNetCore.Mvc;
+11. **テスト** ウインドウの **出力** ボックスに従います。これで、関数から返される **テスト成功** の値が表示されます。
 
-    public static async Task<IActionResult> Run(HttpRequest req)
-    {
+#### タスク 3: アプリケーション設定のテスト
 
-    }
-    ```
+1.  スクリプトの **Run** メソッド内の既存のコードを削除します。
 
-1.  Add the following line of code to get the value of the **StorageConnectionString** application setting by using the **Environment.GetEnvironmentVariable** method:
+2.  **Run** メソッドは次のようになります: 
 
-    ```
-    string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
-    ```
+using System.Net;
 
-1.  Add the following line of code to return the value of the **connectionString** variable by using the **OkObjectResult** class constructor:
-   
-    ```
-    return new OkObjectResult(connectionString);
-    ```
-    
-1.  The **Run** method should now look like this:
+using Microsoft.AspNetCore.Mvc;
+
+public static async Task\<IActionResult\> Run(HttpRequest req)
+
+{
+
+}
+
+3.  次のコード行を追加して、**Environment.GetEnvironmentVariable** メソッドを使用して、 **StorageConnectionString** アプリケーション設定の値を取得します。
+
+string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
+
+4.  次のコード行を追加して、 **OkObjectResult** クラス コンストラクタを使用することで、 **connectionString** 変数の値を返します:
+
+return new OkObjectResult(connectionString);
+
+5.  **Run** メソッドは次のようになります:
 
-    ```
-    using System.Net;
-    using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
-    public static async Task<IActionResult> Run(HttpRequest req)
-    {
-        string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
-        return new OkObjectResult(connectionString);
-    }
-    ```
+using Microsoft.AspNetCore.Mvc;
 
-1.  Select **Save and run** to save the script and perform a test execution of the function.
+public static async Task\<IActionResult\> Run(HttpRequest req)
 
-1.  Observe the **Output** text box in the **Test** pane. You should now see the connection string returned from the function.
+{
 
-#### Review
+string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
 
-In this exercise, you securely used a service identity to read the value of a secret stored in **Azure Key Vault** and return that value as the result of an **Azure Function**.
+return new OkObjectResult(connectionString);
 
-### Exercise 4: Access Storage Account blobs
+}
 
-#### Task 1: Upload a sample storage blob
+6.  **保存して実行** を選択してスクリプトを保存し、関数のテスト実行を実行します。
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+7.  **テスト** ウインドウの **出力** ボックスに従います。これで、関数から返される接続文字列が表示されます。
 
-1.  In the **Resource groups** blade, locate and select the **SecureFunction** resource group that you created earlier in this lab.
+#### 復習
 
-1.  In the **SecureFunction** blade, select the **securestor\*** storage account that you created earlier in this lab.
+この演習では、サービス ID を安全に使用して、**Azure Key Vault** に格納されているシークレットの値を読み取り、**Azure Function** の結果としてその値を返 します。
 
-1.  In the **Storage account** blade, select the **Blobs** link located in the **Blob service** section on the left side of the blade.
+### エクササイズ 4: ストレージ アカウントの BLOB にアクセス
 
-1.  In the **Blobs** section, select **+ Container**.
+#### タスク 1: サンプルストレージ BLOB のアップロード
 
-1.  In the **New container** pop-up, perform the following actions:
+1.  ポータルの左側にあるナビゲーション メニューで、**リソース グループ** リンクを選択します。
+
+2.  **リソース グループ** ブレードで、 この演習で前に作成した **SecureFunction** リソース グループを見つけて選択します。
+
+3.  **SecureFunction** ブレードで、 この実習ラボで前に作成した **securestor\*** ストレージ アカウントを選択します。
+
+4.  **ストレージ アカウント** ブレードで、ブレードの左側にある **BLOB サービス** セクションにある **BLOB** リンクを選択します。 
+
+5.  **BLOB** セクションで、 **+ コンテナ** を選択します。
+
+6.  **新規コンテナ** ポップアップで、次の操作を実行します。
     
-    1.  In the **Name** text box, enter **drop**.
+    1.  **名前** テキスト ボックスに、**drop** を入力します。 
     
-    1.  In the **Public access level** drop-down list, select **Blob (anonymous read access for blobs only)**.
+    2.  **パブリック アクセス レベル** ドロップダウン リストで、**BLOB (BLOBのみの匿名読み取りアクセス)** を選択します。
     
-    1.  Select **OK**.
+    3.  **OK** を選択します。
 
-1.  Back in the **Blobs** section, select the newly created **drop** container.
+7.  **BLOB** セクションに戻 り、新しく作成した **ドロップ** コンテナを選択します。
 
-1.  In the **Container** blade, select **Upload**.
+8.  **コンテナ** ブレードで、**アップロード** を選択します。   
 
-1.  In the **Upload blob** pop-up, perform the following actions:
+9.  **BLOB をアップロード** ポップアップで、次の操作を実行します。
     
-    1.  In the **Files** section, select the **Folder** icon.
+    4.  **ファイル** セクションで、**フォルダ** アイコンを選択します。   
     
-    1.  In the File Explorer dialog box, go to **Allfiles (F):\\Allfiles\\Labs\\04\\Starter**, select the **records.json** file, and then select **Open**.
+    5.  ファイル エクスプローラ ダイアログ ボックスで、**すべてのファイル (F):Labfiles\\04\\Starter** に移動し、**records.json** ファイルを選択し、**開く** を選択します。
     
-    1.  Ensure that **Overwrite if files already exist** is selected.
+    6.  **ファイルが既に存在する場合は、上書き** が選択されていることを確認します。 
     
-    1.  Select **Upload**.
+    7.  **アップロード** を選択します。
 
-1. Wait for the blob to be uploaded before you continue with this lab.
+10. この演習を続行する前に、BLOBがアップロードされるのを待ちます。
 
-1. Back in the **Container** blade, select the **records.json** blob from the list of blobs.
+11. **コンテナ** ブレードに戻 り、BLOBの一覧から **records.json** BLOB を選択します。  
 
-1. In the **Blob** blade, view the blob metadata.
+12. **BLOB** ブレードで、BLOBメタデータを表示します。 
 
-1. Copy the **URL** for the blob.
+13. BLOBの **URL** をコピーします。
 
-1. On the taskbar, right-select the **Microsoft Edge** icon and then select **New window**.
+14. タスク バーで、**Microsoft Edge** アイコンを右に選択し、**新しいウインドウ** を選択します。
 
-1. In the new browser window, navigate to the **URL** that you copied for the blob.
+15. 新しいブラウザ ウインドウで、BLOB用にコピーした **URL** に移動します。
 
-1. You should now see the **JSON** contents of the blob. Close the browser window showing the **JSON** contents.
+16. これで、BLOB の **JSON** コンテンツが表示されます。 **JSON** の内容を示すブラウザ ウインドウを閉じます。
 
-1. Return to the browser window with the **Azure portal.**
+17. **Azure potal** を使用してブラウザ ウインドウに戻 ります。
 
-1. Close the **Blob** blade.
+18. **BLOB** ブレードを閉じます。
 
-1. Back in the **Container** blade, select **Change access level policy** located at the top of the blade.
+19. **コンテナ** ブレードに戻り、 ブレードの上部にある **アクセス レベル ポリシーの変更** を選択します。 
 
-1. In the **Change access level** pop-up that appears, perform the following actions:
+20. 表示される **アクセス レベルの変更** ポップアップで、次のアクションを実行します。 
     
-    1.  In the **Public access level** drop-down list, select **Private (no anonymous access)**.
+    8.  **パブリック アクセス レベル** ドロップダウン リストで、 **プライベート(匿名アクセスなし)** を選択します。
     
-    1.  Select **OK**.
+    9.  **OK** を選択します。
 
-1. On the taskbar, right-select the **Microsoft Edge** icon and then select **New window**.
+21. タスク バーで、**Microsoft Edge** アイコンを右に選択し、**新しいウインドウ** を選択します。
 
-1. In the new browser window, navigate to the **URL** that you copied for the blob.
+22. 新しいブラウザ ウインドウで、BLOB 用にコピーした **URL** に移動します。
 
-1. You should now see an error message indicating that the resource was not found.
+23. リソースが見つからなかったことを示すエラー メッセージが表示されます。
 
-    > **Note**: If you do not see the error message, your browser might have cached the file. Use **Ctrl+F5** to refresh the page until you see the error message.
+> > 注記：エラー メッセージが表示されない場合は、ブラウザがファイルをキャッシュしている可能性があります。エラー メッセージが表示されるまで、**Ctrl + F5** を使用してページを更新します。 
 
-#### Task 2: Pull the Storage Account SDK from NuGet
+#### タスク 2: Storage アカウント SDK の構成
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+1.  ポータルの左側にあるナビゲーション メニューで、**リソース グループ** リンクを選択します。
 
-1.  In the **Resource groups** blade, locate and select the **SecureFunction** resource group that you created earlier in this lab.
+2.  **リソース グループ** ブレードで、 この演習で前に作成した **SecureFunction** リソース グループを見つけて選択します。
 
-1.  In the **SecureFunction** blade, select the **securefunc\*** function app that you created earlier in this lab.
+3.  **SecureFunction** ブレードで、このラボで前に作成した **securefunc\*** 関数アプリを選択します。
 
-1.  In the **Function App** blade, locate and select the existing **FileParser** function to open the editor for the function.
+4.  **関数アプリ** ブレードで、既存の **FileParser** 関数を見つけて選択して、関数のエディタを開きます。   
 
-    > **Note**: You might need to expand the **Functions** option in the menu on the left side of the blade.
+> > 注記：ブレードの左側にあるメニューで **機能** オプションを展開する必要がある場合があります。
 
-1.  On the right side of the editor, select **View files** to open the tab.
+5.  エディタの右側で、**ファイルの表示** を選択してタブを開きます。 
 
-1.  In the **View files** tab, select **Add**.
+6.  **ファイルの表示** タブで、**アップロード** を選択します。   
 
-1.  In the filename dialog that appears, enter **function.proj**.
+7.  開くファイル エクスプローラ ダイアログ ボックスで、**すべてのファイル (F):Labfiles\\04\\Starter** に移動 し、**function.proj** ファイルを選択 し、**開く** を選択します。
 
-1.  In the file editor, insert this configuration content:
+8.  ファイルの内容を表示するには、**function.proj** ファイルを選択します。
 
-    ```
-    <Project Sdk="Microsoft.NET.Sdk">
-        <PropertyGroup>
-            <TargetFramework>netstandard2.0</TargetFramework>
-        </PropertyGroup>
-        <ItemGroup>
-            <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.0.0" />
-        </ItemGroup>
-    </Project>
-    ```
+9.  **FileParser** 関数のエディタに戻る **run.csx** ファイルを選択します。
 
-1. In the editor, select **Save** button to persist your changes to the configuration.
+10. **ファイルの表示** タブを最小化します。 
 
-    > **Note**: This **.proj** file contains the NuGet package reference necessary to import the [SixLabors.ImageSharp](https://www.nuget.org/packages/Microsoft.Azure.Storage.Blob/11.0.0) package.
+> > 注記：タブ ヘッダーのすぐ右にある矢印を選択して、タブを最小化できます。
 
-1.  Select the **function.proj** file to view the contents of the file.
+11. エディタ内で、スクリプトの **Run** メソッド内の既存のコードを削除します。 
 
-1.  Select the **run.csx** file to return to the editor for the **FileParser** function.
+12. コード ファイルの上部に、次のコード行を追加して、**Microsoft.WindowsAzure.Storage** 名前空間の **using ブロック** を作成します。 
 
-1. Minimize the **View files** tab.
+using Microsoft.WindowsAzure.Storage;
 
-    > **Note**: You can minimize the tab by selecting the arrow immediately to the right of the tab header.
+13. **Microsoft.WindowsAzure.Storage.Blob** 名前空間の **using ブロック** を作成するには、次のコード行を追加します。
 
-1. Within the editor, delete the existing code within the **Run** method of the script.
+using Microsoft.WindowsAzure.Storage.Blob;
 
-1. At the top of the code file, add the following line of code to create a **using** block for the **Microsoft.Azure.Storage** namespace:
+14. **Run** メソッドは次のようになります:
 
-    ```
-    using Microsoft.Azure.Storage;
-    ```
+using System.Net;
 
-1. Add the following line of code to create a **using** block for the **Microsoft.Azure.Storage.Blob** namespace:
+using Microsoft.AspNetCore.Mvc;
 
-    ```
-    using Microsoft.Azure.Storage.Blob;
-    ```
+using Microsoft.WindowsAzure.Storage;
 
-1. The **Run** method should now look like this:
+using Microsoft.WindowsAzure.Storage.Blob;
 
-    ```
-    using System.Net;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Azure.Storage;
-    using Microsoft.Azure.Storage.Blob;
-    
-    public static async Task<IActionResult> Run(HttpRequest req)
-    {
+public static async Task\<IActionResult\> Run(HttpRequest req)
 
-    }
-    ```
+{
 
-#### Task 3: Write storage account code
+}
 
-1.  Add the following line of code within the **Run** method to get the value of the **StorageConnectionString** application setting by using the **Environment.GetEnvironmentVariable** method:
+#### タスク 3: ストレージ アカウント コードの書き込み
 
-    ```
-    string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
-    ```
+1.  **Environment.GetEnvironmentVariable** メソッドを使用して **StorageConnectionString** アプリケーション設定の値を取得するには、**Run** メソッド内に次のコード行を追加します。
 
-1.  Add the following line of code to create a new instance of the **CloudStorageAccount** class by using the **CloudStorageAccount.Parse** static method, passing in your *connectionString* variable:
+string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
 
-    ```
-    CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
-    ```
+2.  次のコード行を追加 して、**CloudStorageAccount.Parse** 静的メソッドを使用して **CloudStorageAccount** クラスの新しいインスタンスを作成 し、*connectionString* 変数を渡します。   
 
-1.  Add the following line of code to use the **CloudStorageAccount.CreateCloudBlobClient** method to create a new instance of the **CloudBlobClient** class that will give you access to blobs in your storage account:
+CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
 
-    ```
-    CloudBlobClient blobClient = account.CreateCloudBlobClient();
-    ```
+3.  **CloudStorageAccount.CreateCloudBlobClient メソッド** を使用して、ストレージ アカウントの BLOB にアクセスできる **CloudBlobClient** クラスの新しいインスタンスを作成するには、次のコード行を追加します。
 
-1.  Add the following line of code to use the **CloudBlobClient.GetContainerReference** method, while passing in the **drop** container name to create a new instance of the **CloudBlobContainer** class that references the container that you created earlier in this lab:
+CloudBlobClient blobClient = account.CreateCloudBlobClient();
 
-    ```
-    CloudBlobContainer container = blobClient.GetContainerReference("drop");
-    ```
+4.  **CloudBlobClient.GetContainerReference** メソッドを使用する次のコード行を追加し、**ドロップ** コンテナ名を渡して、この実習ラボで作成済みのコンテナを参照する **CloudBlobContainer** クラスの新しいインスタンスを作成します:     
 
-1.  Add the following line of code to use the **CloudBlobContainer.GetBlockBlobReference** method, while passing in the **records.json** blob name to create a new instance of the **CloudBlockBlob** class that references the blob that you uploaded earlier in this lab:
+CloudBlobContainer container = blobClient.GetContainerReference("drop");
 
-    ```
-    CloudBlockBlob blob = container.GetBlockBlobReference("records.json");
-    ```
-    
-1.  The **Run** method should now look like this:
+5.  **CloudBlobClient.GetContainerReference** メソッドを使用する次のコード行を追加し、**ecords.json** BLOB名を渡して、この実習ラボでアップロード済みのBLOBを参照する **CloudBlockBlob** クラスの新しいインスタンスを作成します:
 
-    ```
-    using System.Net;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Azure.Storage;
-    using Microsoft.Azure.Storage.Blob;
+CloudBlockBlob blob = container.GetBlockBlobReference("records.json");
 
-    public static async Task<IActionResult> Run(HttpRequest req)
-    {
-        string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
-        CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
-        CloudBlobClient blobClient = account.CreateCloudBlobClient();
-        CloudBlobContainer container = blobClient.GetContainerReference("drop");
-        CloudBlockBlob blob = container.GetBlockBlobReference("records.json");
-    }
-    ```
+6.  **Run** メソッドは次のようになります:
 
-#### Task 4: Download a blob
+using System.Net;
 
-1.  Add the following line of code to use the **CloudBlockBlob.DownloadTextAsync** method to download the contents of the referenced blob asynchronously and store the result in a string variable named *content*:
+using Microsoft.AspNetCore.Mvc;
 
-    ```
-    string content = await blob.DownloadTextAsync();
-    ```
+using Microsoft.WindowsAzure.Storage;
 
-1.  Add the following line of code to return the value of the *content* variable by using the **OkObjectResult** class constructor:
+using Microsoft.WindowsAzure.Storage.Blob;
 
-    ```
-    return new OkObjectResult(content);
-    ```
+public static async Task\<IActionResult\> Run(HttpRequest req)
 
-1.  The **Run** method should now look like this:
+{
 
-    ```
-    using System.Net;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Azure.Storage;
-    using Microsoft.Azure.Storage.Blob;
+string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
 
-    public static async Task<IActionResult> Run(HttpRequest req)
-    {
-        string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
-        CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
-        CloudBlobClient blobClient = account.CreateCloudBlobClient();
-        CloudBlobContainer container = blobClient.GetContainerReference("drop");
-        CloudBlockBlob blob = container.GetBlockBlobReference("records.json");
-        string content = await blob.DownloadTextAsync();
-        return new OkObjectResult(content);
-    }
-    ```
+CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
 
-1.  Select **Save and run** to save the script and perform a test execution of the function.
+CloudBlobClient blobClient = account.CreateCloudBlobClient();
 
-1.  Observe the **Output** text box in the **Test** pane. You should now see the content of the **$/drop/records.json** blob stored in your **storage account**.
+CloudBlobContainer container = blobClient.GetContainerReference("drop");
 
-#### Task 5: Generate a Shared Access Signature (SAS)
+CloudBlockBlob blob = container.GetBlockBlobReference("records.json");
 
-1.  **Delete** the following lines of code:
+}
 
-    ```
-    string content = await blob.DownloadTextAsync();
+#### タスク 4: BLOB のダウンロード
 
-    return new OkObjectResult(content);
-    ```
+1.  **CloudBlockBlob.DownloadTextAsync** メソッドを使用して、 参照される BLOB の内容を非同期にダウンロードし、その結果を *コンテンツ*という文字列変数に格納するには、次のコード行を追加します。
 
-1.  The **Run** method should now look like this:
+string content = await blob.DownloadTextAsync();
 
-    ```
-    using System.Net;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Azure.Storage;
-    using Microsoft.Azure.Storage.Blob;
-    
-    public static async Task<IActionResult> Run(HttpRequest req)
-    {
-        string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
-        CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
-        CloudBlobClient blobClient = account.CreateCloudBlobClient();
-        CloudBlobContainer container = blobClient.GetContainerReference("drop");
-        CloudBlockBlob blob = container.GetBlockBlobReference("records.json");
-    }
-    ```
+2.  次のコード行を追加して、**OkObjectResult** クラス コンストラクタを使用することで、 *content* 変数の値を返します:
+
+return new OkObjectResult(content);
+
+3.  **Run** メソッドは次のようになります:
+
+using System.Net;
+
+using Microsoft.AspNetCore.Mvc;
+
+using Microsoft.WindowsAzure.Storage;
+
+using Microsoft.WindowsAzure.Storage.Blob;
+
+public static async Task\<IActionResult\> Run(HttpRequest req)
+
+{
+
+string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
+
+CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
+
+CloudBlobClient blobClient = account.CreateCloudBlobClient();
+
+CloudBlobContainer container = blobClient.GetContainerReference("drop");
+
+CloudBlockBlob blob = container.GetBlockBlobReference("records.json");
+
+string content = await blob.DownloadTextAsync();
+
+return new OkObjectResult(content);
+
+}
 
-1.  Add the following line of code to create a new instance of the **SharedAccessPolicy** class with the following settings:
+4.  **保存して実行** を選択してスクリプトを保存し、関数のテスト実行を実行します。
+
+5.  **テスト** ウインドウの **出力** ボックスに従います。これで、**ストレージ アカウント** に保存されている **$/drop/records.json** BLOBの内容が表示されます。
+
+#### タスク 5: 共有アクセス署名(SAS)
+
+1.  次のコードの行を **削除** します。
+
+string content = await blob.DownloadTextAsync();
+
+return new OkObjectResult(content);
+
+2.  **Run** メソッドは次のようになります:
+
+using System.Net;
+
+using Microsoft.AspNetCore.Mvc;
+
+using Microsoft.WindowsAzure.Storage;
+
+using Microsoft.WindowsAzure.Storage.Blob;
+
+public static async Task\<IActionResult\> Run(HttpRequest req)
+
+{
+
+string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
+
+CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
+
+CloudBlobClient blobClient = account.CreateCloudBlobClient();
+
+CloudBlobContainer container = blobClient.GetContainerReference("drop");
+
+CloudBlockBlob blob = container.GetBlockBlobReference("records.json");
+
+}
+
+3.  次の設定を使用して **SharedAccessPolicy** クラスの新しいインスタンスを作成するには、次のコード行を追加します。
     
-      - **Permission**: Read
+      - **アクセス許可**: 読み取り:
     
-      - **Service Scope**: Blob
+      - **サービス範囲**: ブロブ
     
-      - **Resource Types**: Object
+      - **リソースの種類**: オブジェクト
     
-      - **Expiration Time**: 2 Hours
+      - **有効期限:** 2時間
     
-      - **Protocol:** HTTPS Only
+      - **Protocol(プロトコル):** HTTPS のみ
 
-    ```
-    SharedAccessAccountPolicy policy = new SharedAccessAccountPolicy()
-    {
-        Permissions = SharedAccessAccountPermissions.Read,
-        Services = SharedAccessAccountServices.Blob,
-        ResourceTypes = SharedAccessAccountResourceTypes.Object,
-        SharedAccessExpiryTime = DateTime.UtcNow.AddHours(2),
-        Protocols = SharedAccessProtocol.HttpsOnly
-    };
-    ```
+SharedAccessAccountPolicy policy = new SharedAccessAccountPolicy()
 
-1.  Add the following line of code to use the **CloudStorageAccount.GetSharedAcessSignature** method to generate a new **Shared Access Signature (SAS) token** by using the provided policy, and then store the result in a string variable named *sasToken*:
+{
 
-    ```
-    string sasToken = account.GetSharedAccessSignature(policy);
-    ```
+Permissions = SharedAccessAccountPermissions.Read,
 
-1.  Add the following line of code to concatenate the value of the **CloudBlockBlob.Uri** property and the *sasToken* string variable, and store the result in a new variable named *secureBlobUrl*:
+Services = SharedAccessAccountServices.Blob,
 
-    ```
-    string secureBlobUrl = $"{blob.Uri}{sasToken}";
-    ```
+ResourceTypes = SharedAccessAccountResourceTypes.Object,
 
-1.  Add the following line of code to return the value of the *secureBlobUrl* variable by using the **OkObjectResult** class constructor:
+SharedAccessExpiryTime = DateTime.UtcNow.AddHours(2),
 
-    ```
-    return new OkObjectResult(secureBlobUrl);
-    ```
+Protocols = SharedAccessProtocol.HttpsOnly
 
-1.  The **Run** method should now look like this:
+};
 
-    ```
-    using System.Net;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Azure.Storage;
-    using Microsoft.Azure.Storage.Blob;
+4.  以下のコード行を追加して **CloudStorageAccount.GetSharedAcessSignature** メソッドを用いて、提供されたポリシーを使用することで新しい **共有アクセスシグネチャ(SAS)トークン** を作成し、*sasToken* という名前の文字列変数に結果を格納します:
 
-    public static async Task<IActionResult> Run(HttpRequest req)
-    {
-        string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
-        CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
-        CloudBlobClient blobClient = account.CreateCloudBlobClient();
-        CloudBlobContainer container = blobClient.GetContainerReference("drop");
-        CloudBlockBlob blob = container.GetBlockBlobReference("records.json");
-        SharedAccessAccountPolicy policy = new SharedAccessAccountPolicy()
-        {
-            Permissions = SharedAccessAccountPermissions.Read,
-            Services = SharedAccessAccountServices.Blob,
-            ResourceTypes = SharedAccessAccountResourceTypes.Object,
-            SharedAccessExpiryTime = DateTime.UtcNow.AddHours(2),
-            Protocols = SharedAccessProtocol.HttpsOnly
-        };
-        string sasToken = account.GetSharedAccessSignature(policy);
-        string secureBlobUrl = $"{blob.Uri}{sasToken}";
-        return new OkObjectResult(secureBlobUrl);
-    }
-    ```
+string sasToken = account.GetSharedAccessSignature(policy);
 
-1.  Select **Save and run** to save the script and perform a test execution of the function.
+5.  以下のコード列を追加して **CloudBlockBlob.Uri** プロパティと *sasToken* 文字列変数の値を連結し、その結果を*secureBlobUrl* という名前の新しい変数に格納します。
 
-1.  Observe the **Output** text box in the **Test** pane. You should now see a unique **Secure URL** that can be used to access the secured blob. Record this **URL** because you will need to use it in the next step of this lab.
+string secureBlobUrl = $"{blob.Uri}{sasToken}";
 
-1. On the taskbar, right-select the **Microsoft Edge** icon and then select **New window**.
+6.  次のコード行を追加して、**OkObjectResult** クラス コンストラクタを使用して*secureBlobUrl * 変数の値を返します。
 
-1. In the new browser window, navigate to the **Secure** **URL** that you copied for the blob.
+return new OkObjectResult(secureBlobUrl);
 
-1. You should now see the **JSON** contents of the blob. Close the browser window showing the **JSON** contents.
+7.  **Run** メソッドは次のようになります:
 
-1. Return to the browser window with the **Azure portal.**
+using System.Net;
 
-#### Review
+using Microsoft.AspNetCore.Mvc;
 
-In this exercise, you used C\# code to access a storage account securely, download the contents of a blob, and then generate a SAS token that can be used to access the blob securely on another client.
+using Microsoft.WindowsAzure.Storage;
 
-### Exercise 5: Clean up subscription 
+using Microsoft.WindowsAzure.Storage.Blob;
 
-#### Task 1: Open Azure Cloud Shell and list resource groups
+public static async Task\<IActionResult\> Run(HttpRequest req)
 
-1.  In the top navigation bar in the Azure Portal, select the **Cloud Shell** icon to open a new shell instance.
+{
 
-1.  In the **Cloud Shell** command prompt at the bottom of the portal, type in the following command and press Enter to list all resource groups in the subscription:
+string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
 
-    ```
-    az group list
-    ```
+CloudStorageAccount account = CloudStorageAccount.Parse(connectionString);
 
-1.  In the prompt, type the following command and press Enter to view a list of possible commands to delete a resource group:
+CloudBlobClient blobClient = account.CreateCloudBlobClient();
 
-    ```
-    az group delete --help
-    ```
+CloudBlobContainer container = blobClient.GetContainerReference("drop");
 
-#### Task 2: Delete resource group
+CloudBlockBlob blob = container.GetBlockBlobReference("records.json");
 
-1.  In the prompt, type the following command and press Enter to delete the **SecureFunction** resource group:
+SharedAccessAccountPolicy policy = new SharedAccessAccountPolicy()
 
-    ```
-    az group delete --name SecureFunction --no-wait --yes
-    ```
-    
-1.  Close the **Cloud Shell** pane at the bottom of the portal.
+{
+
+Permissions = SharedAccessAccountPermissions.Read,
+
+Services = SharedAccessAccountServices.Blob,
+
+ResourceTypes = SharedAccessAccountResourceTypes.Object,
+
+SharedAccessExpiryTime = DateTime.UtcNow.AddHours(2),
+
+Protocols = SharedAccessProtocol.HttpsOnly
+
+};
+
+string sasToken = account.GetSharedAccessSignature(policy);
+
+string secureBlobUrl = $"{blob.Uri}{sasToken}";
+
+return new OkObjectResult(secureBlobUrl);
+
+}
+
+8.  **保存して実行** を選択してスクリプトを保存し、関数のテスト実行を実行します。
+
+9.  **テスト** ウインドウの **出力** ボックスに従います。これで、セキュリティで保護されたBLOBへのアクセスに使用できる一意の **セキュリティで保護された URL** が表示されます。この **URL** は、この演習の次の手順で使用する必要があるため、記録します。
+
+10. タスク バーで、**Microsoft Edge** アイコンを右に選択し、**新しいウインドウ** を選択します。
+
+11. 新しいブラウザ ウインドウで、BLOB用にコピーした **セキュリティで保護された** **URL** に移動します。
+
+12. これで、BLOBの **JSON** コンテンツが表示されます。 **JSON** の内容を示すブラウザ ウインドウを閉じます。
+
+13. **Azure potal** を使用してブラウザ ウインドウに戻 ります。
+
+#### 復習
+
+この演習では、C\# コードを使用してストレージ アカウントに安全にアクセスし、BLOB の内容をダウンロードしてから、別のクライアントで BLOB に安全にアクセスするために使用できる SAS トークンを生成します。
+
+### エクササイズ 5: サブスクリプションのクリーンアップ 
+
+#### タスク 1: Azure Cloud Shellを開き、リソース グループを一覧表示する
+
+1.  Azure potalの上部ナビゲーション バーで、**Cloud Shell** アイコンを選択 して新しいシェル インスタンスを開きます。 
+
+2.  ポータルの下部にある**Cloud Shell** コマンド プロンプトで次のコマンドを入力し、Enterキーを押してサブスクリプション内のすべてのリソース グループを一覧表示します。
+
+az group list
+
+3.  プロンプトで次のコマンドを入力し、Enterキーを押して、リソース グループを削除する可能性のあるコマンドの一覧を表示します。
+
+az group delete --help
+
+#### タスク 2: リソース グループの削除
+
+1.  プロンプトで次のコマンドを入力し、Enterキーを押して **SecureFunction** リソース グループを削除します。
+
+az group delete --name SecureFunction --no-wait --yes
+
+2.  ポータルの下部にある **Cloud Shell** ペインを閉じます。 
 
-#### Task 3: Close active application
+#### タスク 3: アクティブなアプリケーションを閉じる
 
-> Close the currently running **Microsoft Edge** application.
+> 現在実行中の **Microsoft Edge** アプリケーションを閉じます。
 
-#### Review
+#### 復習
 
-In this exercise, you cleaned up your subscription by removing the **resource groups** used in this lab.
+この実習では、この演習で使用する **リソース グループ** を削除してサブスクリプションをクリーンアップしました。

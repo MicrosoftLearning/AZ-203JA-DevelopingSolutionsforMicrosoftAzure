@@ -1,625 +1,583 @@
+﻿---
+ラボ:
+    title: ラボ: サービスとしての Azure Platform での Web アプリケーションの構築
+    タイプ: 'Answer Key'
+    ご利用ください。モジュール 2：サービスとしての Azure Platform の開発 (PaaS)コンピューティング ソリューション
 ---
-lab:
-    title: 'Lab: Building a web application on Azure Platform-as-a-Service offerings'
-    type: 'Answer Key'
-    module: 'Module 2: Develop Azure platform as a service (PaaS) compute solutions'
----
 
-# Lab: Building a web application on Azure Platform-as-a-Service offerings
-# Student lab answer key
+# ラボ: サービスとしての Azure Platform での Web アプリケーションの構築
+# 受講ラボの解答キー
 
-## Microsoft Azure user interface
+## Microsoft Azure ユーザー インターフェイス
 
-Given the dynamic nature of Microsoft cloud tools, you might experience Azure user interface (UI) changes after the development of this training content. These changes might cause the lab instructions and steps to not match up.
+Microsoft クラウド ツールのダイナミックな性質を考えると、このトレーニング コンテンツの開発後に Azure ユーザー インターフェイス (UI) の変更が発生する可能性があります。これらの変更により、演習の手順と手順が一致しない場合があります。
 
-The Microsoft Worldwide Learning team updates this training course as soon as the community brings needed changes to our attention. However, because cloud updates occur frequently, you might encounter UI changes before this training content is updated. **If this occurs, adapt to the changes and work through them in the labs as needed.**
+Microsoft ワールドワイド ラーニング チームは、コミュニティが必要な変更を行うとすぐに、このトレーニング コースを更新します。しかし、クラウド更新が頻繁に起きるため、この研修内容が更新される前に、UI の変更を経験するかも知れません。**その場合は変更に順応して、必要に応じてラボでをそれを処理してください。**
 
-## Instructions
+## 指示
 
-### Before you start
+### 開始する前に
 
-#### Sign in to the lab virtual machine
+#### ラボの仮想マシンへのサインイン
 
-Sign in to your **Windows 10** virtual machine by using the following credentials:
+  - 次の認証情報を使用して **Windows 10** 仮想マシンにサインインします。
     
--   **Username**: Admin
+    1.  **ユーザー名**： Admin
     
--   **Password**: Pa55w.rd
+    2.  **パスワード**： Pa55w.rd
 
-> **Note**: Lab virtual machine sign-in instructions will be provided to you by your instructor.
+> > **注記**： ラボ仮想マシンのサインイン手順は、インストラクターから提供されます。
 
-#### Review installed applications
+#### インストールされたアプリケーションの検討
 
-Observe the taskbar located at the bottom of your **Windows 10** desktop. The taskbar contains the icons for the applications that you will use in this lab:
+  - **Windows 10** デスクトップの下部にあるタスク バーを確認します。タスク バーには、このラボで使用するアプリケーションのアイコンが含まれています。
     
--   Microsoft Edge
+      - Microsoft Edge
+    
+      - エクスプローラ
+    
+      - Windows PowerShell
+    
+      - Visual Studio Code:
 
--   File Explorer
+#### 練習用ファイルをダウンロードする
 
--   Windows PowerShell
+1.  タスク バーで、**Windows PowerShell** アイコンを選択します。
 
--   Visual Studio Code
-
-#### Download the lab files
-
-1.  On the taskbar, select the **Windows PowerShell** icon.
-
-1.  In the PowerShell command prompt, change the current working directory to the **Allfiles (F):\\** path:
+2.  PowerShell コマンド プロンプトで、現在の作業ディレクトリを **Allfiles (F):\\** パスに変更します。
 
     ```
     cd F:
     ```
 
-1.  Within the command prompt, enter the following command and press Enter to clone the **microsoftlearning/AZ-203-DevelopingSolutionsforMicrosoftAzure** project hosted on GitHub into the **Allfiles (F):\\** drive:
+3.  コマンド プロンプト内で次のコマンドを入力し、Enter キーを押して、GitHub でホストされている **Microsoftlearning/AZ-203-DevelopingSolutionsForAzure** プロジェクトを **Labfiles** ディレクトリに複製します。
 
     ```
     git clone --depth 1 --no-checkout https://github.com/microsoftlearning/AZ-203-DevelopingSolutionsForMicrosoftAzure .
     ```
 
-1.  Within the command prompt, enter the following command and press **Enter** to check out the lab files necessary to complete the **AZ-203T02** lab:
+4.  コマンド プロンプト内で次のコマンドを入力し、**Enter**  キーを押 して、**AZ-203.02** ラボを完了するために必要なラボ ファイルをチェックアウトします。 
 
     ```
     git checkout master -- Allfiles/*
     ```
 
-1.  Close the currently running **Windows PowerShell** command prompt application.
+5.  現在実行中の **Windows PowerShell** コマンド プロンプト アプリケーションを閉じます。
 
-### Exercise 1: Build a back-end API by using Azure Storage and API Apps
+### エクササイズ 1: Azure Storage と API Apps を使ってバックエンド API を構築
 
-#### Task 1: Open the Azure portal
+#### タスク 1: Azure potal を開く
 
-1.  On the taskbar, select the **Microsoft Edge** icon.
+1.  タスク バーで、**Microsoft Edge** アイコンを選択します。
 
-1.  In the open browser window, navigate to the [**Azure portal**](https://portal.azure.com) (portal.azure.com).
+2.  開いているブラウザ ウィンドウで、[**Azure potal**](https://portal.azure.com)(portal.azure.com)に移動します。
 
-1.  At the sign-in page, enter the **email address** for your Microsoft account.
+3.  サインイン ページで、Microsoft アカウントの **電子メール アドレス** を入力します。 
 
-1.  Select **Next**.
+4.  **次へ** を選択します。
 
-1.  Enter the **password** for your Microsoft account.
+5.  Microsoft アカウントの**パスワード** を入力します。 
 
-1.  Select **Sign in**.
+6.  **サインイン** を選択します。
 
-    > **Note**: If this is your first time signing in to the Azure portal, a dialog box will display offering a tour of the portal. Select **Get Started** to skip the tour and begin using the portal.
+> **注記**： Azure potalに初めてサインインする場合は、ポータルのツアーを提供するダイアログ ボックスが表示されます。ツアーをスキップしてポータルの使用を開始するには、**開始** を選択します。
 
-#### Task 2: Create an Azure Storage account
+#### タスク 2: Azure Storage  アカウントを作成する
 
-1.  In the left navigation pane of the Azure portal, select **All services**.
+1.  Azureポータルの左のナビゲーション ペインで、**すべてのサービス** をクリックします。
 
-1.  In the **All services** blade, select **Storage Accounts**.
+2.  **すべてのサービス** ブレードで、**ストレージ アカウント** を選択します。
 
-1.  In the **Storage accounts** blade, view your list of Storage instances.
+3.  **ストレージ アカウント** ブレードで、ストレージ インスタンスの一覧を表示します。 
 
-1.  At the top of the **Storage accounts** blade, select **Add**.
+4.  **ストレージ アカウント** ブレードの上部にある **追加** を選択 します。
 
-1.  In the **Create storage account** blade, observe the tabs at the top of the blade, such as Basics, Tags, and Review+Create.
+5.  **ストレージ アカウントを作成** ブレードで、基本、タグ、レビュー+作成などのブレードの上部にあるタブを確認します。 
 
-    > **Note**: Each tab represents a step in the workflow to create a new **storage account**. At any time, you can select **Review + create** to skip the remaining tabs.
+> **注記**：各タブは、ワークフロー内の新しい **ストレージ アカウント** を作成するためのステップを表 します。  いつでも **レビュー + 作成** を選択して、残りのタブをスキップできます。
 
-1.  Select the **Basics** tab, and within the tab area, perform the following actions:
+6.  **基本** タブを選択し、タブ領域内で次の操作を実行します。
     
-    1.  Leave the **Subscription** field set to its default value.
+    1.  **サブスクリプション** フィールドは既定値に設定したままにします。 
     
-    1.  In the **Resource group** section, select **Create new**, enter **ManagedPlatform**, and then select **OK**.
+    2.  **リソース グループ** セクションで、**新規作成** を選択し、**マネージプラットフォーム** を選択し、**OK** を選択します。
     
-    1.  In the **Storage account** **name** field, enter **imgstor\[*your name in lowercase*\]**.
+    3.  **ストレージ アカウント** **名** フィールドに、**imgstor\[*自分の名前を小文字*\] と**入力します。   
     
-    1.  In the **Location** list, select the **(US) East US** region.
+    4.  **[場所]** リストで、**米国東部** リージョンを選択します。   
     
-    1.  In the **Performance** section, select **Standard**.
+    5.  **パフォーマンス** セクションで、**標準** を選択します。
     
-    1.  In the **Account kind** list, select **StorageV2 (general purpose v2)**.
+    6.  **アカウントの種類** の一覧で、**StorageV2 (汎用v2)** を選択します。 
     
-    1.  In the **Replication** list, select **Locally-redundant storage (LRS)**.
+    7.  **レプリケーション** リストで、 **ゾーン冗長ストレージ(ZRS)** を選択します。   
     
-    1.  In the **Access tier (default)** section, ensure that **Hot** is selected.
+    8.  **アクセス層** セクションで、**Hot** が選択されていることを確認します。 
     
-    1.  Select **Review + Create**.
+    9.  **レビュー + 作成** を選択します。 
 
-1.  In the **Review + Create** tab, review the options that you specified in the previous steps.
+7.  **レビュー + 作成** タブで、前の手順で指定したオプションを確認します。 
 
-1.  Select **Create** to create the storage account by using your specified configuration.
+8.  指定した構成を使用してストレージ アカウントを作成するには、**作成** を選択します。
 
-1.  In the **Deployment** blade, Wait for the creation task to complete before moving forward with this lab.
+9.  演習を進める前に、作成タスクが完了するまで待ちます。
 
-1. Click the **Go to resource** button in the **Deployment** blade to go to the newly created storage account.
+10. Azureポータルの左のナビゲーション ペインで、**すべてのサービス** をクリックします。
 
-1. In the **Storage account** blade, on the left side of the blade, locate the **Settings** section and select **Access keys**.
+11. **すべてのサービス** ブレードで、 **ストレージ アカウント** を選択します。
 
-1. In the **Access keys** blade, select any one of the keys and record the value of either of the **Connection string** fields. You will use this value later in this lab.
+12. 表示される **ストレージ アカウント** ブレード で、この実習ラボで作成済みの **imgstor\*** ストレージ アカウントを選択します。  
 
-    > **Note**: It does not matter which connection string you choose. They are interchangeable.
+13. **ストレージ アカウント** ブレードの左側にある **設定** セクションを見 つけて、 **アクセス キー** を選択します。   
 
-#### Task 3: Upload a sample blob
+14. **アクセス キー** ブレードで、いずれかのキーを選択し、いずれかの **接続文字列** フィールドの値を記録します。これらの値は、この演習の後半で使用します。
 
-1.  On the Azure portal left navigation pane, select **Resource groups**.
+> > **注記**： どの接続文字列を選択してもかまいません。それらは交換可能です。
 
-1.  In the **Resource groups** blade, select the **ManagedPlatform** resource group that you created earlier in this lab.
+#### タスク 3: サンプル BLOB のアップロード
 
-1.  In the **ManagedPlatform** blade, select the **imgstor\*** storage account you created earlier in this lab.
+1.  Azure potalの左側のナビゲーション ウィンドウで、**リソース グループ** を選択します。 
 
-1.  In the **Storage Account** blade, on the left side of the blade, in the **Blob service** section, select the **Blobs** link.
+2.  **リソース グループ** ブレードで、この実習ラボで作成済みの **ManagedPlatform** リソース グループを選択します。  
 
-1.  In the **Blobs** section, select **+ Container**.
+3.  **ManagedPlatform** ブレードで、 この実習ラボで前に作成した **imgstor\*** ストレージ アカウントを選択します。  
 
-1.  In the **New container** window, perform the following actions:
+4.  **ストレージ アカウント** ブレードで、ブレードの左側にある **BLOB サービス** セクションにおいて、**BLOB** リンクを選択します。     
+
+5.  **BLOB** セクションで、**+ コンテナー** を選択します。
+
+6.  **新しいコンテナー** ウィンドウで、次のアクションを実行します。 
     
-    1.  In the **Name** field, enter **images**.
+    1.  **名前** フィールドに、**イメージ** を入力します。
     
-    1.  In the **Public access level** list, select **Blob (anonymous read access for blobs only)**.
+    2.  **パブリック アクセス レベル** リストで **BLOB (BLOBのみの匿名読み取りアクセス)** を選択します。
     
-    1.  Select **OK**.
+    3.  **OK** を選択します。
 
-1.  In the **Blobs** section, select **+ Container** again.
+7.  **BLOB** セクションで、**+ コンテナ** をもう一度選択します。 
 
-1.  In the **New container** window, perform the following actions:
+8.  **新しいコンテナ** ウィンドウで、次のアクションを実行します。
 
-    1.  In the **Name** field, enter **images-thumbnails**.
+<!-- end list -->
 
-    1.  In the **Public access level** list, select **Blob (anonymous read access for blobs only)**.
+1.  **名前** フィールドに、**images-thumbnails** を入力します。 
 
-    1.  Select **OK**.
+2.  **パブリック アクセス レベル** リストで **BLOB (BLOBのみの匿名読み取りアクセス)** を選択します。
 
-1.  In the **Blobs** section, select the newly created **images** container.
+3.  **OK** を選択します。
 
-1. In the **Container** blade, select **Upload**.
+<!-- end list -->
 
-1. In the **Upload blob** window that appears, perform the following actions:
+9.  **BLOB** セクションで、新しく作成された **イメージ** コンテナを選択します。   
 
-    1.  In the **Files** section, select the **Folder** icon.
+10. **コンテナ** ブレードで、**アップロード** を選択します。   
 
-    1.  In the File Explorer dialog box that appears, go to **Allfiles (F):\\Allfiles\\Labs\\02\\Starter\\Images**, select the **grilledcheese.jpg** file, and then select **Open**.
+11. 表示される **BLOBのアップロード** ウィンドウで、次の操作を実行します：
 
-    1.  Ensure that the **Overwrite if files already exist** check box is selected.
+<!-- end list -->
 
-    1.  Select **Upload**.
+1.  **ファイル** セクションで、**フォルダ** アイコンを選択します。   
 
-1. Wait for the blob to be uploaded before you continue with this lab.
+2.  表示される ファイル エクスプローラ ダイアログ ボックスで、**すべてのファイル (F):Labfiles\\02\\Starter\\画像**に移動し、 **grilledcheese.jpg** ファイルを選択し、**開く** を選択します。
 
-#### Task 4: Create an API app
+3.  **ファイルが既に存在する場合は上書き** チェックボックスがオンにチェックされていることを確認します。
 
-1.  In the left navigation pane of the portal, select **+ Create a resource**.
+4.  **アップロード** を選択します。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** field.
+<!-- end list -->
 
-1.  In the search field, enter **API** and press Enter.
+12. この演習を続行する前に、BLOBがアップロードされるのを待ちます。
 
-1.  In the **Everything** search results blade, select the **API App** result.
+#### タスク 4: API アプリの作成
 
-1.  In the **API App** blade, select **Create**.
+1.  ポータルの左側のナビゲーション ウィンドウで、**+ リソースを作成** を選択します。
 
-1.  In the second **API App** blade, perform the following actions:
+2.  **新規** ブレードの上部にある **マーケットプレースを検索** フィールドを検索します。   
+
+3.  検索フィールドに **API** を入力し、Enter キーを押します。 
+
+4.  **すべての** 検索結果ブレードで、**API アプリ** の結果を選択します。
+
+5.  **API アプリ** ブレードで、**作成** を選択します。
+
+6.  2番目の **API アプリ** ブレードで、次のアクションを実行します。 
     
-    1.  In the **App name** field, enter **imgapi\[*your name in lowercase*\]**.
+    1.  **アプリ名** フィールドに、**imgapi\[* 名前を小文字*\]** と入力します。 
     
-    1.  Leave the **Subscription** field set to its default value.
+    2.  **サブスクリプション** フィールドは既定値に設定したままにします。
     
-    1.  In the **Resource group** section, select **Use existing**, and then select **ManagedPlatform**.
+    3.  **リソース グループ** セクションで、**既存のを使用** を選択し、**マネージドプラットフォーム** を選択します。   
     
-    1.  Leave the **App Service plan/Location** field set to its default value.
+    4.  **App Services プラン/場所** フィールドを既定値に設定したままにします。 
     
-    1.  Leave the **Application Insights** field set to its default value.
+    5.  **アプリケーションインサイト** フィールドを既定値に設定したままにします。 
     
-    1.  Select **Create**.
+    6.  **作成** を選択します。
 
-1.  Wait for the creation task to complete before you move forward with this lab.
+7.  演習を進める前に、作成タスクが完了するまで待ちます。
 
-#### Task 5: Configure an API app
+#### タスク 5: API アプリの設定
 
-1.  In the left navigation pane of the portal, select **Resource groups**.
+1.  ポータルの左側のナビゲーション ウィンドウで、**リソース グループ** を選択します。 
 
-1.  In the **Resource groups** blade, select the **ManagedPlatform** resource group that you created earlier in this lab.
+2.  **リソース グループ** ブレードで、この実習ラボで作成済みの **ManagedPlatform** リソース グループを選択します。
 
-1.  In the **ManagedPlatform** blade, select the **imgapi\*** API app that you created earlier in this lab.
+3.  **ManagedPlatform** ブレードで、この実習ラボで前に作成した **imgapi\*** API アプリを選択します。  
 
-1.  In the **API App** blade, on the left side of the blade in the **Settings** section, select the **Configuration** link.
+4.  **API アプリ**ブレードで、**設定** セクションのブレードの左側で、**アプリケーション設定** リンクを選択 します。
 
-1.  In the **Configuration** section, perform the following actions:
+5.  **アプリケーション設定** セクションで、次の操作を実行します。
     
-    1.  Select the **Application settings** tab.
+    1.  **アプリケーション設定** サブセクションが表示されるまで、下にスクロールします。
     
-    1.  Select **+ New application setting**.
+    2.  **新しい出席者の追加** を選択します。
     
-    1.  In the **Add/Edit application setting** popup that appears, in the **Name** field, enter **StorageConnectionString**.
+    3.  **名前を入力** フィールドに、**StorageConnectionString** を入力します。
     
-    1.  In the **Value** field, enter the **Storage Connection String** you copied earlier in this lab.
+    4.  **値を入力** フィールドに、この実習ラボで前にコピーした **ストレージ接続文字列** を入力します。  
     
-    1.  Leave the **deployment slot setting** field set to its default value.
-
-    1.  Select **OK** to close the popup and return to the **Configuration** section.
+    5.  **スロット設定** フィールドを既定値のままにします。 
     
-    1.  Select **Save** at the top of the blade to persist your settings.
+    6.  ブレードの上部にある **保存** を選択します。
 
-1.  Wait for your application settings to persist before you move forward with the lab.
+6.  演習を進める前に、アプリケーションの設定が保持されるまで待ちます。
 
-1.  In the **API App** blade, on the left side of the blade in the **Settings** section, select the **Properties** link.
+7.  **API アプリ** ブレードで、**設定** セクションのブレードの左側で、**プロパティ** リンクを選択します。   
 
-1.  In the **Properties** section, copy the value of the **URL** field. You will use this value later in the lab.
+8.  **プロパティ** セクションで、**URL** フィールドの値をコピーします。 これらの値は、この演習の後半で使用します。
 
-#### Task 6: Deploy an ASP.NET Core web application to API App
+#### タスク 6: ASP.NETコア Web アプリケーションをAPI アプリに展開する
 
-1.  On the taskbar, select the **Visual Studio Code** icon.
+1.  タスク バーで、**Visual Studio コード** アイコンを選択します。
 
-1.  On the **File** menu, select **Open Folder**.
+2.  **ファイル** メニューで、**フォルダを開く** を選択します。   
 
-1.  In the File Explorer pane that opens, go to **Allfiles (F):\\Allfiles\\Labs\\02\\Starter\\API**, and then select **Select Folder**.
+3.  開かれるファイル エクスプローラ ペインで、**すべてのファイル (F):Labfiles\\02\\Starter\\API** に移動し、**フォルダの選択** を選択します。
 
-1.  In the **Explorer** pane of the Visual Studio Code window, expand the **Controllers** folder and double-click the **ImagesController.cs** file to open the file in the editor.
+4.  Visual Studio コード ウィンドウの **エクスプローラ** ペインで、**コントローラー**フォルダを展開し、**ImagesController.cs** ファイルをダブルクリック してエディタでファイルを開きます。 
 
-1.  In the editor, in the **ImagesController** class, on line 27, observe the **GetCloudBlobContainer** method and the code used to retrieve a container.
+5.  エディタで、**ImageController** クラスの27行目で、**GetCloudBlobContainer** メソッドとコンテナの取得に使用されるコードを確認します。 
 
-1.  In the **ImagesController** class, on line 38, observe the **Get** method and the code used to retrieve all blobs asynchronously from the **images** container.
+6.  **ImagesController** クラスでは37行目で、**Get** メソッドと、**イメージ コンテナ** からすべての BLOB を非同期に取得するために使用されるコードを確認します。     
 
-1.  In the **ImagesController** class, on line 74, observe the **Post** method and the code used to persist an uploaded image to Azure Storage.
+7.  **ImagesController** クラスでは、74行目で **Post** メソッドと、アップロードされたイメージを Azure Storage に永続化するために使用するコードを確認します。   
 
-1.  On the taskbar, select the **Windows** **PowerShell** icon.
+8.  タスク バーで、**Windows** **PowerShell** アイコンを選択します。
 
-1.  In the open command prompt, enter the following command and press Enter to sign in to the Azure CLI:
+9.  openコマンド プロンプトで次のコマンドを入力し、Enterキーを押して Azure CLI にサインインします。
 
-    ```
+<!-- end list -->
+
     az login
-    ```
 
-1. In the **Microsoft Edge** browser window that appears, perform the following actions:
+10. 表示される **Microsoft Edge** ブラウザ ウィンドウで、次の操作を実行します。 
     
-    1.  Enter the **email address** for your Microsoft account.
+    1.  Microsoft アカウントの **電子メール アドレス** を入力します。
     
-    2.  Select **Next**.
+    2.  **次へ** を選択します。
     
-    3.  Enter the **password** for your Microsoft account.
+    3.  Microsoft アカウントの **パスワード** を入力します。
     
-    4.  Select **Sign in**.
+    4.  **サインイン** を選択します。
 
-1. Return to the currently open **Command Prompt** application. Wait for the sign-in process to finish.
+11. 現在開いている **コマンド プロンプト** アプリケーションに戻ります。サインイン プロセスが完了するのを待ちます。
 
-1. At the command prompt, enter the following command and press Enter to list all the **apps** in your **ManagedPlatform** resource group:
+12. コマンド プロンプトで、次のコマンドを入力し、Enter キーを押して **ManagedPlatform** リソース グループ内のすべての **アプリ** を一覧表示します。
 
-    ```
+<!-- end list -->
+
     az webapp list --resource-group ManagedPlatform
-    ```
 
-1. Enter the following command and press Enter to find the **apps** that have the prefix **imgapi\***:
+13. 次のコマンドを入力し、Enterキーを押すと、 プレフィックス **imgapi\*** を持つ **アプリ** が見つかります。
 
-    ```
+<!-- end list -->
+
     az webapp list --resource-group ManagedPlatform --query "[?starts_with(name, 'imgapi')]"
-    ```
 
-1. Enter the following command and press Enter to print out only the name of the single app that has the prefix **imgapi\***:
+14. 次のコマンドを入力し、Enter キーを押して、プレフィックス **imgapi\*** を持つ単一のアプリの名前のみを印刷します。
 
-    ```
+<!-- end list -->
+
     az webapp list --resource-group ManagedPlatform --query "[?starts_with(name, 'imgapi')].{Name:name}" --output tsv
-    ```
 
-1. Enter the following command and press Enter to change the current directory to the **Allfiles (F):\\Allfiles\\Labs\\02\\Starter\\API** directory that contains the lab files:
+15. 次のコマンドを入力し、Enter キーを押して現在のディレクトリを **すべてのファイル(F):LABfiles\\02\\Starter\\API** ディレクトリに変更するラボ ファイルを含みます。 
 
-    ```
+<!-- end list -->
+
     cd F:\Labfiles\02\Starter\API\
-    ```
 
-1. Enter the following command and press Enter to deploy the **api.zip** file to the **API app** you created earlier in this lab:
+16. 次のコマンドを入力し、Enter キーを押して、この実習ラボで前述した **API アプリ**に**api.zip** ファイルをデプロイします。
 
-    ```
+<!-- end list -->
+
     az webapp deployment source config-zip --resource-group ManagedPlatform --src api.zip --name <name-of-your-api-app>
-    ```
 
-    > **Note**: Replace the **\<name-of-your-api-app\>** placeholder with the name of the API app that you created earlier in this lab. You recently queried this app’s name in the previous steps.
+> > **注記**：この演習で前に作成したAPI アプリの名前に、**\<api-appの名前\>**プレースホルダを置き換えます。このアプリ名は、以前のステップで最近クエリしました。
 
-1. Wait for the deployment to complete before you move forward with this lab.
+17. この演習を進める前に、展開が完了するのを待ちます。
 
-1. On the left side of the portal, select the **Resource groups** link.
+18. ポータルの左側で、**リソース グループ** リンクを選択します。 
 
-1. In the **Resource groups** blade, locate and select the **ManagedPlatform** resource group that you created earlier in this lab.
+19. **リソース グループ** ブレードで、 この実習ラボで作成済みの **ManagedPlatform** リソース グループを見つけて選択します。 
 
-1. In the **ManagedPlatform** blade, select the **imgapi\*** *API App* that you created earlier in this lab.
+20. **ManagedPlatform** ブレードで、  この実習ラボで前に作成した **imgapi\*** *API アプリ*を選択します。  
 
-1. In the **API App** blade, select the **Browse** button.
+21. **API アプリ** ブレードで、**ブラウズ** ボタンを選択します。
 
-1. Perform a **GET** request to the root of the website and observe the JSON array that is returned. This array should contain the URL for your single uploaded image in your **Azure Storage** account.
+22. Web サイトのルートに **GET** 要求を実行し、返されるJSON 配列を観察します。 このアレイには、**Azure Storage** アカウントにアップロードされた単一のイメージの URL が含まれている必要があります。
 
-1. Return to your browser window showing the **Azure portal**.
+23. **Azure potal** を表示するブラウザ ウィンドウに戻ります。 
 
-#### Review
+#### 復習
 
-In this exercise, you created an API App in Azure and then deployed your ASP.NET Core web application to the API App by using the Azure CLI and Kudu’s zip deployment utility.
+この演習では、Azure で API アプリを作成し、Azure CLI  と Kudu の zip デプロイメント ユーティリティを使用して、ASP.NET コア Web アプリケーションを API アプリにデプロイしました。
 
-### Exercise 2: Build a front-end web application by using Azure Web Apps
+### エクササイズ 2: Azure Web アプリを使用してフロントエンド Web アプリケーションを構築する
 
-#### Task 1: Create a web app
+#### タスク 1: ウェブ アプリの構成
 
-1.  In the Azure portal, on the left navigation pane, select **+ Create a resource**.
+1.  Azure potalで、左側のナビゲーション ウィンドウで **+ リソースを作成** を選択します。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** field.
+2.  **新規** ブレードの上部にある **マーケットプレースを検索** フィールドを検索します。
 
-1.  In the search field, enter **Web** and press Enter.
+3.  検索フィールドで、**Web** を入力し、Enter キーを押します。 
 
-1.  In the **Everything** search results blade, select the **Web App** result.
+4.  **すべて** の検索結果]ブレードで、**Web** **アプリ** の結果を選択します。
 
-1.  In the **Web App** blade, select **Create**.
+5.  **Web** **アプリ** ブレードで、**作成** を選択します。     
 
-1.  In the second **Web App** blade, perform the following actions:
+6.  2番目の**Web** **アプリ** ブレードで、次の操作を実行します。   
     
-    1.  In the **App name** field, enter **imgweb\[*your name in lowercase*\]**.
+    1.  **アプリ名** フィールドに、**imgweb\[*名前を小文字*\]** と入力します。 
     
-    1.  Leave the **Subscription** field set to its default value.
+    2.  **サブスクリプション** フィールドは既定値に設定したままにします。
     
-    1.  In the **Resource group** section, select **Use existing**, and then select **ManagedPlatform**.
+    3.  **リソース グループ** セクションで、**既存のを使用** を選択し、**マネージドプラットフォーム** を選択します。
     
-    1.  In the **Publish** section, select **Code**.
+    4.  **発行** セクションで、**コード** を選択します。   
     
-    1.  In the **Runtime stack** section, select **.NET Core 2.2**.
+    5.  **ランタイム スタック** セクションで、**NET Core 2.2** を選択します。   
     
-    1.  In the **OS** section, select **Windows**.
-
-    1. In the **Region** drop-down list, select **East US**
+    6.  **OS** セクションで、**Windows**を選択 します。   
     
-    1.  Leave the **Plan (East US)** field set to its default value.
+    7.  **App Services  プラン/場所** フィールドを既定値に設定したままにします。
     
-    1.  Leave the **Sku and size** field set to its default value.
+    8.  **アプリケーションインサイト** フィールドを既定値に設定したままにします。
     
-    1.  Select **Review and create**.
+    9.  **作成** を選択します。
 
-1. In the **Review and create** tab, observe the settings then click **Create**.
+7.  演習を進める前に、作成タスクが完了するまで待ちます。
 
-1.  Wait for the creation task to complete before you move forward with this lab.
+#### タスク 2: ウェブ アプリの構成
 
-#### Task 2: Configure a web app
+1.  ポータルの左側のナビゲーション ペインで、**リソース グループ** を選択します。
 
-1.  On the left navigation pane of the portal, select **Resource groups**.
+2.  **リソース グループ** ブレードで、この実習ラボで作成済みの **ManagedPlatform** リソース グループを選択します。
 
-1.  In the **Resource groups** blade, select the **ManagedPlatform** resource group that you created earlier in this lab.
+3.  **ManagedPlatform** ブレードで、 この実習ラボで作成済みの **imgweb\*** Web アプリを選択します。 
 
-1.  In the **ManagedPlatform** blade, select the **imgweb\*** web app that you created earlier in this lab.
+4.  **Web アプリ** ブレードの左側の **設定** セクションで、**アプリケーション設定** リンクを選択します。   
 
-1.  In the **Web App** bladeblade, on the left side of the blade in the **Settings** section, select the **Configuration** link.
-
-1.  In the **Configuration** section, perform the following actions:
+5.  **アプリケーション設定** セクションで、次の操作を実行します。
     
-    1.  Select the **Application settings** tab.
+    7.  **アプリケーション設定** サブセクションが表示されるまで、下にスクロールします。
     
-    1.  Select **+ New application setting**.
+    8.  **新しい出席者の追加** を選択します。
     
-    1.  In the **Add/Edit application setting** popup that appears, in the **Name** field, enter **ApiUrl**.
+    9.  **名前を入力** フィールドに、**ApiUrl** を入力します。
     
-    1.  In the **Value** field, enter the API app **URL** you copied earlier in this lab.
+    10. **値を入力** フィールドに、 この実習ラボで前にコピーしたAPI アプリ **URL** を入力します。 
     
-    1.  Leave the **deployment slot setting** field set to its default value.
-
-    1.  Select **OK** to close the popup and return to the **Configuration** section.
+    11. **スロット設定** フィールドを既定値のままにします。
     
-    1.  Select **Save** at the top of the blade to persist your settings.
+    12. ブレードの上部にある **保存** を選択します。
 
-1.  Wait for your application settings to persist before you move forward with the lab.
+6.  演習を進める前に、アプリケーションの設定が保持されるまで待ちます。
 
-#### Task 3: Deploy an ASP.NET Core web application to web app
+#### タスク 3: ASP.NETコア Web アプリケーションをWeb アプリに展開する
 
-1.  On the taskbar, select the **Visual Studio Code** icon.
+1.  タスク バーで、**Visual Studio コード** アイコンを選択します。
 
-1.  On the **File** menu, select **Open Folder**.
+2.  **ファイル** メニューで、**フォルダを開く** を選択します。
 
-1.  In the File Explorer pane that opens, go to **Allfiles (F):\\Allfiles\\Labs\\02\\Starter\\Web**, and then select **Select Folder**.
+3.  開くファイル エクスプローラ ウィンドウで、**すべてのファイル (F):Labfiles\\02\\Starter\\Web** に移動し、**フォルダの選択** を選択します。
 
-1.  In the **Explorer** pane of the Visual Studio Code window, expand the **Pages** folder and double-click the **Index.cshtml.cs** file to open the file in the editor.
+4.  Visual Studio コード ウィンドウの **エクスプローラ** ウィンドウで、**Pages** フォルダを展開し、**Index.cshtml.cs** ファイルをダブルクリックしてエディタでファイルを開きます。     
 
-1.  In the editor, in the **IndexModel** class, on line 30, observe the **OnGetAsync** method and the code used to retrieve the list of images from the API.
+5.  エディタでは、**IndexModel** クラスの30行目で、**OnGetAsync** メソッドと、API からイメージのリストを取得するために使用されるコードを確認します。 
 
-1.  In the **IndexModel** class, on line 52, observe the **OnPostAsync** method and the code used to stream an uploaded image to the back-end API.
+6.  **IndexModel** クラスでは、52行目で **OnPostAsync** メソッドと、アップロードされたイメージをバックエンド API にストリーミングするために使用されるコードを確認します。 
 
-1.  On the taskbar, select the **Windows** **PowerShell** icon.
+7.  タスク バーで、**Windows** **PowerShell** アイコンを選択します。
 
-1.  In the open command prompt, enter the following command and press Enter to sign in to the Azure CLI:
+8.  open コマンド プロンプトで次のコマンドを入力し、Enter キーを押して Azure CLI にサインインします。
 
-    ```
+<!-- end list -->
+
     az login
-    ```
 
-1.  In the browser window that appears, perform the following actions:
+9.  表示されるブラウザー ウィンドウで、次の操作を実行します：
     
-    1.  Enter the **email address** for your Microsoft account.
+    1.  Microsoft アカウントの **電子メール アドレス** を入力します。
     
-    1.  Select **Next**.
+    2.  **次へ** を選択します。
     
-    1.  Enter the **password** for your Microsoft account.
+    3.  Microsoft アカウントの **パスワード** を入力します。
     
-    1.  Select **Sign in**.
+    4.  **サインイン** を選択します。
 
-1. Return to the currently open **Command Prompt** application. Wait for the sign-in process to finish.
+10. 現在開いている **コマンド プロンプト** アプリケーションに戻ります。サインイン プロセスが完了するのを待ちます。
 
-1. Enter the following command and press Enter to list all the **apps** in your **ManagedPlatform** resource group:
+11. 次のコマンドを入力し、Enter キーを押して、**ManagedPlatform** リソース グループ内のすべての **アプリ** を一覧表示します。
 
-    ```
+<!-- end list -->
+
     az webapp list --resource-group ManagedPlatform
-    ```
 
-1. Enter the following command and press Enter to find the **apps** that have the prefix **imgweb\***:
+12. 次のコマンドを入力し、Enter キーを押すと、プレフィックス **imgweb\*** を持つ **アプリ** を見つけます。
 
-    ```
+<!-- end list -->
+
     az webapp list --resource-group ManagedPlatform --query "[?starts_with(name, 'imgweb')]"
-    ```
 
-1. Enter the following command and press Enter to print out only the name of the single app that has the prefix **imgweb\***:
+13. 次のコマンドを入力し、Enterキーを押すと、プレフィックス **imgweb\*** を持つ単一のアプリの名前のみを印刷します。
 
-    ```
+<!-- end list -->
+
     az webapp list --resource-group ManagedPlatform --query "[?starts_with(name, 'imgweb')].{Name:name}" --output tsv
-    ```
 
-1. Enter the following command and press Enter to change the current directory to the **Allfiles (F):\\Allfiles\\Labs\\02\\Starter\\Web** directory that contains the lab files:
+14. 次のコマンドを入力し、Enter キーを押して現在のディレクトリを、ラボファイルを含む **すべてのファイルに変更します(F):LABfiles\\02\\Starter\Web** ディレクトリに変更します: 
 
-    ```
+<!-- end list -->
+
     cd F:\Labfiles\02\Starter\Web\
-    ```
 
-1. Enter the following command and press Enter to deploy the **web.zip** file to the **web app** you created earlier in this lab:
+15. 次のコマンドを入力し、Enter キーを押して、この実習ラボで前述の **Web アプリ** に **web.zip** ファイルをデプロイします。
 
-    ```
+<!-- end list -->
+
     az webapp deployment source config-zip --resource-group ManagedPlatform --src web.zip --name <name-of-your-web-app>
-    ```
 
-    > **Note**: Replace the **\<name-of-your-web-app\>** placeholder with the name of the web app you created earlier in this lab. You recently queried this app’s name in the previous steps.
+> > **注記**： **\<name-of-your-web-app\>** を、この実習ラボで前に作成した Web アプリの名前に置き換えます。このアプリ名は、以前のステップで最近クエリしました。
 
-1. Wait for the deployment to complete before you move forward with this lab.
+16. この演習を進める前に、展開が完了するのを待ちます。
 
-1. On the left navigation pane of the portal, select **Resource groups**.
+17. ポータルの左側のナビゲーション ペインで、**リソース グループ** を選択します。
 
-1. In the **Resource groups** blade, select the **ManagedPlatform** resource group you created earlier in this lab.
+18. **リソース グループ** ブレード で、この実習ラボで作成済みの **ManagedPlatform** リソース グループを選択します。  
 
-1. In the **ManagedPlatform** blade, select the **imgweb\*** web app that you created earlier in this lab.
+19. **ManagedPlatform** ブレードで、 この実習ラボで作成済みの **imgweb\*** Web アプリを選択します。
 
-1. In the **Web App** blade, select **Browse**.
+20. **Web アプリ** ブレードで、**参照** を選択します。   
 
-1. Observe the list of images in the gallery. The gallery should list a single image that was uploaded to Azure Storage earlier in the lab.
+21. ギャラリー内の画像のリストを確認します。ギャラリーには、ラボの前半で Azure Storage にアップロードされた単一のイメージが一覧表示されます。
 
-1. At the top of the **Contoso Photo Gallery** webpage, locate the **Upload a new image** section and perform the following actions:
+22. **Contoso**フォト ギャラリーの Web ページの上部にある **新しい画像のアップロード** セクションを見つけて、次の操作を実行します。
     
-    1.  Select **Browse**.
+    5.  **参照** を選択します。
     
-    1.  In the File Explorer dialog box that opens, go to **Allfiles (F):\\Allfiles\\Labs\\02\\Starter\\Images**, select the **bahnmi.jpg** file, and then select **Open**.
+    6.  開くファイル エクスプローラ ダイアログ ボックスで、**すべてのファイル (F):Labfiles\\02\\Starter\\画像** に移動し、**bahnmi.jpg** ファイルを選択 し、**開く** を選択します。
     
-    1.  Select **Upload**.
+    7.  **アップロード** を選択します。
 
-1. Observe that the list of gallery images has been updated with your new image.
+23. ギャラリー イメージの一覧が新しいイメージで更新されたことを確認します。
 
-    > **Note**: In some rare cases, you might need to refresh your browser window for the new image to appear.
+> > **注記**： まれに、新しいイメージを表示するためにブラウザ ウィンドウを更新する必要があります。
 
-1. Return to your browser window showing the **Azure portal**.
+24. **Azure potal** を表示するブラウザ ウィンドウに戻ります。
 
-#### Review
+#### 復習
 
-In this exercise, you created an Azure Web App and deployed an existing web application’s code to the resource in the cloud.
+この演習では、Azure Web アプリを作成し、既存のWeb アプリケーションのコードをクラウド内のリソースにデプロイしました。
 
-### Exercise 3: Build a background processing job by using Azure Storage and Azure Functions
+### エクササイズ 3: Azure Storage と Azure Functions を使用してバックグラウンド処理ジョブを構築する
 
-#### Task 1: Create a function app
+#### タスク 1: フラッシュカード アプリを作成する
 
-1.  On the Azure portal left navigation pane, select **+ Create a resource**.
+1.  Azure potalの左側のナビゲーション ペインで、**+ リソースを作成** を選択します。
 
-1.  At the top of the **New** blade, locate the **Search the Marketplace** field.
+2.  **新規** ブレードの上部にある **マーケットプレースを検索** フィールドを検索します。
 
-1.  In the search field, enter **Function** and press Enter.
+3.  検索フィールドで **機能** を入力し、'Enter」を押します。 
 
-1.  In the **Everything** search results blade, select the **Function App** result.
+4.  **すべて** 検索結果ブレードで、 **ファンクション** **アプリ** の結果を選択します。     
 
-1.  In the **Function App** blade, select **Create**.
+5.  **関数** **アプリ** ブレードで、**作成** を選択します。     
 
-1.  In the second **Function App** blade, perform the following actions:
+6.  2番目の **関数** **アプリ** ブレードで、次の操作を実行します。   
     
-    1.  In the **App name** field, enter **imgfunc\[*your name in lowercase*\]**.
+    1.  **アプリ名** フィールドに、**imgfunc\[*名前を小文字*\]** と入力します。 
     
-    1.  Leave the **Subscription** field set to its default value.
+    2.  **サブスクリプション** フィールドは既定値に設定したままにします。
     
-    1.  In the **Resource group** section, select **Use existing**, and then select **ManagedPlatform**.
+    3.  **リソース グループ** セクションで、**既存のを使用** を選択し、**マネージドプラットフォーム** を選択します。
     
-    1.  In the **OS** section, select **Windows**.
+    4.  **OS** セクションで、**Windows** を選択 します。
     
-    1.  In the **Hosting Plan** list, select **Consumption Plan**.
+    5.  **ホスティング プラン** の一覧で、**消費プラン** を選択します。   
     
-    1.  In the **Location** list, select **East US**.
+    6.  **場所** リストで、**米国東部** リージョンを選択します。
     
-    1.  In the **Runtime Stack** list, select **.NET Core**.
+    7.  **ランタイム スタック** リストで、**.NET** を選択します。   
     
-    1.  In the **Storage** section, select **Use existing**, and then select the **imgstor\*** storage account you created earlier in this lab.
+    8.  **ストレージ** セクションで、**既存のものを使用** を選択し、この実習ラボで前に作成した**imgstor\*** ストレージ アカウントを選択します。   
     
-    1.  Leave the **Application Insights** field set to its default value.
+    9.  **アプリケーションインサイト** フィールドを既定値に設定したままにします。
     
-    1. Select **Create**.
+    10. **作成** を選択します。
 
-1.  Wait for the creation task to complete before moving on with this lab.
+7.  この演習を続行する前に、作成タスクが完了するのを待ちます。
 
-#### Task 2: Create a .NET Core application setting
+#### タスク 2: BLOBを処理する関数を作成する
 
-1.  On the navigation menu located on the left side of the portal, select the **Resource groups** link.
+1.  ポータルの左側のナビゲーション ペインで、**リソース グループ** を選択します。
 
-1.  In the **Resource groups** blade, locate and select the **ManagedPlatform** resource group that you created earlier in this lab.
+2.  **リソース グループ** ブレードで、 この実習ラボで作成済みの **ManagedPlatform** リソース グループを見つけて選択します。
 
-1.  In the **ManagedPlatform** blade, select the **imgfunc\*** function app that you created earlier in this lab.
+3.  **ManagedPlatform** ブレードで、 この実習ラボで作成済みの **imgfunc\*** 関数アプリを選択します。  
 
-1.  In the **Function App** blade, select the **Platform features** tab.
+4.  **機能アプリ** ブレードで、**+ 新機能** を選択します。   
 
-1.  In the **Platform features** tab, select the **Configuration** link located in the **General Settings** section.
-
-1.  In the **Configuration** section, perform the following actions:
+5.  **新しい Azure Function** のクイック スタートで、次のアクションを実行します。 
     
-    1.  Select the **Application settings** tab.
+    1.  **開発環境の選択** ヘッダーで、**ポータル内** を選択します。
     
-    1.  Select **+ New application setting**.
+    2.  **続行** を選択します。
     
-    1.  In the **Add/Edit application setting** popup that appears, in the **Name** field, enter **DOTNET_SKIP_FIRST_TIME_EXPERIENCE**.
+    3.  **関数の作成** ヘッダーで、**その他のテンプレート** を選択します。
     
-    1.  In the **Value** field, enter **true**.
-
-        > **Note**: The ``DOTNET_SKIP_FIRST_TIME_EXPERIENCE`` application setting tells .NET Core to disable it's built-in NuGet package caching mechanisms. On a temporary compute instance, this would effectively be a waste of time and cause build issues with your Azure Function.
+    4.  **テンプレートの終了と表示** を選択します。 
     
-    1.  Leave the **deployment slot setting** field set to its default value.
-
-    1.  Select **OK** to close the popup and return to the **Configuration** section.
+    5.  **テンプレート** リストで、**Azure BLOB ストレージトリガ** を選択します。 
     
-    1.  Select **Save** at the top of the blade to persist your settings.
+    6.  **拡張機能がインストールされていない** ウィンドウで、**インストール** を選択します。
 
-1.  Wait for your application settings to persist before you move forward with the lab.
+> > **注記**： Azure Storage BLOB の使用に必要な拡張機能のインストールには、最大2分かかる場合があります。ポータルが更新されない場合は、**インストールされていない拡張機能** ポップアップ ウィンドウを閉じて、もう一度 **Azure BLOB ストレージトリガ** を選択します。 
 
-#### Task 3: Author a function to process blobs
+7.  インストールが成功したら、**続行** を選択します。
 
-1.  On the left navigation pane of the portal, select **Resource groups**.
+8.  **新機能** ウィンドウで、**名前** フィールドに **ImageManager** を入力します。
 
-1.  In the **Resource groups** blade, locate and select the **ManagedPlatform** resource group that you created earlier in this lab.
+9.  **新機能** ウィンドウで、**パス** フィールドに **images/{名前}** を入力します。   
 
-1.  In the **ManagedPlatform** blade, select the **imgfunc\*** function app that you created earlier in this lab.
+10. **新機能** ウィンドウで、**ストレージ アカウントの接続** の一覧で、**AzureWebJobsStorage** を選択します。 
 
-1.  In the **Function App** blade, select **+ New function**.
+11. **新機能** ウィンドウで、**作成** を選択します。   
 
-1.  In the **New Azure Function** quickstart, perform the following actions:
-    
-    1.  Under the **Choose a Development Environment** header, select **In-Portal**.
-    
-    1.  Select **Continue**.
-    
-    1.  Under the **Create a Function** header, select **More templates…**.
-    
-    1.  Select **Finish and view templates**.
-    
-    1.  In the **Templates** list, select **Azure Blob Storage trigger**.
-    
-    1.  In the **Extensions not Installed** window, select **Install**.
+<!-- end list -->
 
-        > **Note**: It can take up to two minutes to install the extensions needed to work with Azure Storage blobs. If the portal does not refresh, simply close the **Extensions not Installed** pop-up window and select **Azure Blob Storage trigger** again.
+6.  関数エディタの右側で、**ファイルの表示** を選択してタブを開きます。 
 
-    1.  Once the installation has succeeded, select **Continue**.
+7.  **ファイルの表示** タブで、**アップロード** を選択します。   
 
-    1.  In the **New Function** window, in the **Name** field, enter **ImageManager**.
+8.  開くファイル エクスプローラ ダイアログ ボックスで、**すべてのファイル (F):Labfiles\\02\\Starter**に移動 し、**function.proj** ファイルを選択 し、**開く** を選択します。
 
-    1.  In the **New Function** window, in the **Path** field, enter **images/{name}**.
+9.  **ファイルの表示** タブに戻り、**function.json** ファイルを選択 して、関数の構成のエディタを表示します。   
 
-    1. In the **New Function** window, in the **Storage account connection** list, select **AzureWebJobsStorage**.
+10. JSONエディタで、現在の構成を確認します。
 
-    1. In the **New Function** window, select **Create**.
+<!-- end list -->
 
-1.  On the right side of the function editor, select **View files** to open the tab.
-
-1.  In the **View files** tab, select **Add**.
-
-1.  In the filename dialog that appears, enter **function.proj**.
-
-1.  In the file editor, insert this configuration content:
-
-    ```
-    <Project Sdk="Microsoft.NET.Sdk">
-        <PropertyGroup>
-            <TargetFramework>netstandard2.0</TargetFramework>
-        </PropertyGroup>
-        <ItemGroup>
-            <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0006" />
-        </ItemGroup>
-    </Project>
-    ```
-
-1. In the editor, select **Save** button to persist your changes to the configuration.
-
-    > **Note**: This **.proj** file contains the NuGet package reference necessary to import the [SixLabors.ImageSharp](https://www.nuget.org/packages/SixLabors.ImageSharp/1.0.0-beta0006) package.
-    
-1.  Back in the **View files** tab, select the **function.json** file to view the editor for the function’s configuration.
-
-1. In the JSON editor, observe the current configuration:
-
-    ```
     {
       "bindings": [
         {
@@ -632,11 +590,11 @@ In this exercise, you created an Azure Web App and deployed an existing web appl
       ],
       "disabled": false
     }
-    ```
 
-1. Replace the entire contents of the JSON configuration file with the following JSON content:
+11. JSON構成ファイルの内容全体を次のJSONコンテンツに置き換えます。
 
-    ```
+<!-- end list -->
+
     {
       "bindings": [
         {
@@ -655,30 +613,30 @@ In this exercise, you created an Azure Web App and deployed an existing web appl
         }
       ]
     }
-    ```
 
-1. In the editor, select **Save** to persist your changes to the configuration.
+12. エディタで、 **保存** を選択して、構成に対する変更を保持します。 
 
-1. Back in the **View files** tab, select the **run.csx** file to return to the editor for the **ImageManager** function.
+13. **ファイルの表示** タブ で、**run.csx** ファイルを選択して、**ImageManager** 関数のエディタに戻ります。   
 
-1. Minimize the **View files** tab.
+14. **ファイルの表示** タブを最小化します。 
 
-    > **Note**: You can minimize the tab by selecting the arrow immediately to the right of the tab header.
+> > **注記**： タブ ヘッダーのすぐ右にある矢印を選択して、タブを最小化できます。
 
-1. In the function editor, observe the example function script:
+15. 関数エディタで、関数スクリプトの例を確認します。
 
-    ```
+<!-- end list -->
+
     public static void Run(Stream myBlob, string name, ILogger log)
     {
         log.LogInformation($"C# Blob trigger function Processed blob\n Name:{name} \n Size: {myBlob.Length} Bytes");
     }
-    ```
 
-1. **Delete** all the example code.
+16. サンプル コードをすべて **削除** します。
 
-1. Within the editor, copy and paste the following placeholder function:
+17. エディタ内で、次のプレースホルダ関数をコピーして貼り付けます。
 
-    ```
+<!-- end list -->
+
     using SixLabors.ImageSharp;
     using SixLabors.ImageSharp.PixelFormats;
     using SixLabors.ImageSharp.Processing;
@@ -688,41 +646,41 @@ In this exercise, you created an Azure Web App and deployed an existing web appl
     public static void Run(Stream inputBlob, Stream outputBlob, string name, ILogger log)
     {
     }
-    ```
 
-1. Select **Save** to save the script and compile the code.
+18. **Save ** を選択して、変更を保存し、コードをコンパイルします。
 
-1. Add the following line of code within the **Run** method to log information about the function execution:
+19. **Run ** メソッド内に次のコード行を追加して、関数の実行に関する情報をログに記録します。 
 
-    ```
+<!-- end list -->
+
     log.LogInformation($"C# Blob trigger function Processed blob\n Name:{name} \n Size: {inputBlob.Length} Bytes");
-    ```
 
-1. Add the following **using** block to load the **Stream** for the input blob into the image library:
+20. 入力BLOBの**Stream** をイメージ ライブラリに読み込むには、次の **using** ブロックを追加します。
 
-    ```
+<!-- end list -->
+
     using (Image<Rgba32> image = Image.Load(inputBlob))
     {
     }
-    ```
 
-1. Add the following lines of code within the **using** block to mutate the image by resizing the image and applying a grayscale filter:
+21. **using ブロック** 内に次のコード行を追加して、イメージのサイズを変更し、グレースケール フィルタを適用してイメージを変更します。 
 
-    ```
+<!-- end list -->
+
     image.Mutate(i => 	
         i.Resize(new ResizeOptions { Size = new Size(250, 250), Mode = ResizeMode.Max }).Grayscale()
     );
-    ```
 
-1. Add the following line of code to save the new image to the **Stream** for the output blob:
+22. 出力BLOBの **ストリーム** に新しいイメージを保存するには、次のコード行を追加します。
 
-    ```
+<!-- end list -->
+
     image.Save(outputBlob, new JpegEncoder());
-    ```
 
-1. Your **Run** method should now resemble this:
+23. **Run** メソッドは次のようになります。 
 
-    ```
+<!-- end list -->
+
     using SixLabors.ImageSharp;
     using SixLabors.ImageSharp.PixelFormats;
     using SixLabors.ImageSharp.Processing;
@@ -740,126 +698,129 @@ In this exercise, you created an Azure Web App and deployed an existing web appl
             image.Save(outputBlob, new JpegEncoder());
         }
     }
-    ```
 
-1. Select **Save** to save the script and compile the code again.
+24. **保存** を選択してスクリプトを保存し、コードを再度コンパイルします。 
 
-#### Task 4: Validate the web solution
+#### タスク 3: Webソリューションの検証
 
-1.  On the left navigation pane of the portal, select **Resource groups**.
+1.  ポータルの左側のナビゲーション ペインで、**リソース グループ** を選択します。
 
-1.  In the **Resource groups** blade, select the **ManagedPlatform** resource group that you created earlier in this lab.
+2.  **リソース グループ** ブレードで、この実習ラボで作成済みの **ManagedPlatform** リソース グループを選択します。
 
-1.  In the **ManagedPlatform** blade, select the **imgstor\*** storage account that you created earlier in this lab.
+3.  **ManagedPlatform** ブレードで、 この実習ラボで前に作成した **imgstor\*** ストレージ アカウントを選択します。  
 
-1.  In the **Storage Account** blade, on the left side of the blade, in the **Blob service** section, select the **Blobs** link.
+4.  **ストレージ アカウント** ブレードで、ブレードの左側にある **BLOB サービス** セクションにおいて、**BLOB** リンクを選択します。
 
-1.  In the **Blobs** section, select the **images** container.
+5.  **BLOB** セクションで、**イメージ** コンテナを選択します。   
 
-1.  In the **Container** blade, select **Upload**.
+6.  **コンテナ** ブレードで、**アップロード** を選択します。
 
-1.  In the **Upload blob** window that appears, perform the following actions:
+7.  表示される **BLOBのアップロード** ウィンドウで、次の操作を実行します：
 
-    1.  In the **Files** section, select the **Folder** icon.
+<!-- end list -->
 
-    1.  In the File Explorer dialog box that opens, go to **Allfiles (F):\\Allfiles\\Labs\\02\\Starter\\Images**, select the **veggie.jpg** file, and then select **Open**.
+1.  **ファイル** セクションで、**フォルダ** アイコンを選択します。
 
-    1.  Ensure the **Overwrite if files already exist** check box is selected.
+2.  開くファイル エクスプローラ ダイアログ ボックスで、**すべてのファイル (F):Labfiles\\02\\Starter\\画像** に移動し、**veggie.jpg** ファイルを選択し、**開く** を選択します。
 
-    1.  Select **Upload**.
+3.  **ファイルが既に存在する場合は上書き** チェックボックスがオンにチェックされていることを確認します。
 
-1.  Wait for the blob to be uploaded before you continue with this lab.
+4.  **アップロード** を選択します。
 
-1.  Close the **Container** blade.
+<!-- end list -->
 
-1. Back in the **Blobs** section, select the **images-thumbnails** container.
+8.  この演習を続行する前に、BLOB がアップロードされるのを待ちます。
 
-1. In the **Container** blade, observe the newly created **veggie.jpg** file in the **images-thumbnails** container.
+9.  **コンテナ** ブレードを閉じます。
 
-    > **Note**: It might take one to five minutes for the new image to appear.
+10. **BLOB** セクションに戻り、**images-thumbnails** コンテナを選択します。   
 
-1. Select the **veggie.jpg** blob in the **images-thumbnails** container.
+11. **コンテナ**ブレードで、**images-thumbnails** コンテナで新しく作成された **veggie.jpg** ファイルを確認します。     
 
-1. In the **Blob** blade, select the **Edit blob** tab.
+> > **注記**： 新しいイメージが表示されるまでに1～5分かかる場合があります。
 
-1. Observe the contents of the blob. The webpage will render the image that was uploaded to the container.
+12. **images-thumbnails** コンテナで **veggie.jpg** BLOBを選択 ****します。   
 
-1. On the left navigation pane of the portal, select **Resource groups**.
+13. **BLOB** ブレードで、**BLOB の編集** タブを選択します。   
 
-1. In the **Resource groups** blade, select the **ManagedPlatform** resource group that you created earlier in this lab.
+14. BLOB の内容を確認します。Web ページは、コンテナにアップロードされたイメージをレンダリングします。
 
-1. In the **ManagedPlatform** blade, select the **imgweb\*** web app that you created earlier in this lab.
+15. ポータルの左側のナビゲーション ペインで、**リソース グループ** を選択します。
 
-1. In the **Web App** blade, select **Browse**.
+16. **リソース グループ** ブレードで、この実習ラボで作成済みの **ManagedPlatform** リソース グループを選択します。
 
-1. Observe the list of images in the gallery. The list of thumbnails should now be updated with a new thumbnail image.
+17. **ManagedPlatform** ブレードで、 この実習ラボで作成済みの **imgweb\*** Web アプリを選択します。
 
-1. At the top of the **Contoso Photo Gallery** webpage, locate the **Upload a new image** section and perform the following actions:
+18. **Web アプリ** ブレードで、**参照** を選択します。
+
+19. ギャラリー内の画像のリストを確認します。サムネイルのリストを新しいサムネイル画像で更新する必要があります。
+
+20. **Contoso フォト ギャラリー** のWeb ページの上部にある **新しい画像のアップロード** セクションを見つけて、次の操作を実行します。
     
-    1.  Select **Browse**.
+    1.  **参照** を選択します。
     
-    1.  In the File Explorer dialog box that opens, go to **Allfiles (F):\\Allfiles\\Labs\\02\\Starter\\Images**, select the **blt.jpg** file, and then select **Open**.
+    2.  開くファイル エクスプローラ ダイアログ ボックスで、**すべてのファイル (F):Labfiles\\02\\Starter\\画像** に移動し、**blt.jpg** ファイルを選択し、**開く** を選択します。
     
-    1.  Select **Upload**.
+    3.  **アップロード** を選択します。
 
-1. At the top of the **Contoso Photo Gallery** webpage, locate the **Upload a new image** section and perform the following actions:
+21. **Contoso フォト ギャラリー** のWeb ページの上部にある **新しい画像のアップロード** セクションを見つけて、次の操作を実行します。
     
-    1.  Select **Browse**.
+    4.  **参照** を選択します。
     
-    1.  In the File Explorer dialog box that opens, go to **Allfiles (F):\\Allfiles\\Labs\\02\\Starter\\Images**, select the **sub.jpg** file, and then select **Open**.
+    5.  開くファイル エクスプローラ ダイアログ ボックスで、**すべてのファイル (F):Labfiles\\02\\Starter\\画像** に移動し、**sub.jpg** ファイルを選択し、**開く** を選択します。
     
-    1.  Select **Upload**.
+    6.  **アップロード** を選択します。
 
-1. At the top of the **Contoso Photo Gallery** webpage, locate the **Upload a new image** section and perform the following actions:
+22. **Contoso フォト ギャラリー** のWeb ページの上部にある **新しい画像のアップロード** セクションを見つけて、次の操作を実行します。
     
-    1.  Select **Browse**.
+    7.  **参照** を選択します。
     
-    1.  In the File Explorer dialog box that opens, go to **Allfiles (F):\\Allfiles\\Labs\\02\\Starter\\Images**, select the **burger.jpg** file, and then select **Open**.
+    8.  開くファイル エクスプローラ ダイアログ ボックスで、**すべてのファイル (F):Labfiles\\02\\Starter\\画像** に移動し、**burger.jpg** ファイルを選択し、**開く** を選択します。
     
-    1.  Select **Upload**.
+    9.  **アップロード** を選択します。
 
-1. Observe that the list of gallery images has been updated with your new image.
+23. ギャラリー イメージの一覧が新しいイメージで更新されたことを確認します。
 
-1. Observe the list of thumbnails at the top of the page. Refresh your page every minute until your thumbnails have been generated.
+24. ページ上部のサムネイルの一覧を確認します。4 つのサムネイルがすべて生成されるまで、ページを1分ごとに更新します。
 
-#### Review
+#### 復習
 
-In this exercise, you created a background processing job in Azure Functions to handle the computationally intensive task of modifying and resizing images.
+この演習では、イメージの変更とサイズ変更という計算負荷の高いタスクを処理するために、Azure Functionsでバックグラウンド処理ジョブを作成しました。
 
-### Exercise 4: Clean up subscription 
+### エクササイズ 4: サブスクリプションのクリーンアップ 
 
-#### Task 1: Open Cloud Shell
+#### タスク 1: Cloud Shell を開く
 
-1.  At the top of the portal, select the **Cloud Shell** icon to open a new shell instance.
+1.  ポータルの上部で、**Cloud Shell** アイコンを選択して新しいシェル インスタンスを開きます。
 
-1.  In the **Cloud Shell** command prompt at the bottom of the portal, type in the following command and press Enter to list all resource groups in the subscription:
+2.  ポータルの下部にある **Cloud Shell** コマンド プロンプトで次のコマンドを入力し、Enter キーを押してサブスクリプション内のすべてのリソース グループを一覧表示します。
 
-    ```
+<!-- end list -->
+
     az group list
-    ```
 
-1.  Type in the following command and press Enter to view a list of possible commands to delete a resource group:
+3.  次のコマンドを入力し、Enterキーを押して、リソース グループを削除する可能性のあるコマンドの一覧を表示します。
 
-    ```
+<!-- end list -->
+
     az group delete --help
-    ```
 
-#### Task 2: Delete resource groups
+#### タスク 2: リソース グループを削除する
 
-1.  Type the following command and press Enter to delete the **ManagedPlatform** resource group:
+1.  次のコマンドを入力し、Enter キーを押して **ManagedPlatform** リソース グループを削除します。
 
-    ```
+<!-- end list -->
+
     az group delete --name ManagedPlatform --no-wait --yes
-    ```
 
-1.  Close the **Cloud Shell** pane at the bottom of the portal.
+2.  ポータルの下部にある **Cloud Shell** ペインを閉じます。
 
-#### Task 3: Close active applications
+#### タスク 3: アクティブなアプリケーションを閉じる
 
-1.  Close the currently running **Microsoft Edge** application.
+1.  現在実行中の **Microsoft Edge** アプリケーションを閉じます。
 
-1.  Close the currently running **Visual Studio Code** application.
+2.  現在実行中の **Visual Studio Code** アプリケーションを閉じます。
 
-#### Review
+#### 復習
 
-In this exercise, you cleaned up your subscription by removing the **resource groups** used in this lab.
+この実習では、この演習で使用する **リソース グループ** を削除してサブスクリプションをクリーンアップしました。
