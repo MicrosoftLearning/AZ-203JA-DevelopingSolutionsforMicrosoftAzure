@@ -1,8 +1,8 @@
 ﻿---
-ラボ:
-    title: ラボ: ポリグロットデータソリューションの構築'
-    タイプ: 'Answer Key'
-    ご利用ください。モジュール 3：Azure storage 向けの開発
+lab:
+    title: 'ラボ: ポリグロットデータソリューションの構築'
+    type: 'Answer Key'
+    module: 'モジュール 3：Azure storage 向けの開発'
 ---
 
 # ラボ: ポリグロット データ ソリューションの構築

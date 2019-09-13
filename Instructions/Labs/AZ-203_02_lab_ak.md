@@ -1,8 +1,8 @@
 ﻿---
-ラボ:
-    title: ラボ: サービスとしての Azure Platform での Web アプリケーションの構築
-    タイプ: 'Answer Key'
-    ご利用ください。モジュール 2：サービスとしての Azure Platform の開発 (PaaS)コンピューティング ソリューション
+lab:
+    title: 'ラボ: サービスとしての Azure Platform での Web アプリケーションの構築'
+    type: 'Answer Key'
+    module: 'モジュール 2：サービスとしての Azure Platform の開発 (PaaS)コンピューティング ソリューション'
 ---
 
 # ラボ: サービスとしての Azure Platform での Web アプリケーションの構築
