@@ -5,6 +5,7 @@
 - **[最新の学習ハンドブックと AllFiles コンテンツをダウンロード](../../releases/latest)**
 - **あなたはMCTですか?** -  [MCT 向けの GitHub ユーザーガイド](https://microsoftlearning.github.io/MCT-User-Guide-JA/)をご覧ください。
 - **ラボの手順を手動で行いますか?** - 手順は、 [Microsoft ラーニング/Docker ビルド](https://github.com/MicrosoftLearning/Docker-Build)リポジトリで入手できます。
+- **[ラボ VM にインストールされているもの。](lab.md)**
 
 ## やり方
 
